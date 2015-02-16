@@ -10,6 +10,8 @@ class GnomeApp < App
         javascript_path('application', asset_host: false),
         stylesheet_path('application-gnome'),
         stylesheet_path('application-gnome-dark'),
+        image_path('gnome-icons.png'),
+        image_path('gnome-icons@2x.png'),
         image_path('docs-1.png'),
         image_path('docs-1@2x.png'),
         image_path('docs-2.png'),
