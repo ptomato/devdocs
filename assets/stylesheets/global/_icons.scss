@@ -180,3 +180,45 @@ html._theme-dark {
 ._icon-qt:before            { background-position: -8rem -3rem; @extend %doc-icon-2; }
 ._icon-puppeteer:before     { background-position: -9rem -3rem; @extend %doc-icon-2; }
 ._icon-handlebars:before    { background-position: 0 -4rem; @extend %doc-icon-2; @extend %darkIconFix !optional; }
+
+/* GNOME-specific icons; put in a separate sprite to avoid merge conflicts. */
+/* Create the sprites with
+   convert icon1.png icon2.png ... +append assets/images/gnome-icons.png */
+%gnome-icons {
+  background-image: image-url('gnome-icons.png');
+  background-size: 5rem 1rem;
+}
+
+._icon-cairo:before      { @extend %gnome-icons; background-position: 0 0; }
+._icon-dbus:before,
+._icon-fontconfig:before,
+._icon-freetype2:before,
+._icon-gl:before,
+._icon-win32:before      { @extend %gnome-icons; background-position: -1rem 0; }
+._icon-atk:before,
+._icon-dbusglib:before,
+._icon-gdata:before,
+._icon-gdkpixbuf:before,
+._icon-gee:before,
+._icon-gio:before,
+._icon-girepository:before,
+._icon-glib:before,
+._icon-gmodule:before,
+._icon-gnomekeyring:before,
+._icon-gobject:before,
+._icon-gtkosxapplication:before,
+._icon-gtksource:before,
+._icon-json:before,
+._icon-libxml2:before,
+._icon-pango:before,
+._icon-pangocairo:before,
+._icon-pangoft2:before,
+._icon-rsvg:before,
+._icon-soup:before,
+._icon-soupgnome:before  { @extend %gnome-icons; background-position: -2rem 0; @extend %darkIconFix !optional; }
+._icon-gdk:before,
+._icon-gtk:before        { @extend %gnome-icons; background-position: -3rem 0; }
+._icon-xfixes:before,
+._icon-xft:before,
+._icon-xlib:before,
+._icon-xrandr:before     { @extend %gnome-icons; background-position: -4rem 0; @extend %darkIconFix !optional; }
