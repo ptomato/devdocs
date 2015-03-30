@@ -1,4 +1,5 @@
 require 'rexml/document'
+require 'xdg'
 
 # Command-line tools for creating scrapers from GIR files
 class GirCLI < Thor
@@ -9,6 +10,14 @@ class GirCLI < Thor
   def initialize(*args)
     require 'docs'
     super
+  end
+
+  desc 'generate_all', 'Generate scrapers from all installed GIR files'
+  def generate_all
+    XDG['DATA_DIRS'].glob('gir-1.0/*.gir').each do |path|
+      puts 'Generating scraper for ' + File.basename(path) + '...'
+      generate path
+    end
   end
 
   desc 'generate', 'Generate a scraper from a GIR file'
