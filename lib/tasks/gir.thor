@@ -70,8 +70,18 @@ class GirCLI < Thor
       nil
     end
 
+    def guess_version(gir)
+      selector = '//namespace/*[@version]/@version'
+      versions = REXML::XPath.match(gir, selector).map do |ver|
+        Gem::Version.new(ver.to_s.chomp '.')  # they can have stray periods
+      end
+      return nil if versions == []
+      versions.max.to_s << '+'
+    end
+
     def compute_version(gir, scraper_info)
       version = determine_version gir
+      version = guess_version gir if version.nil?
       version = scraper_info[:api_version] + ' API' if version.nil?
       version
     end
