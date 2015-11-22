@@ -13,8 +13,13 @@ class GirCLI < Thor
   end
 
   desc 'generate_all', 'Generate scrapers from all installed GIR files'
-  def generate_all
-    XDG['DATA_DIRS'].glob('gir-1.0/*.gir').each do |path|
+  def generate_all(gir_dir = nil)
+    if gir_dir
+      glob = Dir.glob(gir_dir + '/gir-1.0/*.gir')
+    else
+      glob = XDG['DATA_DIRS'].glob('gir-1.0/*.gir')
+    end
+    glob.each do |path|
       puts 'Generating scraper for ' + File.basename(path) + '...'
       generate path
     end
