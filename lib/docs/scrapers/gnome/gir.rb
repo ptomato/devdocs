@@ -15,6 +15,10 @@ module Docs
 
     html_filters.push 'gir/entries', 'gir/clean_html'
 
+    # {GIR_NAME} to be replaced in scraper subclass
+    options[:attribution] = "Generated from {GIR_NAME} on \
+      #{Date.today.strftime('%a, %d %b %Y')}"
+
     def initialize
       super
       self.class.dir = run_doctool self.class.gir_path
