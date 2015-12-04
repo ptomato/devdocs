@@ -33,7 +33,8 @@ module Docs
         # Additional entries should be marked with the entry class
         css('.entry').each do |node|
           entry = annotate_entry node.content, node
-          entries.push [entry, node[:id]]
+          punct = /\bsignal\b/.match(node[:class]) ? '::' : '.'
+          entries.push ["#{name}#{punct}#{entry}", node[:id]]
         end
 
         entries
@@ -44,8 +45,6 @@ module Docs
         # node.matches('selector') would be cleaner than this, but is way slower
         case node[:class]
         when /\b(function|method|constructor)\b/ then entry << '()'
-        when /\bproperty\b/ then entry.prepend(':')
-        when /\bsignal\b/ then entry.prepend('::')
         end
         entry
       end
