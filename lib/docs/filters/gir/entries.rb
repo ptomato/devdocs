@@ -32,9 +32,10 @@ module Docs
 
         # Additional entries should be marked with the entry class
         css('.entry').each do |node|
-          entry = annotate_entry node.content, node
           punct = /\bsignal\b/.match(node[:class]) ? '::' : '.'
-          entries.push ["#{name}#{punct}#{entry}", node[:id]]
+          display_name = "#{name}#{punct}#{node.content.strip}"
+          display_name = annotate_entry display_name, node
+          entries.push [display_name, node[:id]]
         end
 
         entries
@@ -46,6 +47,7 @@ module Docs
         case node[:class]
         when /\b(function|method|constructor)\b/ then entry << '()'
         end
+        entry.prepend('⚠ ') if /\bdeprecated\b/.match(node[:class])
         entry
       end
     end
