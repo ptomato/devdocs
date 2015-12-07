@@ -10,4 +10,6 @@
   }
 
   .versioning-note { @extend %note, %note-red; }
+
+  .index .deprecated { text-decoration: line-through; }
 }
