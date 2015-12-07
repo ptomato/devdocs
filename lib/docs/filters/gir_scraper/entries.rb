@@ -10,7 +10,7 @@ module Docs
       # "name" is the title that the documentation page has in the left sidebar.
       def get_name
         node = at_css('h1')
-        entry = node.content
+        entry = node.content.strip
         entry.slice!(/^[A-Za-z]+\./)  # remove namespace
         annotate_entry entry, node
       end
