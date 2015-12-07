@@ -20,9 +20,9 @@ module Docs
       def get_type
         node = at_css('h1')
         case node[:class]
-        when 'function' then FUNCTIONS_HEADING
-        when 'callback' then FUNCTION_TYPES_HEADING
-        when 'default' then CONSTANTS_HEADING  # not sure about this
+        when /\bfunction\b/ then FUNCTIONS_HEADING
+        when /\bcallback\b/ then FUNCTION_TYPES_HEADING
+        when /\bdefault\b/ then CONSTANTS_HEADING  # not sure about this
         else name
         end
       end
