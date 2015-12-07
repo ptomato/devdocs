@@ -8,4 +8,6 @@
   code {
     white-space: normal;
   }
+
+  .versioning-note { @extend %note, %note-red; }
 }
