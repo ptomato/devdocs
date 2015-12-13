@@ -31,7 +31,7 @@ class GirCLI < Thor
 
     namespace = gir.root.elements['namespace']
     scraper_info = process_namespace namespace
-    scraper_info[:slug] = generate_slug scraper_info[:name]
+    scraper_info[:slug] = generate_slug scraper_info
     scraper_info[:version] = compute_version gir, scraper_info
     write_scraper gir_path, scraper_info
   end
@@ -52,8 +52,9 @@ class GirCLI < Thor
       }
     end
 
-    def generate_slug(name)
-      name.downcase.strip.gsub(/[^\w-]/, '')
+    def generate_slug(scraper_info)
+      full_name = scraper_info[:name] + scraper_info[:api_version]
+      full_name.downcase.strip.gsub(/[^\w-]/, '')
     end
 
     def determine_version(gir)
