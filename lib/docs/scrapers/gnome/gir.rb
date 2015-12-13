@@ -19,6 +19,10 @@ module Docs
     options[:attribution] = "Generated from {GIR_NAME} on \
       #{Date.today.strftime('%a, %d %b %Y')}"
 
+    # For links to other GIR modules, we assume that those modules are also
+    # present in DevDocs
+    options[:fix_urls] = ->(url) { url.gsub!(/^gir:/, '..') }
+
     def initialize
       super
       self.class.dir = run_doctool self.class.gir_path
