@@ -41,7 +41,7 @@
 
 %gnome-icons {
   background-image: image-url('gnome-icons.png');
-  background-size: 5rem 1rem;
+  background-size: 6rem 1rem;
 }
 
 ._icon-cairo10:before {
@@ -90,11 +90,17 @@
   background-position: -3rem 0;
 }
 
+._icon-webkit2webextension40:before,
+._icon-webkit240:before {
+  @extend %gnome-icons;
+  background-position: -4rem 0;
+}
+
 ._icon-xfixes40:before,
 ._icon-xft20:before,
 ._icon-xlib20:before,
 ._icon-xrandr13:before {
   @extend %gnome-icons;
-  background-position: -4rem 0;
+  background-position: -5rem 0;
   @extend %darkIconFix !optional;
 }
