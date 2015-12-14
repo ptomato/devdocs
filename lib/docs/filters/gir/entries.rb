@@ -22,7 +22,7 @@ module Docs
         case node[:class]
         when /\bfunction\b/ then FUNCTIONS_HEADING
         when /\bcallback\b/ then FUNCTION_TYPES_HEADING
-        when /\bdefault\b/ then CONSTANTS_HEADING  # not sure about this
+        when /\bconstant\b/ then CONSTANTS_HEADING
         else name
         end
       end
