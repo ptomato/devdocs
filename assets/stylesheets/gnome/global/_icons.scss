@@ -41,12 +41,31 @@
 
 %gnome-icons {
   background-image: image-url('gnome-icons.png');
-  background-size: 6rem 1rem;
+  background-size: 10rem 1rem;
 }
 
 ._icon-cairo10:before {
   @extend %gnome-icons;
   background-position: 0 0;
+}
+
+._icon-champlain012:before {
+  @extend %gnome-icons;
+  background-position: -1rem 0;
+}
+
+._icon-cally10:before,
+._icon-clutter10:before,
+._icon-cluttergdk10:before,
+._icon-cluttergst20:before,
+._icon-clutterx1110:before,
+._icon-cogl10:before,
+._icon-cogl20:before,
+._icon-coglpango10:before,
+._icon-coglpango20:before,
+._icon-gtkclutter10:before {
+  @extend %gnome-icons;
+  background-position: -2rem 0;
 }
 
 ._icon-dbus10:before,
@@ -55,12 +74,15 @@
 ._icon-gl10:before,
 ._icon-win3210:before {
   @extend %gnome-icons;
-  background-position: -1rem 0;
+  background-position: -3rem 0;
 }
 
 ._icon-atk10:before,
 ._icon-dbusglib10:before,
-._icon-gdata:before,
+._icon-gck1:before,
+._icon-gcr3:before,
+._icon-gcrui3:before,
+._icon-gdata00:before,
 ._icon-gdkpixbuf20:before,
 ._icon-gee08:before,
 ._icon-gio20:before,
@@ -69,31 +91,64 @@
 ._icon-gmodule20:before,
 ._icon-gnomekeyring10:before,
 ._icon-gobject20:before,
+._icon-gssdp10:before,
 ._icon-gtkosxapplication10:before,
 ._icon-gtksource30:before,
+._icon-gupnp10:before,
 ._icon-json10:before,
 ._icon-libxml220:before,
+._icon-notify07:before,
 ._icon-pango10:before,
 ._icon-pangocairo10:before,
 ._icon-pangoft210:before,
+._icon-pangoxft10:before,
 ._icon-rsvg20:before,
 ._icon-soup24:before,
 ._icon-soupgnome24:before {
   @extend %gnome-icons;
-  background-position: -2rem 0;
+  background-position: -4rem 0;
   @extend %darkIconFix !optional;
 }
 
-._icon-gdk30:before,
-._icon-gtk30:before {
+._icon-goa10:before {
   @extend %gnome-icons;
-  background-position: -3rem 0;
+  background-position: -5rem 0;
 }
 
+._icon-gst10:before,
+._icon-gstallocators10:before,
+._icon-gstapp10:before,
+._icon-gstaudio10:before,
+._icon-gstbase10:before,
+._icon-gstcheck10:before,
+._icon-gstcontroller10:before,
+._icon-gstfft10:before,
+._icon-gstnet10:before,
+._icon-gstpbutils10:before,
+._icon-gstriff10:before,
+._icon-gstrtp10:before,
+._icon-gstrtsp10:before,
+._icon-gstsdp10:before,
+._icon-gsttag10:before,
+._icon-gstvideo10:before {
+  @extend %gnome-icons;
+  background-position: -6rem 0;
+}
+
+._icon-gdk30:before,
+._icon-gdkx1130:before,
+._icon-gtk30:before {
+  @extend %gnome-icons;
+  background-position: -7rem 0;
+}
+
+._icon-javascriptcore30:before,
+._icon-webkit2webextension30:before,
 ._icon-webkit2webextension40:before,
+._icon-webkit230:before
 ._icon-webkit240:before {
   @extend %gnome-icons;
-  background-position: -4rem 0;
+  background-position: -8rem 0;
 }
 
 ._icon-xfixes40:before,
@@ -101,6 +156,6 @@
 ._icon-xlib20:before,
 ._icon-xrandr13:before {
   @extend %gnome-icons;
-  background-position: -5rem 0;
+  background-position: -9rem 0;
   @extend %darkIconFix !optional;
 }
