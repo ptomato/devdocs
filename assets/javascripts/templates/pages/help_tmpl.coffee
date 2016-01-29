@@ -1,7 +1,7 @@
 ctrlKey = if $.isMac() then 'cmd' else 'ctrl'
 navKey = if $.isMac() then 'cmd' else 'alt'
 
-host = 'devdocs.io'
+host = 'http://ec2-52-32-237-163.us-west-2.compute.amazonaws.com:9292'
 
 app.templates.helpPage = """
   <nav class="_toc" role="directory">
@@ -18,7 +18,7 @@ app.templates.helpPage = """
   <h2 class="_block-heading" id="search">Search</h2>
   <p>
     The search is case-insensitive. It supports fuzzy matching
-    (e.g. <code class="_label">bgcp</code> matches <code class="_label">background-clip</code>)
+    (e.g. <code class="_label">floadc</code> matches <code class="_label">File.load_contents()</code>)
     and aliases (<a href="#aliases">full list</a> below).
   <dl>
     <dt id="doc_search">Searching a single documentation
@@ -126,5 +126,5 @@ app.templates.helpPage = """
       <th>Alias
     #{("<tr><td class=\"_code\">#{key}<td class=\"_code\">#{value}" for key, value of app.models.Entry.ALIASES).join('')}
   </table>
-  <p>Feel free to suggest new aliases on <a href="https://github.com/Thibaut/devdocs/issues/new">GitHub</a>.
+  <!--p>Feel free to suggest new aliases on <a href="https://github.com/Thibaut/devdocs/issues/new">GitHub</a-->.
 """
