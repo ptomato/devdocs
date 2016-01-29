@@ -84,3 +84,4 @@ class app.models.Entry extends app.Model
   @ALIASES = ALIASES =
     'gdkpixbuf': 'gp'
     'javascript': 'js'
+    'webkit': 'wk'
