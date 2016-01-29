@@ -1,6 +1,8 @@
 ctrlKey = if $.isMac() then 'cmd' else 'ctrl'
 navKey = if $.isMac() then 'cmd' else 'alt'
 
+host = 'devdocs.io'
+
 app.templates.helpPage = """
   <nav class="_toc" role="directory">
     <h3 class="_toc-title">Table of Contents</h3>
@@ -28,10 +30,10 @@ app.templates.helpPage = """
       To clear the current scope, empty the search field and hit <code class="_label">Backspace</code>.
     <dt id="url_search">Prefilling the search field
     <dd>
-      The search field can be prefilled from the URL by visiting <a href="/#q=keyword" target="_top">devdocs.io/#q=keyword</a>.
+      The search field can be prefilled from the URL by visiting <a href="/#q=keyword" target="_top">#{host}/#q=keyword</a>.
       Characters after <code class="_label">#q=</code> will be used as search query.<br>
       To search a single documentation, add its name and a space before the keyword:
-      <a href="/#q=js%20date" target="_top">devdocs.io/#q=js date</a>.
+      <a href="/#q=js%20date" target="_top">#{host}/#q=js date</a>.
     <dt id="browser_search">Searching using the address bar
     <dd>
       DevDocs supports OpenSearch. It can easily be installed as a search engine on most web browsers:
