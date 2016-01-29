@@ -2,7 +2,7 @@ app.templates.helpPage = ->
   ctrlKey = if $.isMac() then 'cmd' else 'ctrl'
   navKey = if $.isMac() then 'cmd' else 'alt'
 
-  host = 'devdocs.io'
+  host = 'http://ec2-52-32-237-163.us-west-2.compute.amazonaws.com:9292'
   aliases_one = {}
   aliases_two = {}
   keys = Object.keys(app.models.Entry.ALIASES)
@@ -35,7 +35,7 @@ app.templates.helpPage = ->
   <h2 class="_block-heading" id="search">Search</h2>
   <p>
     The search is case-insensitive and ignores whitespace. It supports fuzzy matching
-    (e.g. <code class="_label">bgcp</code> matches <code class="_label">background-clip</code>)
+    (e.g. <code class="_label">floadc</code> matches <code class="_label">File.load_contents()</code>)
     as well as aliases (full list <a href="#aliases">below</a>).
   <dl>
     <dt id="doc_search">Searching a single documentation
@@ -155,5 +155,5 @@ app.templates.helpPage = ->
       #{("<tr><td class=\"_code\">#{key}<td class=\"_code\">#{value}" for key, value of aliases_two).join('')}
     </table>
   </div>
-  <p>Feel free to suggest new aliases on <a href="https://github.com/freeCodeCamp/devdocs/issues/new">GitHub</a>.
+  <!--p>Feel free to suggest new aliases on <a href="https://github.com/freeCodeCamp/devdocs/issues/new">GitHub</a>.-->
 """

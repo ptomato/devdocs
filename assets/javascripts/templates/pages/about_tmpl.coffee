@@ -20,15 +20,20 @@ app.templates.aboutPage = -> """
     <li>Join the <a href="https://gitter.im/FreeCodeCamp/DevDocs">Gitter</a> chat room
   </ul>
 
+  <h2 class="_lined-heading">About the GNOME JavaScript documentation</h2>
+
+  <p>Generated using a modified <a href="https://github.com/ptomato/gobject-introspection/tree/wip/ptomato/devdocs">g-ir-doc-tool</a>.
+     An experiment demoed at the Developer Experience hackfest 2016.
+
   <h2 class="_block-heading" id="copyright">Copyright and License</h2>
   <p class="_note">
     <strong>Copyright 2013&ndash;2019 Thibaut Courouble and <a href="https://github.com/freeCodeCamp/devdocs/graphs/contributors">other contributors</a></strong><br>
     This software is licensed under the terms of the Mozilla Public License v2.0.<br>
-    You may obtain a copy of the source code at <a href="https://github.com/freeCodeCamp/devdocs">github.com/freeCodeCamp/devdocs</a>.<br>
+    You may obtain a copy of the source code at <a href="https://github.com/ptomato/devdocs">github.com/ptomato/devdocs</a> or of the original DevDocs' source code at <a href="https://github.com/freeCodeCamp/devdocs">github.com/freeCodeCamp/devdocs</a>.<br>
     For more information, see the <a href="https://github.com/freeCodeCamp/devdocs/blob/master/COPYRIGHT">COPYRIGHT</a>
     and <a href="https://github.com/freeCodeCamp/devdocs/blob/master/LICENSE">LICENSE</a> files.
 
-  <h2 class="_block-heading" id="plugins">Plugins and Extensions</h2>
+  <!--h2 class="_block-heading" id="plugins">Plugins and Extensions</h2>
   <ul>
     <li><a href="https://chrome.google.com/webstore/detail/devdocs/mnfehgbmkapmjnhcnbodoamcioleeooe">Chrome web app</a>
     <li><a href="https://github.com/egoist/devdocs-app">Desktop app</a>
@@ -37,27 +42,28 @@ app.templates.aboutPage = -> """
     <li><a href="https://marketplace.visualstudio.com/items?itemName=deibit.devdocs">Visual Studio Code extension</a>
     <li><a href="https://github.com/yannickglt/alfred-devdocs">Alfred workflow</a>
     <li><a href="https://github.com/search?q=topic%3Adevdocs&type=Repositories">More…</a>
-  </ul>
+  </ul-->
 
   <h2 class="_block-heading" id="faq">Questions & Answers</h2>
   <dl>
     <dt>Where can I suggest new docs and features?
-    <dd>You can suggest and vote for new docs on the <a href="https://trello.com/b/6BmTulfx/devdocs-documentation">Trello board</a>.<br>
-        If you have a specific feature request, add it to the <a href="https://github.com/freeCodeCamp/devdocs/issues">issue tracker</a>.<br>
-        Otherwise, come talk to us in the <a href="https://gitter.im/FreeCodeCamp/DevDocs">Gitter</a> chat room.
+    <dd>Find <strong>ptomato</strong> in #javascript on irc.gnome.org, or post to <a href="https://mail.gnome.org/mailman/listinfo/javascript-list">javascript-list</a>.
     <dt>Where can I report bugs?
-    <dd>In the <a href="https://github.com/freeCodeCamp/devdocs/issues">issue tracker</a>. Thanks!
+    <dd>Report bugs with the documentation in the <a href="https://github.com/ptomato/devdocs/issues">issue tracker</a>.
+        Bugs in the DevDocs app go to <a href="https://github.com/freeCodeCamp/devdocs/issues">DevDocs' own issue tracker</a>.
   </dl>
 
   <h2 class="_block-heading" id="credits">Credits</h2>
 
-  <p><strong>Special thanks to:</strong>
-  <ul>
+  <!-- The first three don't apply to us, we're not getting sponsored. The C/C++
+  logo is not used now, but will be later. -->
+  <!-- p><strong>Special thanks to:</strong -->
+  <!-- ul>
     <li><a href="https://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="https://sentry.io/">Sentry</a> and <a href="https://get.gaug.es/?utm_source=devdocs&utm_medium=referral&utm_campaign=sponsorships" title="Real Time Web Analytics">Gauges</a> for offering a free account to DevDocs
     <li><a href="https://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="https://out.devdocs.io/s/shopify">Shopify</a>, <a href="https://out.devdocs.io/s/jetbrains">JetBrains</a> and <a href="https://out.devdocs.io/s/code-school">Code School</a> for sponsoring DevDocs in the past
     <li><a href="https://www.heroku.com">Heroku</a> and <a href="https://newrelic.com/">New Relic</a> for providing awesome free service
     <li><a href="https://www.jeremykratz.com/">Jeremy Kratz</a> for the C/C++ logo
-  </ul>
+  </ul -->
 
   <div class="_table">
     <table class="_credits">
@@ -730,5 +736,29 @@ credits = [
     '2008-2017 by Yii Software LLC',
     'BSD',
     'https://raw.githubusercontent.com/yiisoft/yii/master/LICENSE'
+  ]
+]
+
+# Redefine rather than edit, in order to avoid merge conflicts
+credits = [
+  [ 'GdkPixbuf',
+    '2000 The Free Software Foundation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/gdk-pixbuf/unstable/'
+  ], [
+    'JSON-GLib',
+    '2007, 2008 OpenedHand Ltd<br>2009, 2010, 2011 Intel Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/json-glib/stable/'
+  ], [
+    'Other generated docs',
+    'Their respective project',
+    'Various',
+    'https://developer.gnome.org/references'
+  ], [
+    'CSS<br>JavaScript',
+    '2005-2015 Mozilla Developer Network and individual contributors',
+    'CC BY-SA',
+    'http://creativecommons.org/licenses/by-sa/2.5/'
   ]
 ]
