@@ -741,10 +741,60 @@ credits = [
 
 # Redefine rather than edit, in order to avoid merge conflicts
 credits = [
-  [ 'GdkPixbuf',
+  [ 'Cally',
+    '2008, 2009, 2010 Igalia S.L.',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/cally/stable/'
+  ], [
+    'Champlain',
+    '2008–2013 libchamplain contributors',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/libchamplain/unstable/'
+  ], [
+    'Clutter',
+    '2006, 2007, 2008 OpenedHand Ltd<br>2009, 2010, 2011, 2012 Intel Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/clutter/stable/'
+  ], [
+    'Clutter Gst',
+    '2006, 2007, 2008 OpenedHand Ltd<br>2009, 2010 Intel Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/clutter-gst/stable/'
+  ], [
+    'Clutter GTK',
+    '2006, 2007, 2008, 2009 Intel Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/clutter-gtk/stable/'
+  ], [
+    'Cogl',
+    '2008 OpenedHand Ltd<br>2009, 2010 Intel Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/cogl/stable/'
+  ], [
+    'CSS<br>JavaScript',
+    '2005-2015 Mozilla Developer Network and individual contributors',
+    'CC BY-SA',
+    'http://creativecommons.org/licenses/by-sa/2.5/'
+  ], [
+    'GdkPixbuf',
     '2000 The Free Software Foundation',
     'GNU FDL 1.1',
     'https://developer.gnome.org/gdk-pixbuf/unstable/'
+  ], [
+    'GOA',
+    '2011, 2012 The GOA Authors',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/goa/stable/'
+  ], [
+    'GSSDP',
+    '2007 OpenedHand Ltd<br>2009, 2010, 2011 Nokia Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/gssdp/unstable/'
+  ], [
+    'GUPnP',
+    '2007, 2008 OpenedHand Ltd<br>2007, 2008 Zeeshan Ali<br>2009, 2010 Nokia Corporation',
+    'GNU FDL 1.1',
+    'https://developer.gnome.org/gupnp-av/unstable/'
   ], [
     'JSON-GLib',
     '2007, 2008 OpenedHand Ltd<br>2009, 2010, 2011 Intel Corporation',
@@ -756,9 +806,9 @@ credits = [
     'Various',
     'https://developer.gnome.org/references'
   ], [
-    'CSS<br>JavaScript',
-    '2005-2015 Mozilla Developer Network and individual contributors',
-    'CC BY-SA',
-    'http://creativecommons.org/licenses/by-sa/2.5/'
+    'RSVG',
+    '2003, 2004, 2005, 2006, 2007, 2008, 2009 Dom Lachowicz<br>2010 Christian Persch',
+    'GPL 2',
+    'https://developer.gnome.org/rsvg/stable/'
   ]
 ]
