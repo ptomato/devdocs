@@ -1,4 +1,5 @@
 app.models.Entry.ALIASES = {
   'gdkpixbuf': 'gp',
-  'javascript': 'js'
+  'javascript': 'js',
+  'webkit': 'wk'
 };
