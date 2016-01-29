@@ -257,8 +257,9 @@ html._theme-dark {
 ._icon-javascriptcore30:before,
 ._icon-webkit2webextension30:before,
 ._icon-webkit2webextension40:before,
-._icon-webkit230:before
-._icon-webkit240:before    { @extend %gnome-icons; background-position: -8rem 0; }
+._icon-webkit230:before,
+._icon-webkit240:before,
+._icon-webkit30:before     { @extend %gnome-icons; background-position: -8rem 0; }
 ._icon-xfixes40:before,
 ._icon-xft20:before,
 ._icon-xlib20:before,
