@@ -9,7 +9,9 @@
     white-space: normal;
   }
 
-  .versioning-note { @extend %note, %note-red; }
+  .deprecated-note,
+  .stability-note { @extend %note, %note-red; }
+  .since-note { @extend %note, %note-orange; }
 
   .index .deprecated { text-decoration: line-through; }
 }
