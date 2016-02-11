@@ -1,1 +1,15 @@
+//= depend_on gnome/gnome_news.json
 //= require ../../../templates/pages/news_tmpl.js
+
+// Clarify we are a downstream project
+
+app.templates.newsPage = () =>
+  ` <h1 class="_lined-heading">Changelog</h1>
+<p class="_note">
+  For the latest news on the original DevDocs, follow <a href="https://twitter.com/DevDocs">@DevDocs</a>.<br>
+  For development updates, follow the project on <a href="https://github.com/freeCodeCamp/devdocs">GitHub</a>.<
+<div class="_news">${app.templates.newsList(app.news)}</div> `;
+
+// Override the news source with our own
+
+app.news = <%= GnomeApp.news.to_json %>;

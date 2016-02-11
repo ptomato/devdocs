@@ -2,7 +2,16 @@ require 'app'
 
 class GnomeApp < App
     configure do
+        set :news_path, File.join(root, assets_prefix, 'javascripts', 'gnome', 'gnome_news.json')
         set :assets_compile, ['*.png', 'docs.js', 'docs.json', 'application.js', 'application-gnome.css', 'application-gnome-dark.css']
+    end
+
+    configure :development, :test do
+        set :news, -> { parse_news }
+    end
+
+    configure :production do
+        set :news, parse_news
     end
 
     def manifest_asset_urls
