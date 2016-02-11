@@ -135,6 +135,12 @@
       'http://creativecommons.org/licenses/by-sa/2.5/'
     ],
     [
+      'EvinceDocument<br>EvinceView',
+      '2007, 2008, 2009 Nickolay V. Shmyrev<br>2008, 2009, 2010 Carlos Garcia Campos<br>2009, 2010 Christian Persch',
+      'GPL 2',
+      'https://developer.gnome.org/libevdocument/stable/'
+    ],
+    [
       'GdkPixbuf',
       '2000 The Free Software Foundation',
       'GNU FDL 1.1',
@@ -145,6 +151,12 @@
       '2011, 2012 The GOA Authors',
       'GNU FDL 1.1',
       'https://developer.gnome.org/goa/stable/'
+    ],
+    [
+      'GOM',
+      '2012 Christian Hergert',
+      'GNU FDL 1.1',
+      'https://developer.gnome.org/gom/unstable/'
     ],
     [
       'GSSDP',
@@ -175,6 +187,18 @@
       '2003, 2004, 2005, 2006, 2007, 2008, 2009 Dom Lachowicz<br>2010 Christian Persch',
       'GPL 2',
       'https://developer.gnome.org/rsvg/stable/'
+    ],
+    [
+      'VTE',
+      '2009, 2010 Christian Persch',
+      'LGPL 2.1',
+      'https://developer.gnome.org/vte/unstable/'
+    ],
+    [
+      'Zapojit',
+      '2012 The Zapojit authors',
+      'GNU FDL 1.1',
+      'https://developer.gnome.org/libzapojit/unstable/'
     ]
   ];
 }

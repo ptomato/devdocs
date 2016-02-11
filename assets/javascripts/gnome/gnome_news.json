@@ -1,5 +1,9 @@
 [
   [
+    "2016-02-10",
+    "New documentations: <a href=\"/appstreamglib10\">AppStream</a>, <a href=\"/cheese30\">Cheese</a>, <a href=\"/cogl20\">Cogl 2</a>, <a href=\"/evincedocument30\">Evince</a>, <a href=\"/gdk20\">GDK 2</a>, <a href=\"/geocodeglib10\">Geocode-GLib</a>, <a href=\"/gom10\">GOM</a>, <a href=\"/grl02\">Grilo</a>, <a href=\"/gtk20\">GTK 2</a>, <a href=\"/gtksource30\">GtkSourceView 3</a>, <a href=\"/gweather30\">GWeather</a>, <a href=\"/gxps01\">GXPS</a>, <a href=\"/peas10\">Peas</a>, <a href=\"/poppler018\">Poppler</a>, <a href=\"/rest07\">Rest</a>, <a href=\"/secret1\">Secret</a>, <a href=\"/vte291\">VTE</a>, <a href=\"/zpj00\">Zapojit</a>"
+  ],
+  [
     "2016-02-09",
     "Update to upstream DevDocs: &ldquo;Multi-version support&rdquo; has landed!\nClick <a href=\"#\" data-pick-docs>Select documentation</a> to pick which versions to use.</a>."
   ],
