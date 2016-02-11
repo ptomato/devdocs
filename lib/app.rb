@@ -40,7 +40,7 @@ class App < Sinatra::Application
       }]
     }
 
-    set :news_path, -> { File.join(root, assets_prefix, 'javascripts', 'news.json') }
+    set :news_path, -> { File.join(root, assets_prefix, 'javascripts', 'gnome_news.json') }
     set :news, -> { JSON.parse(File.read(news_path)) }
 
     set :csp, false
