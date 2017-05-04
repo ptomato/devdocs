@@ -19,7 +19,7 @@ RUN ./autogen.sh --enable-doctool && make install
 ENV G_IR_DOC_TOOL /usr/local/bin/g-ir-doc-tool
 
 WORKDIR /opt/devdocs
-RUN sed -i s/2.3.0/2.3.3/ Gemfile && bundle install && \
+RUN bundle install && \
     thor gir:generate_all && \
     thor docs:list && \
     for docset in appstreamglib10 atk10 atspi20 cairo10 cally10 clutter10 cluttergdk10 clutterx1110 \
