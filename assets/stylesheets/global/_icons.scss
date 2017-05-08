@@ -41,6 +41,10 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
   background-size: 13rem 1rem;
 }
 
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+  %gnome-icons { background-image: image-url('gnome-icons@2x.png'); }
+}
+
 ._icon-appstreamglib10:before
                            { @extend %gnome-icons; background-position: 0 0; }
 ._icon-cairo10:before      { @extend %gnome-icons; background-position: -1rem 0; }
