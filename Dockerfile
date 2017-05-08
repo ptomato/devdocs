@@ -51,7 +51,7 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
         polkitagent10 rsvg20 soup24 soupgnome24 telepathyglib012 tracker10 \
         trackercontrol10 trackerminer10 upowerglib10 vte290 webkit240 \
         webkit2webextension40 win3210 xfixes40 xft20 xlib20 xrandr13; \
-      do thor docs:generate \$docset --force; done"
+      do echo \$docset; thor docs:generate \$docset --force; done"
 
 EXPOSE 9292
 CMD /bin/bash -l -c "rackup -o 0.0.0.0"
