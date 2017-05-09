@@ -55,15 +55,17 @@ app.templates.aboutPage = -> """
 
   <h2 class="_block-heading" id="credits">Credits</h2>
 
-  <!-- The first three don't apply to us, we're not getting sponsored. The C/C++
-  logo is not used now, but will be later. -->
-  <!-- p><strong>Special thanks to:</strong -->
-  <!-- ul>
-    <li><a href="https://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="https://sentry.io/">Sentry</a> and <a href="https://get.gaug.es/?utm_source=devdocs&utm_medium=referral&utm_campaign=sponsorships" title="Real Time Web Analytics">Gauges</a> for offering a free account to DevDocs
+  <p><strong>Special thanks to:</strong>
+  <ul>
+    <li>Everaldo Canuto, Patrick Griffis, and Dustin Falgout for helping get this site back online
+    <li><a href="https://nuveo.com.br">Nuveo</a> for sponsoring the hosting
+    <!-- The next three don't apply to us, we're not getting sponsored by them.
+    The C/C++ logo is not used now, but will be later. -->
+    <!--li><a href="https://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="https://sentry.io/">Sentry</a> and <a href="https://get.gaug.es/?utm_source=devdocs&utm_medium=referral&utm_campaign=sponsorships" title="Real Time Web Analytics">Gauges</a> for offering a free account to DevDocs
     <li><a href="https://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="https://out.devdocs.io/s/shopify">Shopify</a>, <a href="https://out.devdocs.io/s/jetbrains">JetBrains</a> and <a href="https://out.devdocs.io/s/code-school">Code School</a> for sponsoring DevDocs in the past
     <li><a href="https://www.heroku.com">Heroku</a> and <a href="https://newrelic.com/">New Relic</a> for providing awesome free service
-    <li><a href="https://www.jeremykratz.com/">Jeremy Kratz</a> for the C/C++ logo
-  </ul -->
+    <li><a href="https://www.jeremykratz.com/">Jeremy Kratz</a> for the C/C++ logo-->
+  </ul>
 
   <div class="_table">
     <table class="_credits">
