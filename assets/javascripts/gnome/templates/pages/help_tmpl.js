@@ -4,7 +4,7 @@
     const ctrlKey = $.isMac() ? 'cmd' : 'ctrl';
     const navKey = $.isMac() ? 'cmd' : 'alt';
 
-    const host = 'http://ec2-52-32-237-163.us-west-2.compute.amazonaws.com:9292';
+    const host = 'http://devdocs.baznga.org';
     const aliases_one = {};
     const aliases_two = {};
     const keys = Object.keys(app.models.Entry.ALIASES);
