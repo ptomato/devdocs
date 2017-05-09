@@ -1,5 +1,14 @@
 [
   [
+    "2017-05-07",
+    "Update to upstream DevDocs:",
+    "Refreshed design.",
+    "Added <a href=\"/settings\">Preferences</a>."
+  ], [
+    "2017-05-04",
+    "Back online! Thanks to Everaldo Canuto, Patrick Griffis, and Dustin Falgout.",
+    "Thanks to Nuveo for the hosting."
+  ], [
     "2016-02-10",
     "New documentations: <a href=\"/appstreamglib10\">AppStream</a>, <a href=\"/cheese30\">Cheese</a>, <a href=\"/cogl20\">Cogl 2</a>, <a href=\"/evincedocument30\">Evince</a>, <a href=\"/gdk20\">GDK 2</a>, <a href=\"/geocodeglib10\">Geocode-GLib</a>, <a href=\"/gom10\">GOM</a>, <a href=\"/grl02\">Grilo</a>, <a href=\"/gtk20\">GTK 2</a>, <a href=\"/gtksource30\">GtkSourceView 3</a>, <a href=\"/gweather30\">GWeather</a>, <a href=\"/gxps01\">GXPS</a>, <a href=\"/peas10\">Peas</a>, <a href=\"/poppler018\">Poppler</a>, <a href=\"/rest07\">Rest</a>, <a href=\"/secret1\">Secret</a>, <a href=\"/vte291\">VTE</a>, <a href=\"/zpj00\">Zapojit</a>"
   ], [

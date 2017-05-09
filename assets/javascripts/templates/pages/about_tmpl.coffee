@@ -63,7 +63,9 @@ app.templates.aboutPage = -> """
 
   <p><strong>Special thanks to:</strong>
   <ul>
-    <!-- The first three don't apply to us, we're not getting sponsored -->
+    <li>Everaldo Canuto, Patrick Griffis, and Dustin Falgout for helping get this site back online
+    <li><a href="https://nuveo.com.br">Nuveo</a> for sponsoring the hosting
+    <!-- The next three don't apply to us, we're not getting sponsored by them -->
     <!--li><a href="http://out.devdocs.io/s/maxcdn">MaxCDN</a> and <a href="http://get.gaug.es/?utm_source=devdocs&utm_medium=referral&utm_campaign=sponsorships" title="Real Time Web Analytics">Gauges</a> for offering a free account to DevDocs
     <li><a href="http://out.devdocs.io/s/maxcdn">MaxCDN</a>, <a href="http://out.devdocs.io/s/shopify">Shopify</a>, <a href="http://out.devdocs.io/s/jetbrains">JetBrains</a> and <a href="http://out.devdocs.io/s/code-school">Code School</a> for sponsoring DevDocs in the past
     <li><a href="https://www.heroku.com">Heroku</a> and <a href="http://newrelic.com">New Relic</a> for providing awesome free service-->
