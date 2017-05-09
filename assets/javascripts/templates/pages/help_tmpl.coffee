@@ -1,7 +1,7 @@
 ctrlKey = if $.isMac() then 'cmd' else 'ctrl'
 navKey = if $.isMac() then 'cmd' else 'alt'
 
-host = 'http://ec2-52-32-237-163.us-west-2.compute.amazonaws.com:9292'
+host = 'http://devdocs.baznga.org'
 
 app.templates.helpPage = """
   <nav class="_toc" role="directory">
