@@ -43,21 +43,20 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
     for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         cally10 champlain012 cheese30 clutter10 cluttergdk10 cluttergst10 \
         cluttergst20 cluttergst30 clutterx1110 cogl10 cogl20 coglpango10 \
-        coglpango20 css dbus10 dbusglib10 dbusmenu04 evincedocument30 \
-        evinceview30 fontconfig20 freetype220 gcab10 gdk20 gdk30 gdkpixbuf20 \
-        gdkx1120 gdkx1130 geocodeglib10 gio20 girepository20 gl10 glib20 \
-        gmodule20 goa10 gobject20 gom10 grl03 grlnet03 grlpls03 gsound10 \
-        gspell1 gssdp10 gst10 gstallocators10 gstapp10 gstaudio10 gstbase10 \
-        gstcheck10 gstcontroller10 gstfft10 gstnet10 gstpbutils10 gstrtp10 \
-        gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 gtk30 gtkchamplain012 \
-        gtkclutter10 gtksource30 gudev10 gupnp10 gupnpdlna20 gupnpdlnagst20 \
-        gweather30 gxps01 ibus10 javascript javascriptcore30 javascriptcore40 \
-        json10 keybinder30 libxml220 networkmanager10 nmclient10 notify07 \
-        pango10 pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
-        polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 soup24 \
-        soupgnome24 telepathyglib012 tracker10 trackercontrol10 trackerminer10 \
+        coglpango20 css dbusmenu04 evincedocument30 evinceview30 gcab10 gdk20 \
+        gdk30 gdkpixbuf20  gdkx1120 gdkx1130 geocodeglib10 gio20 \
+        girepository20 glib20 gmodule20 goa10 gobject20 gom10 grl03 grlnet03 \
+        grlpls03 gsound10 gspell1 gssdp10 gst10 gstallocators10 gstapp10 \
+        gstaudio10 gstbase10 gstcheck10 gstcontroller10 gstfft10 gstnet10 \
+        gstpbutils10 gstrtp10 gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 \
+        gtk30 gtkchamplain012 gtkclutter10 gtksource30 gudev10 gupnp10 \
+        gupnpdlna20 gupnpdlnagst20 gweather30 gxps01 ibus10 javascript json10 \
+        keybinder30 networkmanager10 nmclient10 notify07 pango10 pangocairo10 \
+        pangoft210 pangoxft10 peas10 peasgtk10 polkit10 polkitagent10 \
+        poppler018 rest07 restextras07 rsvg20 secret1 soup24 soupgnome24 \
+        telepathyglib012 tracker10 trackercontrol10 trackerminer10 \
         upowerglib10 vte00 vte290 vte291 webkit10 webkit30 webkit240 \
-        webkit2webextension40 win3210 xfixes40 xft20 xlib20 xrandr13 zpj00; \
+        webkit2webextension40 zpj00; \
       do echo \$docset; thor docs:generate \$docset --force; done"
 
 EXPOSE 9292
