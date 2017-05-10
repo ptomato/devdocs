@@ -48,6 +48,7 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
 ._icon-appstreamglib10:before
                            { @extend %gnome-icons; background-position: 0 0; }
 ._icon-cairo10:before      { @extend %gnome-icons; background-position: -1rem 0; }
+._icon-gtkchamplain012:before,
 ._icon-champlain012:before { @extend %gnome-icons; background-position: -2rem 0; }
 ._icon-cheese30:before     { @extend %gnome-icons; background-position: -3rem 0; }
 ._icon-cally10:before,
@@ -75,6 +76,7 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
 ._icon-atk10:before,
 ._icon-atspi20:before,
 ._icon-dbusglib10:before,
+._icon-gcab10:before,
 ._icon-gck1:before,
 ._icon-gcr3:before,
 ._icon-gcrui3:before,
@@ -90,8 +92,11 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
 ._icon-gobject20:before,
 ._icon-gom10:before,
 ._icon-grl02:before,
+._icon-grl03:before,
 ._icon-grlnet02:before,
+._icon-grlnet03:before,
 ._icon-grlpls02:before,
+._icon-grlpls03:before,
 ._icon-gsound10:before,
 ._icon-gspell1:before,
 ._icon-gssdp10:before,
@@ -125,6 +130,7 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
 ._icon-trackercontrol10:before,
 ._icon-trackerminer10:before,
 ._icon-upowerglib10:before,
+._icon-vte00:before,
 ._icon-vte290:before,
 ._icon-vte291:before,
 ._icon-zpj00:before        { @extend %gnome-icons; background-position: -7rem 0; @extend %darkIconFix !optional; }
@@ -153,8 +159,10 @@ convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,gener
 ._icon-appindicator301:before,
 ._icon-dbusmenu04:before   { @extend %gnome-icons; background-position: -11rem 0; }
 ._icon-javascriptcore30:before,
+._icon-javascriptcore40:before,
 ._icon-webkit2webextension30:before,
 ._icon-webkit2webextension40:before,
+._icon-webkit10:before,
 ._icon-webkit230:before,
 ._icon-webkit240:before,
 ._icon-webkit30:before     { @extend %gnome-icons; background-position: -12rem 0; }
