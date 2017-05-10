@@ -35,6 +35,7 @@ WORKDIR /opt/gi
 RUN ./autogen.sh --enable-doctool && make install
 ENV G_IR_DOC_TOOL /usr/local/bin/g-ir-doc-tool
 
+COPY lib/docs/scrapers/gnome/girs/GtkosxApplication-1.0.gir /usr/share/gir-1.0/
 RUN git clone https://github.com/ptomato/devdocs -b gnome --depth=1 /opt/devdocs
 WORKDIR /opt/devdocs
 RUN /bin/bash -l -c "bundle install"
@@ -49,12 +50,12 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
         grlpls03 gsound10 gspell1 gssdp10 gst10 gstallocators10 gstapp10 \
         gstaudio10 gstbase10 gstcheck10 gstcontroller10 gstfft10 gstnet10 \
         gstpbutils10 gstrtp10 gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 \
-        gtk30 gtkchamplain012 gtkclutter10 gtksource30 gudev10 gupnp10 \
-        gupnpdlna20 gupnpdlnagst20 gweather30 gxps01 ibus10 javascript json10 \
-        keybinder30 networkmanager10 nmclient10 notify07 pango10 pangocairo10 \
-        pangoft210 pangoxft10 peas10 peasgtk10 polkit10 polkitagent10 \
-        poppler018 rest07 restextras07 rsvg20 secret1 soup24 soupgnome24 \
-        telepathyglib012 tracker10 trackercontrol10 trackerminer10 \
+        gtk30 gtkchamplain012 gtkclutter10 gtksource30 gtkosxapplication10 \
+        gudev10 gupnp10 gupnpdlna20 gupnpdlnagst20 gweather30 gxps01 ibus10 \
+        javascript json10 keybinder30 networkmanager10 nmclient10 notify07 \
+        pango10 pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
+        polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 soup24 \
+        soupgnome24 telepathyglib012 tracker10 trackercontrol10 trackerminer10 \
         upowerglib10 vte00 vte290 vte291 webkit10 webkit30 webkit240 \
         webkit2webextension40 zpj00; \
       do echo \$docset; thor docs:generate \$docset --force; done"
