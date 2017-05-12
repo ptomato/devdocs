@@ -37,7 +37,7 @@ RUN ./autogen.sh --enable-doctool && make install
 ENV G_IR_DOC_TOOL /usr/local/bin/g-ir-doc-tool
 
 COPY lib/docs/scrapers/gnome/girs/GtkosxApplication-1.0.gir /usr/share/gir-1.0/
-RUN git clone https://github.com/ptomato/devdocs -b gnome --depth=1 /opt/devdocs
+COPY . /opt/devdocs/
 WORKDIR /opt/devdocs
 RUN /bin/bash -l -c "bundle install"
 RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
