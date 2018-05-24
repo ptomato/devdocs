@@ -21,19 +21,25 @@ class GirCLI < Thor
     end
     glob.each do |path|
       puts 'Generating scraper for ' + File.basename(path) + '...'
+      begin
       generate path
+    rescue REXML::ParseException
+      puts 'Failed to generate scraper for... ' + File.basename(path) + '...'
+     
+    end
     end
   end
 
   desc 'generate', 'Generate a scraper from a GIR file'
   def generate(gir_path)
-    gir = read_gir gir_path
-
-    namespace = gir.root.elements['namespace']
-    scraper_info = process_namespace namespace
-    scraper_info[:slug] = generate_slug scraper_info
-    scraper_info[:version] = compute_version gir, scraper_info
-    write_scraper gir_path, scraper_info
+    
+      gir = read_gir gir_path
+      namespace = gir.root.elements['namespace']
+      scraper_info = process_namespace namespace
+      scraper_info[:slug] = generate_slug scraper_info
+      scraper_info[:version] = compute_version gir, scraper_info
+      write_scraper gir_path, scraper_info
+   
   end
 
   no_commands do
