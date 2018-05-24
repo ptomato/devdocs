@@ -34,7 +34,7 @@ class app.views.EntryPage extends app.View
 
     $.batchUpdate @el, =>
       @subview.render(content, fromCache)
-      @addClipboardLinks() unless fromCache
+      @addCopyButtons() unless fromCache
       return
 
     if app.disabledDocs.findBy 'slug', @entry.doc.slug
@@ -44,17 +44,19 @@ class app.views.EntryPage extends app.View
     @trigger 'loaded'
     return
 
-  addClipboardLinks: ->
-    unless @clipBoardLink
-      @clipBoardLink = document.createElement('a')
-      @clipBoardLink.className = '_pre-clip'
-      @clipBoardLink.title = 'Copy to clipboard'
-      @clipBoardLink.tabIndex = -1
-    el.appendChild(@clipBoardLink.cloneNode()) for el in @el.querySelectorAll('pre')
+  addCopyButtons: ->
+    unless @copyButton
+      @copyButton = document.createElement('button')
+      @copyButton.innerHTML = '<svg><use xlink:href="#icon-copy"/></svg>'
+      @copyButton.type = 'button'
+      @copyButton.className = '_pre-clip'
+      @copyButton.title = 'Copy to clipboard'
+      @copyButton.setAttribute 'aria-label', 'Copy to clipboard'
+    el.appendChild @copyButton.cloneNode(true) for el in @findAllByTag('pre')
     return
 
   polyfillMathML: ->
-    return unless window.supportsMathML is false and !@polyfilledMathML and @find('math')
+    return unless window.supportsMathML is false and !@polyfilledMathML and @findByTag('math')
     @polyfilledMathML = true
     $.append document.head, """<link rel="stylesheet" href="#{app.config.mathml_stylesheet}">"""
     return
@@ -140,7 +142,7 @@ class app.views.EntryPage extends app.View
       true
 
   onClick: (event) =>
-    target = event.target
+    target = $.eventTarget(event)
     if target.hasAttribute 'data-retry'
       $.stopEvent(event)
       @load()
@@ -152,5 +154,5 @@ class app.views.EntryPage extends app.View
 
   onAltO: =>
     return unless link = @find('._attribution:last-child ._attribution-link')
-    $.popup(link.href + location.hash)
+    @delay -> $.popup(link.href + location.hash)
     return

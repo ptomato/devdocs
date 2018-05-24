@@ -3,9 +3,10 @@ module Docs
     self.name = 'scikit-learn'
     self.slug = 'scikit_learn'
     self.type = 'sphinx'
-    self.release = '0.18'
+    self.release = '0.19.1'
     self.base_url = 'http://scikit-learn.org/stable/'
     self.root_path = 'documentation.html'
+    self.force_gzip = true
     self.links = {
       home: 'http://scikit-learn.org/',
       code: 'https://github.com/scikit-learn/scikit-learn'
@@ -17,9 +18,10 @@ module Docs
     options[:skip] = %w(tutorial/statistical_inference/finding_help.html)
     options[:only_patterns] = [/\Amodules/, /\Adatasets/, /\Atutorial/, /\Aauto_examples/]
     options[:skip_patterns] = [/\Adatasets\/(?!index)/]
+    options[:max_image_size] = 256_000
 
     options[:attribution] = <<-HTML
-      &copy; 2007&ndash;2016 The scikit-learn developers<br>
+      &copy; 2007&ndash;2017 The scikit-learn developers<br>
       Licensed under the 3-clause BSD License.
     HTML
 

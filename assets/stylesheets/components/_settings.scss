@@ -11,17 +11,12 @@
 
   &._in { display: block; }
 
-  ._sidebar {
-    display: block !important;
+  > ._header { justify-content: space-between; }
 
-    &:after { // padding bottom
-      content: '';
-      display: block;
-      height: $headerHeight;
-    }
+  &._dirty > ._header {
+    background: $noteGreenBackground;
+    border-color: $noteGreenBorder;
   }
-
-  ._header { justify-content: space-between; }
 }
 
 //
@@ -71,29 +66,12 @@
   ._setting-max-width { display: none; }
 }
 
-._reset-link {
-  color: $textColorRed;
-}
+._setting-native-scrollbar { display: none; }
+@supports (-webkit-margin-end: 1px) { ._setting-native-scrollbar { display: block; } }
 
 //
-// Footer
+// Settings buttons
 //
-
-._sidebar-footer {
-  position: fixed;
-  z-index: $headerZ;
-  bottom: 0;
-  left: 0;
-  width: $sidebarWidth;
-  height: $headerHeight;
-  background: $noteGreenBackground;
-  border-top: 1px solid $noteGreenBorder;
-  border-right: 1px solid $noteGreenBorder;
-  @extend %border-box;
-  @extend %user-select-none;
-
-  @media #{$mediumScreen} { width: $sidebarMediumWidth; }
-}
 
 ._settings-btn {
   display: block;
@@ -109,14 +87,21 @@
   @extend %border-box;
 
   > svg {
-    display: inline-block;
-    vertical-align: top;
     width: 1.5rem;
     height: 1.5rem;
     margin-right: .125rem;
-    fill: currentColor;
-    pointer-events: none;
+    @extend %svg-icon;
   }
+}
+
+._settings-btn-back {
+  ._dirty & { display: none; }
+}
+
+._settings-btn-save {
+  display: none;
+
+  ._dirty & { display: block; }
 }
 
 //
@@ -126,6 +111,8 @@
 ._settings-tabs {
   display: none; // mobile only
   margin-right: .5rem;
+
+  ._dirty & { display: none !important; }
 }
 
 ._settings-tab {

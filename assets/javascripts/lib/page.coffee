@@ -53,7 +53,12 @@ page.replace = (path, state, skipDispatch, init) ->
   context = new Context(path, state or currentState)
   context.init = init
   currentState = context.state
-  page.dispatch(context) unless skipDispatch
+  result = page.dispatch(context) unless skipDispatch
+  if result
+    context = new Context(result)
+    context.init = init
+    currentState = context.state
+    page.dispatch(context)
   context.replaceState()
   updateCanonicalLink()
   track() unless skipDispatch
@@ -170,8 +175,8 @@ onclick = (event) ->
   catch
     return
 
-  link = event.target
-  link = link.parentElement while link and link.tagName isnt 'A'
+  link = $.eventTarget(event)
+  link = link.parentNode while link and link.tagName isnt 'A'
 
   if link and not link.target and isSameOrigin(link.href)
     event.preventDefault()

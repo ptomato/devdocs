@@ -14,12 +14,27 @@ module Docs
     options[:container] = '.content .container'
 
     options[:attribution] = <<-HTML
-      &copy; 2010&ndash;2017 Christian Johansen<br>
+      &copy; 2010&ndash;2018 Christian Johansen<br>
       Licensed under the BSD License.
     HTML
 
+    version '5' do
+      self.release = '5.0.7'
+      self.base_url = "http://sinonjs.org/releases/v#{release}/"
+    end
+
+    version '4' do
+      self.release = '4.5.0'
+      self.base_url = "http://sinonjs.org/releases/v#{release}/"
+    end
+
+    version '3' do
+      self.release = '3.3.0'
+      self.base_url = "http://sinonjs.org/releases/v#{release}/"
+    end
+
     version '2' do
-      self.release = '2.2.0'
+      self.release = '2.4.1'
       self.base_url = "http://sinonjs.org/releases/v#{release}/"
     end
 

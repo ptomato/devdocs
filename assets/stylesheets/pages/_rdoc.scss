@@ -27,6 +27,10 @@
     @extend %user-select-none;
 
     &:hover { text-decoration: underline; }
+
+    @include print {
+      display: none;
+    }
   }
 
   .method-description { position: relative; }
@@ -43,4 +47,9 @@
 
     > pre { margin: 0; }
   }
+
+  // Rails guides
+  .note { @extend %note; }
+  .info { @extend %note, %note-blue; }
+  .warning { @extend %note, %note-red; }
 }

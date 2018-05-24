@@ -14,7 +14,7 @@ class app.views.Search extends app.View
     submit: 'onSubmit'
 
   @shortcuts:
-    typing: 'autoFocus'
+    typing: 'focus'
     altG: 'google'
     altS: 'stackoverflow'
 
@@ -31,12 +31,11 @@ class app.views.Search extends app.View
 
     app.on 'ready', @onReady
     $.on window, 'hashchange', @searchUrl
-    $.on window, 'focus', @autoFocus
+    $.on window, 'focus', @onWindowFocus
     return
 
-  focus: ->
-    @delay =>
-      @input.focus() unless document.activeElement is @input
+  focus: =>
+    @input.focus() unless document.activeElement is @input
     return
 
   autoFocus: =>
@@ -44,7 +43,14 @@ class app.views.Search extends app.View
       @input.focus() unless document.activeElement?.tagName is 'INPUT'
     return
 
-  reset: ->
+  onWindowFocus: (event) =>
+    @autoFocus() if event.target is window
+
+  getScopeDoc: ->
+    @scope.getScope() if @scope.isActive()
+
+  reset: (force) ->
+    @scope.reset() if force or not @input.value
     @el.reset()
     @onInput()
     @autoFocus()
@@ -121,7 +127,6 @@ class app.views.Search extends app.View
     if event.target is @resetLink
       $.stopEvent(event)
       @reset()
-      app.document.onEscape()
     return
 
   onSubmit: (event) ->
@@ -129,9 +134,10 @@ class app.views.Search extends app.View
     return
 
   afterRoute: (name, context) =>
-    @reset() if not context.init and app.router.isIndex()
+    return if app.shortcuts.eventInProgress?.name is 'escape'
+    @reset(true) if not context.init and app.router.isIndex()
     @delay @searchUrl if context.hash
-    @delay @autoFocus
+    $.requestAnimationFrame @autoFocus
     return
 
   extractHashValue: ->

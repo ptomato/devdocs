@@ -7,13 +7,23 @@ app.templates.helpPage = """
   <nav class="_toc" role="directory">
     <h3 class="_toc-title">Table of Contents</h3>
     <ul class="_toc-list">
+      <li><a href="#managing-documentations">Managing Documentations</a>
       <li><a href="#search">Search</a>
       <li><a href="#shortcuts">Keyboard Shortcuts</a>
       <li><a href="#aliases">Search Aliases</a>
     </ul>
   </nav>
 
-  <h1 class="_lined-heading" id="search">Help</h2>
+  <h1 class="_lined-heading">User Guide</h1>
+
+  <h2 class="_block-heading" id="managing-documentations">Managing Documentations</h2>
+  <p>
+    Documentations can be enabled and disabled in the <a href="/settings">Preferences</a>.
+    Alternatively, you can enable a documentation by searching for it in the main search
+    and clicking the "Enable" link in the results.
+    For faster and better search, only enable the documentations you plan on actively using.
+  <p>
+    Once a documentation is enabled, it becomes part of the search and its content can be downloaded for offline access — and faster page loads when online — in the <a href="/offline">Offline</a> area.
 
   <h2 class="_block-heading" id="search">Search</h2>
   <p>
@@ -23,11 +33,12 @@ app.templates.helpPage = """
   <dl>
     <dt id="doc_search">Searching a single documentation
     <dd>
-      You can scope the search to a single documentation by typing its name (or an abbreviation)
-      and pressing <code class="_label">Tab</code> (<code class="_label">Space</code> on mobile devices).
+      The search can be scoped to a single documentation by typing its name (or an abbreviation)
+      and pressing <code class="_label">tab</code> (<code class="_label">space</code>&nbsp;on mobile).
       For example, to search the JavaScript documentation, enter <code class="_label">javascript</code>
-      or <code class="_label">js</code>, then <code class="_label">Tab</code>.<br>
-      To clear the current scope, empty the search field and hit <code class="_label">Backspace</code>.
+      or <code class="_label">js</code>, then <code class="_label">tab</code>.<br>
+      To clear the current scope, empty the search field and hit <code class="_label">backspace</code> or
+      <code class="_label">esc</code>.
     <dt id="url_search">Prefilling the search field
     <dd>
       The search field can be prefilled from the URL by visiting <a href="/#q=keyword" target="_top">#{host}/#q=keyword</a>.
@@ -38,12 +49,12 @@ app.templates.helpPage = """
     <dd>
       DevDocs supports OpenSearch. It can easily be installed as a search engine on most web browsers:
       <ul>
-        <li>On Chrome, the setup is done automatically. Simply press <code class="_label">Tab</code> when devdocs.io is autocompleted
+        <li>On Chrome, the setup is done automatically. Simply press <code class="_label">tab</code> when devdocs.io is autocompleted
             in the omnibox (to set a custom keyword, click <em>Manage search engines\u2026</em> in Chrome's settings).
-        <li>On Firefox, open the search engine list (icon in the search bar) and click <em>Add "DevDocs Search"</em>.
-            DevDocs is now available in the search bar. You can also search from the location bar by following
-            <a href="https://support.mozilla.org/en-US/kb/how-search-from-address-bar">these instructions</a>.
+        <li>On Firefox, right-click the DevDocs search field and select <em>Add a Keyword for this Search…</em>. Then, type the added keyword followed by a query in the address bar to search DevDocs.
   </dl>
+  <p>
+    <i>Note: the above search features only work for documentations that are enabled.</i>
 
   <h2 class="_block-heading" id="shortcuts">Keyboard Shortcuts</h2>
   <h3 class="_shortcuts-title">Sidebar</h3>
@@ -97,8 +108,8 @@ app.templates.helpPage = """
       <code class="_shortcut-code">ctrl + ,</code>
     <dd class="_shortcuts-dd">Open preferences
     <dt class="_shortcuts-dt">
-      <code class="_shortcut-code">escape</code>
-    <dd class="_shortcuts-dd">Reset UI
+      <code class="_shortcut-code">esc</code>
+    <dd class="_shortcuts-dd">Clear search field / reset UI
     <dt class="_shortcuts-dt">
       <code class="_shortcut-code">?</code>
     <dd class="_shortcuts-dd">Show this page

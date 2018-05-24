@@ -16,11 +16,11 @@ class app.views.ListFocus extends app.View
     super
     @focusOnNextFrame = $.framify(@focus, @)
 
-  focus: (el) ->
+  focus: (el, options = {}) ->
     if el and not el.classList.contains @constructor.activeClass
       @blur()
       el.classList.add @constructor.activeClass
-      $.trigger el, 'focus'
+      $.trigger el, 'focus' unless options.silent is true
     return
 
   blur: =>
@@ -40,14 +40,14 @@ class app.views.ListFocus extends app.View
         $.click(next)
         @findNext cursor
       else if next.tagName is 'DIV' # sub-list
-        if cursor.className.indexOf('open') >= 0
+        if cursor.className.indexOf(' open') >= 0
           @findFirst(next) or @findNext(next)
         else
           @findNext(next)
       else if next.tagName is 'H6' # title
         @findNext(next)
-    else if cursor.parentElement isnt @el
-      @findNext cursor.parentElement
+    else if cursor.parentNode isnt @el
+      @findNext cursor.parentNode
 
   findFirst: (cursor) ->
     return unless first = cursor.firstChild
@@ -72,8 +72,8 @@ class app.views.ListFocus extends app.View
           @findPrev(prev)
       else if prev.tagName is 'H6' # title
         @findPrev(prev)
-    else if cursor.parentElement isnt @el
-      @findPrev cursor.parentElement
+    else if cursor.parentNode isnt @el
+      @findPrev cursor.parentNode
 
   findLast: (cursor) ->
     return unless last = cursor.lastChild
@@ -101,8 +101,9 @@ class app.views.ListFocus extends app.View
 
   onLeft: =>
     cursor = @getCursor()
-    if cursor and not cursor.classList.contains(app.views.ListFold.activeClass) and cursor.parentElement isnt @el
-      @focusOnNextFrame cursor.parentElement.previousSibling
+    if cursor and not cursor.classList.contains(app.views.ListFold.activeClass) and cursor.parentNode isnt @el
+      prev = cursor.parentNode.previousSibling
+      @focusOnNextFrame cursor.parentNode.previousSibling if prev and prev.classList.contains(app.views.ListFold.targetClass)
     return
 
   onEnter: =>
@@ -117,6 +118,7 @@ class app.views.ListFocus extends app.View
 
   onClick: (event) =>
     return if event.which isnt 1 or event.metaKey or event.ctrlKey
-    if event.target.tagName is 'A'
-      @focus event.target
+    target = $.eventTarget(event)
+    if target.tagName is 'A'
+      @focus target, silent: true
     return

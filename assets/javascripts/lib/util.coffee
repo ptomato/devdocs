@@ -16,13 +16,13 @@ $.hasChild = (parent, el) ->
   while el
     return true if el is parent
     return if el is document.body
-    el = el.parentElement
+    el = el.parentNode
 
 $.closestLink = (el, parent = document.body) ->
   while el
     return el if el.tagName is 'A'
     return if el is parent
-    el = el.parentElement
+    el = el.parentNode
 
 #
 # Events
@@ -60,6 +60,9 @@ $.stopEvent = (event) ->
   event.stopImmediatePropagation()
   return
 
+$.eventTarget = (event) ->
+  event.target.correspondingUseElement || event.target
+
 #
 # Manipulation
 #
@@ -96,7 +99,7 @@ $.before = (el, value) ->
   if typeof value is 'string' or $.isCollection(value)
     value = buildFragment(value)
 
-  el.parentElement.insertBefore(value, el)
+  el.parentNode.insertBefore(value, el)
   return
 
 $.after = (el, value) ->
@@ -104,16 +107,16 @@ $.after = (el, value) ->
     value = buildFragment(value)
 
   if el.nextSibling
-    el.parentElement.insertBefore(value, el.nextSibling)
+    el.parentNode.insertBefore(value, el.nextSibling)
   else
-    el.parentElement.appendChild(value)
+    el.parentNode.appendChild(value)
   return
 
 $.remove = (value) ->
   if $.isCollection(value)
-    el.parentElement?.removeChild(el) for el in $.makeArray(value)
+    el.parentNode?.removeChild(el) for el in $.makeArray(value)
   else
-    value.parentElement?.removeChild(value)
+    value.parentNode?.removeChild(value)
   return
 
 $.empty = (el) ->
@@ -121,7 +124,7 @@ $.empty = (el) ->
   return
 
 # Calls the function while the element is off the DOM to avoid triggering
-# unecessary reflows and repaints.
+# unnecessary reflows and repaints.
 $.batchUpdate = (el, fn) ->
   parent = el.parentNode
   sibling = el.nextSibling
@@ -155,7 +158,7 @@ $.offset = (el, container = document.body) ->
   left: left
 
 $.scrollParent = (el) ->
-  while el = el.parentElement
+  while (el = el.parentNode) and el.nodeType is 1
     break if el.scrollTop > 0
     break if getComputedStyle(el)?.overflowY in ['auto', 'scroll']
   el
@@ -356,6 +359,15 @@ $.isAndroid = ->
 isIOS = null
 $.isIOS = ->
   isIOS ?= navigator.userAgent?.indexOf('iPhone') >= 0 || navigator.userAgent?.indexOf('iPad') >= 0
+
+$.overlayScrollbarsEnabled = ->
+  return false unless $.isMac()
+  div = document.createElement('div')
+  div.setAttribute('style', 'width: 100px; height: 100px; overflow: scroll; position: absolute')
+  document.body.appendChild(div)
+  result = div.offsetWidth is div.clientWidth
+  document.body.removeChild(div)
+  result
 
 HIGHLIGHT_DEFAULTS =
   className: 'highlight'

@@ -1,19 +1,22 @@
 notif = (title, html) ->
   html = html.replace /<a /g, '<a class="_notif-link" '
-  """<h5 class="_notif-title">#{title}</h5>#{html}<button type="button" class="_notif-close" title="Close">Close</a>"""
+  """ <h5 class="_notif-title">#{title}</h5>
+      #{html}
+      <button type="button" class="_notif-close" title="Close"><svg><use xlink:href="#icon-close"/></svg>Close</a>
+  """
 
 textNotif = (title, message) ->
   notif title, """<p class="_notif-text">#{message}"""
 
 app.templates.notifUpdateReady = ->
-  textNotif """ DevDocs has been updated. """,
-            """ <a href="#" data-behavior="reboot">Reload the page</a> to use the new version. """
+  textNotif """<span data-behavior="reboot">DevDocs has been updated.</span>""",
+            """<span data-behavior="reboot"><a href="#" data-behavior="reboot">Reload the page</a> to use the new version.</span>"""
 
 app.templates.notifError = ->
-  textNotif """ Oops, an error occured. """,
+  textNotif """ Oops, an error occurred. """,
             """ Try <a href="#" data-behavior="hard-reload">reloading</a>, and if the problem persists,
                 <a href="#" data-behavior="reset">resetting the app</a>.<br>
-                You can also report this issue on <a href="https://github.com/Thibaut/devdocs/issues/new" target="_blank" rel="noopener">GitHub</a>. """
+                You can also report this issue on <a href="https://github.com/freeCodeCamp/devdocs/issues/new" target="_blank" rel="noopener">GitHub</a>. """
 
 app.templates.notifQuotaExceeded = ->
   textNotif """ The offline database has exceeded its size limitation. """,
@@ -26,6 +29,10 @@ app.templates.notifCookieBlocked = ->
 app.templates.notifInvalidLocation = ->
   textNotif """ DevDocs must be loaded from #{app.config.production_host} """,
             """ Otherwise things are likely to break. """
+
+app.templates.notifImportInvalid = ->
+  textNotif """ Oops, an error occurred. """,
+            """ The file you selected is invalid. """
 
 app.templates.notifNews = (news) ->
   notif 'Changelog', """<div class="_notif-content _notif-news">#{app.templates.newsList(news, years: false)}</div>"""
@@ -55,8 +62,8 @@ app.templates.notifUpdates = (docs, disabledDocs) ->
 app.templates.notifShare = ->
   textNotif """ Hi there! """,
             """ Like DevDocs? Help us reach more developers by sharing the link with your friends on
-                <a href="http://out.devdocs.io/s/tw" target="_blank" rel="noopener">Twitter</a>, <a href="http://out.devdocs.io/s/fb" target="_blank" rel="noopener">Facebook</a>,
-                <a href="http://out.devdocs.io/s/re" target="_blank" rel="noopener">Reddit</a>, etc.<br>Thanks :) """
+                <a href="https://out.devdocs.io/s/tw" target="_blank" rel="noopener">Twitter</a>, <a href="https://out.devdocs.io/s/fb" target="_blank" rel="noopener">Facebook</a>,
+                <a href="https://out.devdocs.io/s/re" target="_blank" rel="noopener">Reddit</a>, etc.<br>Thanks :) """
 
 app.templates.notifUpdateDocs = ->
   textNotif """ Documentation updates available. """,

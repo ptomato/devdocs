@@ -34,14 +34,20 @@ module Docs
       Licensed under the BSD License.
     HTML
 
+    version '2.0' do
+      self.release = '2.0.5'
+      self.dir = '/Users/Thibaut/DevDocs/Docs/Django20'
+      self.base_url = 'https://docs.djangoproject.com/en/2.0/'
+    end
+
     version '1.11' do
-      self.release = '1.11.0'
+      self.release = '1.11.9'
       self.dir = '/Users/Thibaut/DevDocs/Docs/Django111'
       self.base_url = 'https://docs.djangoproject.com/en/1.11/'
     end
 
     version '1.10' do
-      self.release = '1.10.7'
+      self.release = '1.10.8'
       self.dir = '/Users/Thibaut/DevDocs/Docs/Django110'
       self.base_url = 'https://docs.djangoproject.com/en/1.10/'
     end

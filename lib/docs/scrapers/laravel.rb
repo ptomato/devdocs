@@ -1,11 +1,7 @@
 module Docs
   class Laravel < UrlScraper
-    self.name = 'Laravel'
-    self.slug = 'laravel'
     self.type = 'laravel'
-
     self.base_url = 'https://laravel.com'
-
     self.links = {
       home: 'https://laravel.com/',
       code: 'https://github.com/laravel/laravel'
@@ -33,8 +29,34 @@ module Docs
       Laravel is a trademark of Taylor Otwell.
     HTML
 
+    version '5.6' do
+      self.release = '5.6.12'
+      self.root_path = '/api/5.6/index.html'
+      self.initial_paths = %w(/docs/5.6/installation /api/5.6/classes.html)
+
+      options[:only_patterns] = [%r{\A/api/5\.6/}, %r{\A/docs/5\.6/}]
+
+      options[:fix_urls] = ->(url) do
+        url.sub! %r{#{Regexp.escape(Laravel.base_url)}/docs\/(?!\d)}, "#{Laravel.base_url}/docs/5.6/"
+        url
+      end
+    end
+
+    version '5.5' do
+      self.release = '5.5.28'
+      self.root_path = '/api/5.5/index.html'
+      self.initial_paths = %w(/docs/5.5/installation /api/5.5/classes.html)
+
+      options[:only_patterns] = [%r{\A/api/5\.5/}, %r{\A/docs/5\.5/}]
+
+      options[:fix_urls] = ->(url) do
+        url.sub! %r{#{Regexp.escape(Laravel.base_url)}/docs\/(?!\d)}, "#{Laravel.base_url}/docs/5.5/"
+        url
+      end
+    end
+
     version '5.4' do
-      self.release = '5.4.15'
+      self.release = '5.4.30'
       self.root_path = '/api/5.4/index.html'
       self.initial_paths = %w(/docs/5.4/installation /api/5.4/classes.html)
 
@@ -81,6 +103,20 @@ module Docs
 
       options[:fix_urls] = ->(url) do
         url.sub! %r{#{Regexp.escape(Laravel.base_url)}/docs\/(?!\d)}, "#{Laravel.base_url}/docs/5.1/"
+        url
+      end
+    end
+
+
+    version '4.2' do
+      self.release = '4.2.11'
+      self.root_path = '/api/4.2/index.html'
+      self.initial_paths = %w(/docs/4.2/installation /api/4.2/classes.html)
+
+      options[:only_patterns] = [%r{\A/api/4\.2/}, %r{\A/docs/4\.2/}]
+
+      options[:fix_urls] = ->(url) do
+        url.sub! %r{#{Regexp.escape(Laravel.base_url)}/docs\/(?!\d)}, "#{Laravel.base_url}/docs/4.2/"
         url
       end
     end

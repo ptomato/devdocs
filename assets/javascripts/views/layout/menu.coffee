@@ -9,10 +9,9 @@ class app.views.Menu extends app.View
     $.on document.body, 'click', @onGlobalClick
     return
 
-  onClick: =>
-    prev = @el.previousElementSibling
-    $.remove @el
-    @delay (=> $.after prev, @el), 200
+  onClick: (event) ->
+    target = $.eventTarget(event)
+    target.blur() if target.tagName is 'A'
     return
 
   onGlobalClick: (event) =>

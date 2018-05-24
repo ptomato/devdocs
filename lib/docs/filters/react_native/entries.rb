@@ -1,7 +1,6 @@
 module Docs
   class ReactNative
     class EntriesFilter < Docs::EntriesFilter
-
       REPLACE_TYPES = {
         'The Basics' => 'Getting Started',
         'apis' => 'APIs',
@@ -23,31 +22,16 @@ module Docs
       end
 
       def additional_entries
-        entries = []
-
-        css('.props > .prop > .propTitle', '.props > .prop > .methodTitle').each do |node| # react-native
+        css('.props > .prop > .propTitle', '.props > .prop > .methodTitle').each_with_object [] do |node, entries|
           name = node.children.find(&:text?).try(:content)
           next if name.blank?
           sep = node.content.include?('static') ? '.' : '#'
           name.prepend(self.name + sep)
           name << '()' if node['class'].include?('methodTitle')
-          name.remove! %r{\:\s*\z}
+          name.remove! %r{\??\:\s*\z}
           id = node.at_css('.anchor')['name']
           entries << [name, id]
         end
-
-        css('.apiIndex a pre').each do |node| # relay
-          next unless node.parent['href'].start_with?('#')
-          id = node.parent['href'].remove('#')
-          name = node.content.strip
-          sep = name.start_with?('static') ? '.' : '#'
-          name.remove! %r{(abstract|static) }
-          name.sub! %r{\(.*\)}, '()'
-          name.prepend(self.name + sep)
-          entries << [name, id]
-        end
-
-        entries
       end
     end
   end

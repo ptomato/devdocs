@@ -4,7 +4,7 @@ module Docs
   class Tensorflow < UrlScraper
     self.name = 'TensorFlow'
     self.type = 'tensorflow'
-    self.release = '1.1'
+    self.release = '1.8'
     self.root_path = 'index.html'
     self.links = {
       home: 'https://www.tensorflow.org/',
@@ -13,6 +13,7 @@ module Docs
 
     html_filters.push 'tensorflow/entries', 'tensorflow/clean_html'
 
+    options[:max_image_size] = 300_000
     options[:container] = '.devsite-main-content'
 
     options[:fix_urls] = ->(url) do
@@ -21,7 +22,7 @@ module Docs
     end
 
     options[:attribution] = <<-HTML
-      &copy; 2017 The TensorFlow Authors. All rights reserved.<br>
+      &copy; 2018 The TensorFlow Authors. All rights reserved.<br>
       Licensed under the Creative Commons Attribution License 3.0.<br>
       Code samples licensed under the Apache 2.0 License.
     HTML

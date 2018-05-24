@@ -6,7 +6,7 @@ module Docs
     self.root_path = 'namespaces.html'
     self.initial_paths = %w(classes.html)
     self.links = {
-      home: 'http://symfony.com/',
+      home: 'https://symfony.com/',
       code: 'https://github.com/symfony/symfony'
     }
 
@@ -22,12 +22,27 @@ module Docs
       Symfony.html)
 
     options[:attribution] = <<-HTML
-      &copy; 2004&ndash;2016 Fabien Potencier<br>
+      &copy; 2004&ndash;2017 Fabien Potencier<br>
       Licensed under the MIT License.
     HTML
 
+    version '4.0' do
+      self.release = '4.0.3'
+      self.base_url = "http://api.symfony.com/#{version}/"
+    end
+
+    version '3.4' do
+      self.release = '3.4.3'
+      self.base_url = "http://api.symfony.com/#{version}/"
+    end
+
+    version '3.3' do
+      self.release = '3.3.15'
+      self.base_url = "http://api.symfony.com/#{version}/"
+    end
+
     version '3.2' do
-      self.release = '3.2.1'
+      self.release = '3.2.13'
       self.base_url = "http://api.symfony.com/#{version}/"
     end
 
@@ -42,12 +57,12 @@ module Docs
     end
 
     version '2.8' do
-      self.release = '2.8.2'
+      self.release = '2.8.28'
       self.base_url = "http://api.symfony.com/#{version}/"
     end
 
     version '2.7' do
-      self.release = '2.7.9'
+      self.release = '2.7.35'
       self.base_url = "http://api.symfony.com/#{version}/"
     end
   end

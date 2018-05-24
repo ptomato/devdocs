@@ -18,7 +18,7 @@ class app.views.DocList extends app.View
   init: ->
     @lists = {}
 
-    @addSubview @listFocus  = new app.views.ListFocus @el unless app.isMobile()
+    @addSubview @listFocus  = new app.views.ListFocus @el
     @addSubview @listFold   = new app.views.ListFold @el
     @addSubview @listSelect = new app.views.ListSelect @el
 
@@ -164,10 +164,11 @@ class app.views.DocList extends app.View
     return
 
   onClick: (event) =>
-    if @disabledTitle and $.hasChild(@disabledTitle, event.target)
+    target = $.eventTarget(event)
+    if @disabledTitle and $.hasChild(@disabledTitle, target) and target.tagName isnt 'A'
       $.stopEvent(event)
       @toggleDisabled()
-    else if slug = event.target.getAttribute('data-enable')
+    else if slug = target.getAttribute('data-enable')
       $.stopEvent(event)
       doc = app.disabledDocs.findBy('slug', slug)
       app.enableDoc(doc, @onEnabled, @onEnabled) if doc

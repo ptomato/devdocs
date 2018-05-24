@@ -36,9 +36,14 @@ module Docs
     ]
 
     options[:attribution] = <<-HTML
-      &copy; 1999&ndash;2016 Ericsson AB<br>
+      &copy; 2010&ndash;2017 Ericsson AB<br>
       Licensed under the Apache License, Version 2.0.
     HTML
+
+    version '20' do
+      self.release = '20.2'
+      self.dir = '/Users/Thibaut/DevDocs/Docs/Erlang20'
+    end
 
     version '19' do
       self.release = '19.3'

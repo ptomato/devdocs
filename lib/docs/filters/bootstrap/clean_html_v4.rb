@@ -17,6 +17,8 @@ module Docs
         end
 
         css('.bd-example', '.responsive-utilities-test').each do |node|
+          next unless node.previous_element
+
           if node.previous_element['class'].try(:include?, 'bd-example')
             node.remove
           else
@@ -26,7 +28,7 @@ module Docs
             node.remove_attribute('data-example-id')
             prev = node.previous_element
             prev = prev.previous_element until prev['id']
-            node.inner_html = %(<a href="#{current_url}/##{prev['id']}">Open example on getbootstrap.com</a>)
+            node.inner_html = %(<a href="#{current_url}##{prev['id']}">Open example on getbootstrap.com</a>)
           end
         end
 
@@ -38,10 +40,6 @@ module Docs
           node['class'] = 'col'
         end
 
-        css('.__cf_email__').each do |node|
-          node.replace(decode_cloudflare_email(node['data-cfemail']))
-        end
-
         css('.highlight').each do |node|
           code = node.at_css('code')
           node['data-language'] = code['data-lang']
@@ -51,6 +49,10 @@ module Docs
 
         css('bd-callout h3').each do |node|
           node.name = 'h4'
+        end
+
+        css('thead td').each do |node|
+          node.name = 'th'
         end
 
         css('table, tr, td, th, pre, code').each do |node|

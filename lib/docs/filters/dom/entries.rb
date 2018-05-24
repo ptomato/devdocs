@@ -7,13 +7,16 @@ module Docs
         'OES_'                => 'WebGL',
         'WEBGL_'              => 'WebGL',
         'Ambient Light'       => 'Ambient Light',
+        'Audio'               => 'Audio',
         'Battery Status'      => 'Battery Status',
         'Canvas '             => 'Canvas',
+        'Clipboard'           => 'Clipboard',
+        'Content Security'    => 'Content Security Policy',
         'Cooperative Scheduling' => 'Scheduling',
         'CSS Font Loading'    => 'CSS',
         'CSS Object Model'    => 'CSS',
         'Credential'          => 'Credential Management',
-        'Cryptography'        => 'Web Cryptography',
+        'Cryptography'        => 'Cryptography',
         'Device Orientation'  => 'Device Orientation',
         'Encoding'            => 'Encoding',
         'Encrypted Media Extensions' => 'Encrypted Media',
@@ -21,51 +24,61 @@ module Docs
         'File API'            => 'File',
         'Geolocation'         => 'Geolocation',
         'Geometry'            => 'Geometry',
-        'High Resolution Time' => 'Web Performance',
+        'High Resolution Time' => 'Performance',
         'Intersection'        => 'Intersection Observer',
         'Media Capture'       => 'Media',
-        'Media Session'       => 'Media Session',
+        'Media Session'       => 'Media',
         'Media Source'        => 'Media',
+        'MediaError'          => 'Media',
         'MediaStream'         => 'Media Streams',
-        'Navigation Timing'   => 'Web Performance',
+        'MIDI'                => 'Audio',
+        'Navigation Timing'   => 'Performance',
         'Network Information' => 'Network Information',
-        'Payment Request'     => 'Payment Request',
-        'Performance Timeline' => 'Web Performance',
+        'Payment'             => 'Payments',
+        'Performance Timeline' => 'Performance',
         'Pointer Events'      => 'Pointer Events',
         'Push API'            => 'Push',
         'Presentation API'    => 'Presentation',
         'Shadow DOM'          => 'Shadow DOM',
         'Server-Sent Events'  => 'Server-Sent Events',
         'Service Workers'     => 'Service Workers',
+        'Speech'              => 'Speech',
+        'Storage'             => 'Storage',
         'Stream API'          => 'Media Streams',
         'Streams'             => 'Media Streams',
         'Touch Events'        => 'Touch Events',
+        'Visual Viewport'     => 'Visual Viewport',
         'Web Animations'      => 'Animation',
         'Web App Manifest'    => 'Web App Manifest',
-        'Web Audio'           => 'Web Audio',
-        'Web Budget'          => 'Web Budget',
-        'Web Messaging'       => 'Web Messaging',
-        'Web MIDI'            => 'Web MIDI',
-        'Web Speech'          => 'Web Speech',
-        'Web Storage'         => 'Web Storage',
+        'Budget'              => 'Budget',
+        'Web Authentication'  => 'Authentication',
         'Web Workers'         => 'Web Workers',
         'WebGL'               => 'WebGL',
         'WebRTC'              => 'WebRTC',
         'WebVR'               => 'WebVR' }
 
       TYPE_BY_NAME_STARTS_WITH = {
+        'AbortController'     => 'Fetch',
+        'AbortSignal'         => 'Fetch',
         'Ambient'             => 'Ambient Light',
-        'Audio'               => 'Web Audio',
+        'Attr'                => 'Nodes',
+        'Audio'               => 'Audio',
+        'BasicCard'           => 'Payments',
         'Broadcast'           => 'Broadcast Channel',
-        'Budget'              => 'Web Budget',
+        'Budget'              => 'Budget',
         'Canvas'              => 'Canvas',
+        'Clipboard'           => 'Clipboard',
         'CSS'                 => 'CSS',
-        'ChildNode'           => 'Node',
+        'CharacterData'       => 'Nodes',
+        'ChildNode'           => 'Nodes',
+        'Comment'             => 'Nodes',
         'console'             => 'Console',
         'CustomElement'       => 'Custom Elements',
         'DataTransfer'        => 'Drag & Drop',
         'document'            => 'Document',
+        'Document Object'     => 'DOM',
         'DocumentFragment'    => 'DocumentFragment',
+        'DocumentType'        => 'Nodes',
         'DOM'                 => 'DOM',
         'element'             => 'Element',
         'event'               => 'Event',
@@ -80,41 +93,47 @@ module Docs
         'IDB'                 => 'IndexedDB',
         'location'            => 'Location',
         'navigator'           => 'Navigator',
+        'MediaKeySession'     => 'Encrypted Media',
         'MediaMetadata'       => 'Media Session',
         'MediaSession'        => 'Media Session',
         'MediaTrack'          => 'Media Streams',
-        'Node'                => 'Node',
+        'Message'             => 'Channel Messaging',
+        'NamedNode'           => 'Nodes',
+        'Node'                => 'Nodes',
         'Notification'        => 'Notification',
         'OffscreenCanvas'     => 'Canvas',
-        'ParentNode'          => 'Node',
-        'Performance'         => 'Web Performance',
+        'ParentNode'          => 'Nodes',
+        'Performance'         => 'Performance',
         'Presentation'        => 'Presentation',
         'Push'                => 'Push',
         'Range'               => 'Range',
-        'Resource Timing'     => 'Web Performance',
+        'RenderingContext'    => 'Canvas',
+        'Resource Timing'     => 'Performance',
         'RTC'                 => 'WebRTC',
         'screen'              => 'Screen',
         'Selection'           => 'Selection',
         'Shadow'              => 'Shadow DOM',
-        'Storage'             => 'Web Storage',
+        'StaticRange'         => 'Range',
+        'Streams'             => 'Media Streams',
         'StyleSheet'          => 'CSS',
         'Stylesheet'          => 'CSS',
         'SVG'                 => 'SVG',
         'TimeRanges'          => 'Media',
-        'timing'              => 'Web Performance',
-        'Timing'              => 'Web Performance',
+        'timing'              => 'Performance',
+        'Timing'              => 'Performance',
         'Touch'               => 'Touch Events',
         'TreeWalker'          => 'TreeWalker',
         'URL'                 => 'URL',
         'VR'                  => 'WebVR',
+        'WebSocket'           => 'Web Sockets',
         'window'              => 'Window',
         'Window'              => 'Window',
         'XMLHttpRequest'      => 'XMLHTTPRequest' }
 
       TYPE_BY_NAME_INCLUDES = {
         'Animation'     => 'Animation',
-        'ChildNode'     => 'Node',
-        'Crypto'        => 'Web Cryptography',
+        'ChildNode'     => 'Nodes',
+        'Crypto'        => 'Cryptography',
         'Drag'          => 'Drag & Drop',
         'FormData'      => 'XMLHTTPRequest',
         'History'       => 'History',
@@ -124,37 +143,37 @@ module Docs
         'Media Source'  => 'Media',
         'MediaStream'   => 'Media Streams',
         'Media Streams' => 'Media Streams',
-        'NodeList'      => 'Node',
+        'Messaging'     => 'Channel Messaging',
+        'NodeList'      => 'Nodes',
         'Path2D'        => 'Canvas',
         'Pointer'       => 'Pointer Events',
         'Server-sent'   => 'Server-Sent Events',
         'ServiceWorker' => 'Service Workers',
-        'Speech'        => 'Web Speech',
+        'Speech'        => 'Speech',
+        'Storage'       => 'Storage',
         'TextMetrics'   => 'Canvas',
-        'timing'        => 'Web Performance',
-        'Timing'        => 'Web Performance',
-        'udio'          => 'Web Audio',
-        'WebSocket'     => 'Web Sockets',
+        'timing'        => 'Performance',
+        'Timing'        => 'Performance',
+        'udio'          => 'Audio',
         'WebGL'         => 'WebGL',
         'WEBGL'         => 'WebGL',
         'WebRTC'        => 'WebRTC',
         'WebVR'         => 'WebVR',
         'Worker'        => 'Web Workers' }
 
-      TYPE_BY_NAME_MATCHES = {}
+      TYPE_BY_NAME_MATCHES = {
+        /\AText(\z|\.)/ => 'Nodes'
+      }
 
       TYPE_BY_HAS_LINK_TO = {
         'DeviceOrientation specification' => 'Device Orientation',
         'File System API'                 => 'File',
         'WebSocket'                       => 'Web Sockets',
-        'Web Audio API'                   => 'Web Audio',
+        'Web Audio API'                   => 'Audio',
         'XMLHTTPRequest'                  => 'XMLHTTPRequest' }
 
       CLEANUP_NAMES = %w(
         CSS\ Object\ Model.
-        Web\ Audio\ API.
-        IndexedDB\ API.
-        MediaRecorder\ API.
         Tutorial.
         XMLHttpRequest.
         ANGLE\ instanced\ arrays.)
@@ -162,6 +181,7 @@ module Docs
       def get_name
         name = super
         CLEANUP_NAMES.each { |str| name.remove!(str) }
+        name.sub! %r{Document\ Object\ Model\.}i, 'Document Object Model: '
         name.sub! 'Input.', 'HTMLInputElement.'
         name.sub! 'window.navigator', 'navigator'
         name.sub! 'API.', 'API: '
@@ -225,8 +245,8 @@ module Docs
         entries = []
 
         if slug == 'history' || slug == 'XMLHttpRequest'
-          css('dt a[title*="not yet been written"]').each do |node|
-            next if node.parent.at_css('.obsolete')
+          css('dt a[href^="https://developer.mozilla.org"]').each do |node|
+            next if node.parent.at_css('.obsolete') || node.content.include?('moz')
             name = node.content.sub('History', 'history')
             id = node.parent['id'] = name.parameterize
             entries << [name, id]
