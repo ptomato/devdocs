@@ -1,6 +1,7 @@
 module Docs
   class Dom < Mdn
-    include FixRedirectionsBehavior
+    prepend FixInternalUrlsBehavior
+    prepend FixRedirectionsBehavior
 
     self.name = 'DOM'
     self.base_url = 'https://developer.mozilla.org/en-US/docs/Web/API'
@@ -23,6 +24,7 @@ module Docs
       /DOMObject
       /DOMStringList
       /Event/Comparison_of_Event_Targets
+      /Format
       /IDBDatabaseException
       /IndexedDB_API/Using_JavaScript_Generators_in_Firefox
       /Notation
@@ -69,6 +71,7 @@ module Docs
       return if url.include?('_') || url.include?('?')
       url.sub! 'https://developer.mozilla.org/en-US/docs/DOM/', "#{Dom.base_url}/"
       url.sub! 'https://developer.mozilla.org/en/DOM/',         "#{Dom.base_url}/"
+      url.sub! 'https://developer.mozilla.org/Web/API/',        "#{Dom.base_url}/"
       url.sub! "#{Dom.base_url}/Console",                       "#{Dom.base_url}/console"
       url.sub! "#{Dom.base_url}/Document\/",                    "#{Dom.base_url}/document\/"
       url.sub! "#{Dom.base_url}/Element",                       "#{Dom.base_url}/element"
@@ -80,6 +83,7 @@ module Docs
       url.sub! "#{Dom.base_url}/notification",                  "#{Dom.base_url}/Notification"
       url.sub! "#{Dom.base_url}/range",                         "#{Dom.base_url}/Range"
       url.sub! "#{Dom.base_url}/event",                         "#{Dom.base_url}/Event"
+      url.sub! '/en/DOM/Manipulating_the_browser_history',      "/en-US/docs/Web/API/History_API"
       url
     end
   end

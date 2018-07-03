@@ -2,11 +2,11 @@ module Docs
   class Bower < UrlScraper
     self.name = 'Bower'
     self.type = 'bower'
-    self.release = '1.7.1'
-    self.base_url = 'http://bower.io/docs/'
+    self.release = '1.8.4'
+    self.base_url = 'https://bower.io/docs/'
     self.root_path = 'api'
     self.links = {
-      home: 'http://bower.io/',
+      home: 'https://bower.io/',
       code: 'https://github.com/bower/bower'
     }
 
@@ -16,8 +16,8 @@ module Docs
     options[:skip] = %w(tools about)
 
     options[:attribution] = <<-HTML
-      &copy; 2015 Bower contributors<br>
-      Licensed under the Creative Commons Attribution License.
+      &copy; 2018 Bower contributors<br>
+      Licensed under the MIT License.
     HTML
   end
 end

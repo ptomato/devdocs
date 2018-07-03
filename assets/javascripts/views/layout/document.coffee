@@ -1,45 +1,57 @@
 class app.views.Document extends app.View
-  MAX_WIDTH_CLASS = '_max-width'
-
   @el: document
 
+  @events:
+    visibilitychange: 'onVisibilityChange'
+
   @shortcuts:
-    help:       'onHelp'
-    escape:     'onEscape'
-    superLeft:  'onBack'
-    superRight: 'onForward'
+    help:        'onHelp'
+    preferences: 'onPreferences'
+    escape:      'onEscape'
+    superLeft:   'onBack'
+    superRight:  'onForward'
+
+  @routes:
+    after: 'afterRoute'
 
   init: ->
-    @addSubview @nav     = new app.views.Nav,
+    @addSubview @menu    = new app.views.Menu,
     @addSubview @sidebar = new app.views.Sidebar
     @addSubview @resizer = new app.views.Resizer if app.views.Resizer.isSupported()
     @addSubview @content = new app.views.Content
     @addSubview @path    = new app.views.Path unless app.isSingleDoc() or app.isMobile()
+    @settings = new app.views.Settings unless app.isSingleDoc()
+
+    $.on document.body, 'click', @onClick
 
     @activate()
     return
 
-  toggleLight: ->
-    css = $('link[rel="stylesheet"][data-alt]')
-    alt = css.getAttribute('data-alt')
-    css.setAttribute('data-alt', css.getAttribute('href'))
-    css.setAttribute('href', alt)
-    app.settings.setDark(alt.indexOf('dark') > 0)
-    app.appCache?.updateInBackground()
-    return
-
-  toggleLayout: ->
-    wantsMaxWidth = !app.el.classList.contains(MAX_WIDTH_CLASS)
-    app.el.classList[if wantsMaxWidth then 'add' else 'remove'](MAX_WIDTH_CLASS)
-    app.settings.setLayout(if wantsMaxWidth then MAX_WIDTH_CLASS else false)
-    app.appCache?.updateInBackground()
-    return
-
   setTitle: (title) ->
-    @el.title = if title then "DevDocs - #{title}" else 'DevDocs API Documentation'
+    @el.title = if title then "DevDocs - #{title}" else 'GNOME JavaScript Docs'
+
+  afterRoute: (route) =>
+    if route is 'settings'
+      @settings?.activate()
+    else
+      @settings?.deactivate()
+    return
+
+  onVisibilityChange: =>
+    return unless @el.visibilityState is 'visible'
+    @delay ->
+      location.reload() if app.isMobile() isnt app.views.Mobile.detect()
+      return
+    , 300
+    return
 
   onHelp: ->
     app.router.show '/help#shortcuts'
+    return
+
+  onPreferences: ->
+    app.router.show '/settings'
+    return
 
   onEscape: ->
     path = if !app.isSingleDoc() or location.pathname is app.doc.fullPath()
@@ -48,9 +60,24 @@ class app.views.Document extends app.View
       app.doc.fullPath()
 
     app.router.show(path)
+    return
 
   onBack: ->
     history.back()
+    return
 
   onForward: ->
     history.forward()
+    return
+
+  onClick: (event) ->
+    target = $.eventTarget(event)
+    return unless target.hasAttribute('data-behavior')
+    $.stopEvent(event)
+    switch target.getAttribute('data-behavior')
+      when 'back'         then history.back()
+      when 'reload'       then window.location.reload()
+      when 'reboot'       then window.location = '/'
+      when 'hard-reload'  then app.reload()
+      when 'reset'        then app.reset() if confirm('Are you sure you want to reset DevDocs?')
+    return

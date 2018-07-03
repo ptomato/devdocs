@@ -8,6 +8,12 @@ module Docs
           other
         end
 
+        # Remove code highlighting
+        css('pre').each do |node|
+          node.content = node.content
+          node['data-language'] = 'php'
+        end
+
         doc
       end
 
@@ -57,9 +63,13 @@ module Docs
           node.before(node.children).remove
         end
 
-        # Remove code highlighting
-        css('pre').each do |node|
-          node.content = node.content
+        css('p > a[name]').each do |node|
+          node.parent.next_element['id'] = node['name']
+        end
+
+        css('blockquote').each do |node|
+          node['class'] = 'tip' if node.inner_html.include?('{tip}')
+          node.inner_html = node.inner_html.remove(/\{(tip|note)\}\s?/)
         end
       end
     end

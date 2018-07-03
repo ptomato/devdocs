@@ -16,13 +16,13 @@ $.hasChild = (parent, el) ->
   while el
     return true if el is parent
     return if el is document.body
-    el = el.parentElement
+    el = el.parentNode
 
 $.closestLink = (el, parent = document.body) ->
   while el
     return el if el.tagName is 'A'
     return if el is parent
-    el = el.parentElement
+    el = el.parentNode
 
 #
 # Events
@@ -60,6 +60,9 @@ $.stopEvent = (event) ->
   event.stopImmediatePropagation()
   return
 
+$.eventTarget = (event) ->
+  event.target.correspondingUseElement || event.target
+
 #
 # Manipulation
 #
@@ -96,7 +99,7 @@ $.before = (el, value) ->
   if typeof value is 'string' or $.isCollection(value)
     value = buildFragment(value)
 
-  el.parentElement.insertBefore(value, el)
+  el.parentNode.insertBefore(value, el)
   return
 
 $.after = (el, value) ->
@@ -104,16 +107,16 @@ $.after = (el, value) ->
     value = buildFragment(value)
 
   if el.nextSibling
-    el.parentElement.insertBefore(value, el.nextSibling)
+    el.parentNode.insertBefore(value, el.nextSibling)
   else
-    el.parentElement.appendChild(value)
+    el.parentNode.appendChild(value)
   return
 
 $.remove = (value) ->
   if $.isCollection(value)
-    el.parentElement?.removeChild(el) for el in $.makeArray(value)
+    el.parentNode?.removeChild(el) for el in $.makeArray(value)
   else
-    value.parentElement?.removeChild(value)
+    value.parentNode?.removeChild(value)
   return
 
 $.empty = (el) ->
@@ -121,7 +124,7 @@ $.empty = (el) ->
   return
 
 # Calls the function while the element is off the DOM to avoid triggering
-# unecessary reflows and repaints.
+# unnecessary reflows and repaints.
 $.batchUpdate = (el, fn) ->
   parent = el.parentNode
   sibling = el.nextSibling
@@ -155,9 +158,9 @@ $.offset = (el, container = document.body) ->
   left: left
 
 $.scrollParent = (el) ->
-  while el = el.parentElement
+  while (el = el.parentNode) and el.nodeType is 1
     break if el.scrollTop > 0
-    break if getComputedStyle(el).overflowY in ['auto', 'scroll']
+    break if getComputedStyle(el)?.overflowY in ['auto', 'scroll']
   el
 
 $.scrollTo = (el, parent, position = 'center', options = {}) ->
@@ -167,27 +170,32 @@ $.scrollTo = (el, parent, position = 'center', options = {}) ->
   return unless parent
 
   parentHeight = parent.clientHeight
-  return unless parent.scrollHeight > parentHeight
+  parentScrollHeight = parent.scrollHeight
+  return unless parentScrollHeight > parentHeight
 
   top = $.offset(el, parent).top
+  offsetTop = parent.firstElementChild.offsetTop
 
   switch position
     when 'top'
-      parent.scrollTop = top - (if options.margin? then options.margin else 20)
+      parent.scrollTop = top - offsetTop - (if options.margin? then options.margin else 0)
     when 'center'
       parent.scrollTop = top - Math.round(parentHeight / 2 - el.offsetHeight / 2)
     when 'continuous'
       scrollTop = parent.scrollTop
       height = el.offsetHeight
 
+      lastElementOffset = parent.lastElementChild.offsetTop + parent.lastElementChild.offsetHeight
+      offsetBottom = if lastElementOffset > 0 then parentScrollHeight - lastElementOffset else 0
+
       # If the target element is above the visible portion of its scrollable
       # ancestor, move it near the top with a gap = options.topGap * target's height.
-      if top <= scrollTop + height * (options.topGap or 1)
-        parent.scrollTop = top - height * (options.topGap or 1)
+      if top - offsetTop <= scrollTop + height * (options.topGap or 1)
+        parent.scrollTop = top - offsetTop - height * (options.topGap or 1)
       # If the target element is below the visible portion of its scrollable
       # ancestor, move it near the bottom with a gap = options.bottomGap * target's height.
-      else if top >= scrollTop + parentHeight - height * ((options.bottomGap or 1) + 1)
-        parent.scrollTop = top - parentHeight + height * ((options.bottomGap or 1) + 1)
+      else if top + offsetBottom >= scrollTop + parentHeight - height * ((options.bottomGap or 1) + 1)
+        parent.scrollTop = top + offsetBottom - parentHeight + height * ((options.bottomGap or 1) + 1)
   return
 
 $.scrollToWithImageLock = (el, parent, args...) ->
@@ -222,6 +230,36 @@ $.lockScroll = (el, fn) ->
   else
     fn()
   return
+
+smoothScroll =  smoothStart = smoothEnd = smoothDistance = smoothDuration = null
+
+$.smoothScroll = (el, end) ->
+  unless window.requestAnimationFrame
+    el.scrollTop = end
+    return
+
+  smoothEnd = end
+
+  if smoothScroll
+    newDistance = smoothEnd - smoothStart
+    smoothDuration += Math.min 300, Math.abs(smoothDistance - newDistance)
+    smoothDistance = newDistance
+    return
+
+  smoothStart = el.scrollTop
+  smoothDistance = smoothEnd - smoothStart
+  smoothDuration = Math.min 300, Math.abs(smoothDistance)
+  startTime = Date.now()
+
+  smoothScroll = ->
+    p = Math.min 1, (Date.now() - startTime) / smoothDuration
+    y = Math.max 0, Math.floor(smoothStart + smoothDistance * (if p < 0.5 then 2 * p * p else p * (4 - p * 2) - 1))
+    el.scrollTop = y
+    if p is 1
+      smoothScroll = null
+    else
+      requestAnimationFrame(smoothScroll)
+  requestAnimationFrame(smoothScroll)
 
 #
 # Utilities
@@ -272,6 +310,25 @@ $.escapeRegexp = (string) ->
 $.urlDecode = (string) ->
   decodeURIComponent string.replace(/\+/g, '%20')
 
+$.classify = (string) ->
+  string = string.split('_')
+  for substr, i in string
+    string[i] = substr[0].toUpperCase() + substr[1..]
+  string.join('')
+
+$.framify = (fn, obj) ->
+  if window.requestAnimationFrame
+    (args...) -> requestAnimationFrame(fn.bind(obj, args...))
+  else
+    fn
+
+$.requestAnimationFrame = (fn) ->
+  if window.requestAnimationFrame
+    requestAnimationFrame(fn)
+  else
+    setTimeout(fn, 0)
+  return
+
 #
 # Miscellaneous
 #
@@ -279,17 +336,38 @@ $.urlDecode = (string) ->
 $.noop = ->
 
 $.popup = (value) ->
-  open value.href or value, '_blank'
+  try
+    win = window.open()
+    win.opener = null if win.opener
+    win.location = value.href or value
+  catch
+    window.open value.href or value, '_blank'
   return
 
-$.isTouchScreen = ->
-  typeof ontouchstart isnt 'undefined'
-
-$.isWindows = ->
-  navigator.platform?.indexOf('Win') >= 0
-
+isMac = null
 $.isMac = ->
-  navigator.userAgent?.indexOf('Mac') >= 0
+  isMac ?= navigator.userAgent?.indexOf('Mac') >= 0
+
+isIE = null
+$.isIE = ->
+  isIE ?= navigator.userAgent?.indexOf('MSIE') >= 0 || navigator.userAgent?.indexOf('rv:11.0') >= 0
+
+isAndroid = null
+$.isAndroid = ->
+  isAndroid ?= navigator.userAgent?.indexOf('Android') >= 0
+
+isIOS = null
+$.isIOS = ->
+  isIOS ?= navigator.userAgent?.indexOf('iPhone') >= 0 || navigator.userAgent?.indexOf('iPad') >= 0
+
+$.overlayScrollbarsEnabled = ->
+  return false unless $.isMac()
+  div = document.createElement('div')
+  div.setAttribute('style', 'width: 100px; height: 100px; overflow: scroll; position: absolute')
+  document.body.appendChild(div)
+  result = div.offsetWidth is div.clientWidth
+  document.body.removeChild(div)
+  result
 
 HIGHLIGHT_DEFAULTS =
   className: 'highlight'

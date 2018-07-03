@@ -2,8 +2,9 @@ module Docs
   class Npm < UrlScraper
     self.name = 'npm'
     self.type = 'npm'
-    self.release = '3.5.3'
+    self.release = '6.0.0'
     self.base_url = 'https://docs.npmjs.com/'
+    self.force_gzip = true
     self.links = {
       home: 'https://www.npmjs.com/',
       code: 'https://github.com/npm/npm'
@@ -11,6 +12,7 @@ module Docs
 
     html_filters.push 'npm/entries', 'npm/clean_html', 'title'
 
+    options[:max_image_size] = 130_000
     options[:container] = ->(filter) { filter.root_page? ? '.toc' : nil }
     options[:title] = false
     options[:root_title] = 'npm'

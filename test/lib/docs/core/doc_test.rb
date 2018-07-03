@@ -14,7 +14,7 @@ class DocsDocTest < MiniTest::Spec
   end
 
   let :entry do
-    Docs::Entry.new
+    Docs::Entry.new 'name', 'path', 'type'
   end
 
   let :store do
@@ -54,6 +54,18 @@ class DocsDocTest < MiniTest::Spec
       doc.slug = 'foo'
       doc.version = '42'
       assert_equal 'foo~42', doc.slug
+    end
+
+    it "returns 'foobar' when #name has been set to 'FooBar'" do
+      doc.name = 'FooBar'
+      assert_equal 'foobar', doc.slug
+    end
+
+    it "raises error when #name has unsluggable characters" do
+      assert_raises do
+        doc.name = 'Foo-Bar'
+        doc.slug
+      end
     end
   end
 
@@ -116,6 +128,13 @@ class DocsDocTest < MiniTest::Spec
     it "returns .path + ::DB_FILENAME" do
       stub(doc).path { 'path' }
       assert_equal File.join('path', Docs::Doc::DB_FILENAME), doc.db_path
+    end
+  end
+
+  describe ".meta_path" do
+    it "returns .path + ::META_FILENAME" do
+      stub(doc).path { 'path' }
+      assert_equal File.join('path', Docs::Doc::META_FILENAME), doc.meta_path
     end
   end
 
@@ -253,16 +272,18 @@ class DocsDocTest < MiniTest::Spec
           mock(store).write(page[:store_path], page[:output])
           mock(store).write('index.json', anything)
           mock(store).write('db.json', anything)
+          mock(store).write('meta.json', anything)
           doc.store_pages(store)
         end
 
         it "stores an index that contains all the pages' entries" do
           stub(store).write(page[:store_path], page[:output])
           stub(store).write('db.json', anything)
+          stub(store).write('meta.json', anything)
           mock(store).write('index.json', anything) do |path, json|
             json = JSON.parse(json)
             assert_equal pages.length, json['entries'].length
-            assert_includes json['entries'], Docs::Entry.new('one').as_json.stringify_keys
+            assert_includes json['entries'], Docs::Entry.new('one', 'path', 'type').as_json.stringify_keys
           end
           doc.store_pages(store)
         end
@@ -270,9 +291,21 @@ class DocsDocTest < MiniTest::Spec
         it "stores a db that contains all the pages, indexed by path" do
           stub(store).write(page[:store_path], page[:output])
           stub(store).write('index.json', anything)
+          stub(store).write('meta.json', anything)
           mock(store).write('db.json', anything) do |path, json|
             json = JSON.parse(json)
             assert_equal page[:output], json[page[:path]]
+          end
+          doc.store_pages(store)
+        end
+
+        it "stores a meta file that contains the doc's metadata" do
+          stub(store).write(page[:store_path], page[:output])
+          stub(store).write('index.json', anything)
+          stub(store).write('db.json', anything)
+          mock(store).write('meta.json', anything) do |path, json|
+            json = JSON.parse(json)
+            assert_equal %w(name slug type mtime db_size).sort, json.keys.sort
           end
           doc.store_pages(store)
         end

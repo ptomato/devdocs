@@ -1,6 +1,8 @@
 class app.views.Notif extends app.View
   @className: '_notif'
   @activeClass: '_in'
+  @attributes:
+    role: 'alert'
 
   @defautOptions:
     autoHide: 15000
@@ -48,7 +50,10 @@ class app.views.Notif extends app.View
     return
 
   onClick: (event) =>
-    if event.target.tagName isnt 'A' or event.target.classList.contains('_notif-close')
+    return if event.which isnt 1
+    target = $.eventTarget(event)
+    return if target.hasAttribute('data-behavior')
+    if target.tagName isnt 'A' or target.classList.contains('_notif-close')
       $.stopEvent(event)
       @hide()
     return

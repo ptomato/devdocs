@@ -197,7 +197,7 @@ class DocsUrlTest < MiniTest::Spec
       end
 
       it "returns nil with 'http://example.com'" do
-        assert_equal nil, url.subpath_to('http://example.com')
+        assert_nil url.subpath_to('http://example.com')
       end
     end
 
@@ -392,6 +392,14 @@ class DocsUrlTest < MiniTest::Spec
 
       it "returns 'file' with 'http://example.com/file?query#frag'" do
         assert_equal 'file', url.relative_path_to('http://example.com/file?query#frag')
+      end
+
+      it "returns 'some:file' with 'http://example.com/some:file'" do
+        assert_equal 'some:file', url.relative_path_to('http://example.com/some:file')
+      end
+
+      it "returns 'some:file' with 'http://example.com/some:file?query#frag'" do
+        assert_equal 'some:file', url.relative_path_to('http://example.com/some:file?query#frag')
       end
 
       it "returns nil with '/file'" do

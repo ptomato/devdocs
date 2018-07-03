@@ -15,8 +15,8 @@ class app.views.Results extends app.View
     return
 
   init: ->
+    @addSubview @listFocus  = new app.views.ListFocus @el
     @addSubview @listSelect = new app.views.ListSelect @el
-    @addSubview @listFocus  = new app.views.ListFocus @el unless app.isMobile()
 
     @search
       .on 'results', @onResults
@@ -42,7 +42,7 @@ class app.views.Results extends app.View
     return
 
   focusFirst: ->
-    @listFocus?.focus @el.firstElementChild
+    @listFocus?.focusOnNextFrame @el.firstElementChild unless app.isMobile()
     return
 
   openFirst: ->
@@ -62,7 +62,7 @@ class app.views.Results extends app.View
 
   onClick: (event) =>
     return if event.which isnt 1
-    if slug = event.target.getAttribute('data-enable')
+    if slug = $.eventTarget(event).getAttribute('data-enable')
       $.stopEvent(event)
       doc = app.disabledDocs.findBy('slug', slug)
-      app.enableDoc(doc, @onDocEnabled.bind(@, doc), $.noop)
+      app.enableDoc(doc, @onDocEnabled.bind(@, doc), $.noop) if doc

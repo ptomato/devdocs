@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Docs
   class EntriesFilter < Filter
     def call
@@ -54,7 +56,8 @@ module Docs
 
     def build_entry(name, frag = nil, type = nil)
       type ||= self.type
-      Entry.new name, frag ? "#{path}##{frag}" : path, type
+      path = frag ? (frag.include?('#') ? frag : "#{self.path}##{frag}") : self.path
+      Entry.new(name, path, type)
     end
   end
 end

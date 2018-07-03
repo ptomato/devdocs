@@ -37,9 +37,6 @@ module Docs
           css('h4.name').each do |node|
             node.name = 'h3'
           end
-
-          # Remove "Jump to" block
-          at_css('table').remove
         end
 
         doc.child.before(title)
@@ -47,6 +44,10 @@ module Docs
         # Clean code blocks
         css('pre > code').each do |node|
           node.before(node.children).remove
+        end
+
+        css('pre').each do |node|
+          node['data-language'] = 'javascript'
         end
 
         doc

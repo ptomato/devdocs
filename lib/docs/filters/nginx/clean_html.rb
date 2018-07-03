@@ -22,6 +22,18 @@ module Docs
           at_css('h1 + table').replace("<ul><li>#{links.join('</li><li>')}</li></ul>")
         end
 
+        css('td > pre').each do |node|
+          node.name = 'code'
+        end
+
+        css('pre').each do |node|
+          node['data-language'] = 'nginx'
+        end
+
+        css('code code').each do |node|
+          node.before(node.children).remove
+        end
+
         doc
       end
     end

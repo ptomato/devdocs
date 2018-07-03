@@ -25,13 +25,16 @@ module Docs
   mattr_accessor :store_path
   self.store_path = File.expand_path '../public/docs', @@root_path
 
+  mattr_accessor :rescue_errors
+  self.rescue_errors = false
+
   class DocNotFound < NameError; end
 
   def self.all
     Dir["#{root_path}/docs/scrapers/**/*.rb"].
       map { |file| File.basename(file, '.rb') }.
-      sort!.
       map { |name| const_get(name.camelize) }.
+      sort { |a, b| a.name.casecmp(b.name) }.
       reject(&:abstract)
   end
 
@@ -56,9 +59,9 @@ module Docs
     doc = const_get(const)
 
     if version.present?
-      doc = doc.versions.find { |klass| klass.version == version }
+      doc = doc.versions.find { |klass| klass.version == version || klass.version_slug == version }
       raise DocNotFound.new(%(could not find version "#{version}" for doc "#{name}"), name) unless doc
-    else
+    elsif version != false
       doc = doc.versions.first
     end
 
@@ -75,8 +78,9 @@ module Docs
     find(name, version).store_page(store, page_id)
   end
 
-  def self.generate(name, version)
-    find(name, version).store_pages(store)
+  def self.generate(doc, version = nil)
+    doc = find(doc, version) unless doc.respond_to?(:store_pages)
+    doc.store_pages(store)
   end
 
   def self.generate_manifest

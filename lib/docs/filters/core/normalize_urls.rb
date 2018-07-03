@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Docs
   class NormalizeUrlsFilter < Filter
     ATTRIBUTES = { a: 'href', img: 'src', iframe: 'src' }
@@ -12,14 +14,15 @@ module Docs
     def update_attribute(tag, attribute)
       css(tag.to_s).each do |node|
         next unless value = node[attribute]
-        next if fragment_url_string?(value)
-        node[attribute] = normalize_url(value)
+        next if fragment_url_string?(value) || data_url_string?(value)
+        node[attribute] = normalize_url(value) || (tag == :iframe ? value : '#')
       end
     end
 
     def normalize_url(str)
       str.strip!
       str.gsub!(' ', '%20')
+      str = context[:fix_urls_before_parse].call(str) if context[:fix_urls_before_parse]
       url = to_absolute_url(str)
 
       while new_url = fix_url(url)
@@ -28,7 +31,7 @@ module Docs
 
       url.to_s
     rescue URI::InvalidURIError
-      '#'
+      nil
     end
 
     def to_absolute_url(str)

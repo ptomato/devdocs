@@ -1,33 +1,49 @@
 module Docs
   class Meteor < UrlScraper
-    include StubRootPage
+    include MultipleBaseUrls
 
     self.type = 'meteor'
-    self.release = '1.2.0'
-    self.base_url = 'http://docs.meteor.com'
-    self.root_path = '/#/full/'
+    self.root_path = 'index.html'
     self.links = {
       home: 'https://www.meteor.com/',
       code: 'https://github.com/meteor/meteor/'
     }
 
-    html_filters.push 'meteor/entries', 'meteor/clean_html', 'title'
+    html_filters.push 'meteor/entries', 'meteor/clean_html'
 
-    options[:title] = 'Meteor'
-    options[:skip_links] = true
+    options[:skip_patterns] = [/\Av\d/]
+    options[:skip] = %w(
+      CONTRIBUTING.html
+      CHANGELOG.html
+      using-packages.html
+      writing-packages.html
+    )
+
+    options[:fix_urls] = ->(url) {
+      url.sub! %r{\Ahttps://docs\.meteor\.com/(v[\d\.]*\/)?api/blaze\.html}, 'http://blazejs.org/api/blaze.html'
+      url.sub! %r{\Ahttps://docs\.meteor\.com/(v[\d\.]*\/)?api/templates\.html}, 'http://blazejs.org/api/templates.html'
+      url
+    }
 
     options[:attribution] = <<-HTML
-      &copy; 2011&ndash;2015 Meteor Development Group<br>
+      &copy; 2011&ndash;2017 Meteor Development Group, Inc.<br>
       Licensed under the MIT License.
     HTML
 
-    private
+    version '1.5' do
+      self.release = '1.5.2'
+      self.base_urls = ['https://docs.meteor.com/', 'https://guide.meteor.com/', 'http://blazejs.org/']
+    end
 
-    def root_page_body
-      require 'capybara'
-      Capybara.current_driver = :selenium
-      Capybara.visit(root_url.to_s)
-      Capybara.find('.body')['innerHTML']
+    version '1.4' do
+      self.release = '1.4.4'
+      self.base_urls = ['https://guide.meteor.com/', "https://docs.meteor.com/v#{self.release}/", 'http://blazejs.org/']
+    end
+
+    version '1.3' do
+      self.release = '1.3.5'
+      self.base_urls = ['https://guide.meteor.com/v1.3/', "https://docs.meteor.com/v#{self.release}/"]
+      options[:fix_urls] = nil
     end
   end
 end

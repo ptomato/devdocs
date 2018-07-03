@@ -1,47 +1,45 @@
-# [DevDocs](http://devdocs.io) [![Build Status](https://travis-ci.org/Thibaut/devdocs.svg?branch=master)](https://travis-ci.org/Thibaut/devdocs)
+# [DevDocs](https://devdocs.io) [![Build Status](https://travis-ci.org/freeCodeCamp/devdocs.svg?branch=master)](https://travis-ci.org/freeCodeCamp/devdocs)
 
 DevDocs combines multiple API documentations in a fast, organized, and searchable interface.
 
-* Created by [Thibaut Courouble](http://thibaut.me)
+* Created by [Thibaut Courouble](https://thibaut.me)
 
-Keep track of development and community news:
+Keep track of development news:
 
-* Watch the repository on [GitHub](https://github.com/Thibaut/devdocs/subscription)
+* Join the contributor chat room on [Gitter](https://gitter.im/FreeCodeCamp/DevDocs)
+* Watch the repository on [GitHub](https://github.com/freeCodeCamp/devdocs/subscription)
 * Follow [@DevDocs](https://twitter.com/DevDocs) on Twitter
-* Subscribe to the [newsletter](http://eepurl.com/HnLUz)
 * Join the [mailing list](https://groups.google.com/d/forum/devdocs)
-
-DevDocs is free and open source. If you like it, please consider supporting my work on [Gratipay](https://gratipay.com/devdocs/). Thanks!
 
 **Table of Contents:** [Quick Start](#quick-start) · [Vision](#vision) · [App](#app) · [Scraper](#scraper) · [Commands](#available-commands) · [Contributing](#contributing) · [License](#copyright--license) · [Questions?](#questions)
 
 ## Quick Start
 
-Unless you wish to contribute to the project, I recommend using the hosted version at [devdocs.io](http://devdocs.io). It's up-to-date and works offline out-of-the-box.
+Unless you wish to contribute to the project, I recommend using the hosted version at [devdocs.io](https://devdocs.io). It's up-to-date and works offline out-of-the-box.
 
-DevDocs is made of two separate pieces: a Ruby scraper that generates the documentation and metadata, and a JavaScript app powered by a small Sinatra app.
+DevDocs is made of two pieces: a Ruby scraper that generates the documentation and metadata, and a JavaScript app powered by a small Sinatra app.
 
-DevDocs requires Ruby 2.3.0, libcurl, and a JavaScript runtime supported by [ExecJS](https://github.com/sstephenson/execjs#readme) (included in OS X and Windows; [Node.js](http://nodejs.org/) on Linux). Once you have these installed, run the following commands:
+DevDocs requires Ruby 2.5.1, libcurl, and a JavaScript runtime supported by [ExecJS](https://github.com/rails/execjs#readme) (included in OS X and Windows; [Node.js](https://nodejs.org/en/) on Linux). Once you have these installed, run the following commands:
 
 ```
-git clone https://github.com/Thibaut/devdocs.git && cd devdocs
+git clone https://github.com/freeCodeCamp/devdocs.git && cd devdocs
 gem install bundler
 bundle install
-thor docs:download --default
-rackup
+bundle exec thor docs:download --default
+bundle exec rackup
 ```
 
 Finally, point your browser at [localhost:9292](http://localhost:9292) (the first request will take a few seconds to compile the assets). You're all set.
 
 The `thor docs:download` command is used to download pre-generated documentations from DevDocs's servers (e.g. `thor docs:download html css`). You can see the list of available documentations and versions by running `thor docs:list`. To update all downloaded documentations, run `thor docs:download --installed`.
 
-**Note:** there is currently no update mechanism other than `git pull origin master` to update the code and `thor docs:download --installed` to download the latest version of the docs. To stay informed about new releases, be sure to [watch](https://github.com/Thibaut/devdocs/subscription) this repository.
+**Note:** there is currently no update mechanism other than `git pull origin master` to update the code and `thor docs:download --installed` to download the latest version of the docs. To stay informed about new releases, be sure to [watch](https://github.com/freeCodeCamp/devdocs/subscription) this repository.
 
 Alternatively, DevDocs may be started as a Docker container:
 
 ```
 # First, build the image
-git clone https://github.com/Thibaut/devdocs.git && cd devdocs
+git clone https://github.com/freeCodeCamp/devdocs.git && cd devdocs
 docker build -t thibaut/devdocs .
 
 # Finally, start a DevDocs container (access http://localhost:9292)
@@ -54,11 +52,11 @@ DevDocs aims to make reading and searching reference documentation fast, easy an
 
 The app's main goals are to: keep load times as short as possible; improve the quality, speed, and order of search results; maximize the use of caching and other performance optimizations; maintain a clean and readable user interface; be fully functional offline; support full keyboard navigation; reduce “context switch” by using a consistent typography and design across all documentations; reduce clutter by focusing on a specific category of content (API/reference) and indexing only the minimum useful to most developers.
 
-**Note:** DevDocs is neither a programming guide nor a search engine. All our content is pulled from third-party sources and the project doesn't intend to compete with full-text search engines. Its backbone is metadata: each piece of content is identified by a unique, "obvious" and short string. Tutorials, guides and other content that don't meet this requirement are outside the scope of the project.
+**Note:** DevDocs is neither a programming guide nor a search engine. All our content is pulled from third-party sources and the project doesn't intend to compete with full-text search engines. Its backbone is metadata; each piece of content is identified by a unique, "obvious" and short string. Tutorials, guides and other content that don't meet this requirement are outside the scope of the project.
 
 ## App
 
-The web app is all client-side JavaScript, written in [CoffeeScript](http://coffeescript.org), and powered by a small [Sinatra](http://www.sinatrarb.com)/[Sprockets](https://github.com/sstephenson/sprockets) application. It relies on files generated by the [scraper](#scraper).
+The web app is all client-side JavaScript, written in [CoffeeScript](http://coffeescript.org), and powered by a small [Sinatra](http://www.sinatrarb.com)/[Sprockets](https://github.com/rails/sprockets) application. It relies on files generated by the [scraper](#scraper).
 
 Many of the code's design decisions were driven by the fact that the app uses XHR to load content directly into the main frame. This includes stripping the original documents of most of their HTML markup (e.g. scripts and stylesheets) to avoid polluting the main frame, and prefixing all CSS class names with an underscore to prevent conflicts.
 
@@ -67,13 +65,11 @@ Another driving factor is performance and the fact that everything happens in th
 DevDocs being a developer tool, the browser requirements are high:
 
 1. On the desktop:
-  * Recent version of Chrome
-  * Recent version of Firefox
-  * Safari 5.1+
-  * Opera 12.1+
-  * Internet Explorer 10+
+  * Recent version of Chrome, Firefox, or Opera
+  * Safari 8+
+  * IE / Edge 10+
 2. On mobile:
-  * iOS 6+
+  * iOS 8+
   * Android 4.1+
   * Windows Phone 8+
 
@@ -93,11 +89,11 @@ Modifications made to each document include:
 * replacing all internal (scraped) URLs with their unqualified and relative counterpart
 * adding content, such as a title and link to the original document
 
-These modifications are applied via a set of filters using the [HTML::Pipeline](https://github.com/jch/html-pipeline) library. Each scraper includes filters specific to its documentation, one of which is tasked with figuring out the pages' metadata.
+These modifications are applied via a set of filters using the [HTML::Pipeline](https://github.com/jch/html-pipeline) library. Each scraper includes filters specific to itself, one of which is tasked with figuring out the pages' metadata.
 
-The end result is a set of normalized HTML partials and a JSON index file. Because the index files are loaded separately by the [app](#app) following the user's preferences, the code also creates a JSON manifest file containing information about the documentations currently available on the system (such as their name, version, update date, etc.).
+The end result is a set of normalized HTML partials and two JSON files (index + offline data). Because the index files are loaded separately by the [app](#app) following the user's preferences, the scraper also creates a JSON manifest file containing information about the documentations currently available on the system (such as their name, version, update date, etc.).
 
-More information about scrapers and filters is available on the [wiki](https://github.com/Thibaut/devdocs/wiki).
+More information about scrapers and filters is available on the [wiki](https://github.com/freeCodeCamp/devdocs/wiki).
 
 ## Available Commands
 
@@ -133,17 +129,19 @@ thor assets:compile # Compile assets (not required in development mode)
 thor assets:clean   # Clean old assets
 ```
 
+If multiple versions of Ruby are installed on your system, commands must be run through `bundle exec`.
+
 ## Contributing
 
-Contributions are welcome. Please read the [contributing guidelines](https://github.com/Thibaut/devdocs/blob/master/CONTRIBUTING.md).
+Contributions are welcome. Please read the [contributing guidelines](https://github.com/freeCodeCamp/devdocs/blob/master/CONTRIBUTING.md).
 
-DevDocs's own documentation is available on the [wiki](https://github.com/Thibaut/devdocs/wiki).
+DevDocs's own documentation is available on the [wiki](https://github.com/freeCodeCamp/devdocs/wiki).
 
 ## Copyright / License
 
-Copyright 2013-2016 Thibaut Courouble and [other contributors](https://github.com/Thibaut/devdocs/graphs/contributors)
+Copyright 2013-2018 Thibaut Courouble and [other contributors](https://github.com/freeCodeCamp/devdocs/graphs/contributors)
 
-This software is licensed under the terms of the Mozilla Public License v2.0. See the [COPYRIGHT](https://github.com/Thibaut/devdocs/blob/master/COPYRIGHT) and [LICENSE](https://github.com/Thibaut/devdocs/blob/master/LICENSE) files.
+This software is licensed under the terms of the Mozilla Public License v2.0. See the [COPYRIGHT](https://github.com/freeCodeCamp/devdocs/blob/master/COPYRIGHT) and [LICENSE](https://github.com/freeCodeCamp/devdocs/blob/master/LICENSE) files.
 
 Please do not use the name DevDocs to endorse or promote products derived from this software without my permission, except as may be necessary to comply with the notice/attribution requirements.
 

@@ -18,24 +18,6 @@ class DocsTypeTest < MiniTest::Spec
     end
   end
 
-  describe "#<=>" do
-    it "returns 1 when the other type's name is less" do
-      assert_equal 1, Type.new('b') <=> Type.new('a')
-    end
-
-    it "returns -1 when the other type's name is greater" do
-      assert_equal -1, Type.new('a') <=> Type.new('b')
-    end
-
-    it "returns 0 when the other type's name is equal" do
-      assert_equal 0, Type.new('a') <=> Type.new('a')
-    end
-
-    it "is case-insensitive" do
-      assert_equal 0, Type.new('a') <=> Type.new('A')
-    end
-  end
-
   describe "#slug" do
     it "parameterizes the #name" do
       name = 'a.b c\/%?#'

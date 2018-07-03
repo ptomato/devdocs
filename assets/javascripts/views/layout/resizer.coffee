@@ -4,7 +4,6 @@ class app.views.Resizer extends app.View
   @events:
     dragstart: 'onDragStart'
     dragend: 'onDragEnd'
-    drag: 'onDrag'
 
   @isSupported: ->
     'ondragstart' of document.createElement('div') and !app.isMobile()
@@ -36,6 +35,7 @@ class app.views.Resizer extends app.View
     @style.removeAttribute('disabled')
     event.dataTransfer.effectAllowed = 'link'
     event.dataTransfer.setData('Text', '')
+    $.on(window, 'dragover', @onDrag)
     return
 
   onDrag: (event) =>
@@ -48,8 +48,9 @@ class app.views.Resizer extends app.View
     return
 
   onDragEnd: (event) =>
+    $.off(window, 'dragover', @onDrag)
     value = event.pageX or (event.screenX - window.screenX)
-    if @lastDragValue and not (@lastDragValue - 5 < value < @lastDragValue + 5) # https://github.com/Thibaut/devdocs/issues/265
+    if @lastDragValue and not (@lastDragValue - 5 < value < @lastDragValue + 5) # https://github.com/freeCodeCamp/devdocs/issues/265
       value = @lastDragValue
     @resize(value, true)
     return

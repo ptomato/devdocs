@@ -9,8 +9,21 @@ class app.views.RootPage extends app.View
 
   render: ->
     @empty()
-    @append @tmpl('mobileNav') if app.isMobile()
-    @append @tmpl if @isHidden() then 'splash' else if app.isMobile() then 'mobileIntro' else 'intro'
+
+    tmpl = if app.isAndroidWebview()
+      'androidWarning'
+    else if @isHidden()
+      'splash'
+    else if app.isMobile()
+      'mobileIntro'
+    else
+      'intro'
+
+    # temporary
+    if location.host is 'devdocs.io' and location.protocol is 'http:'
+      tmpl = 'httpWarning'
+
+    @append @tmpl(tmpl)
     return
 
   hideIntro: ->
@@ -28,7 +41,7 @@ class app.views.RootPage extends app.View
   onRoute: ->
 
   onClick: (event) =>
-    if event.target.hasAttribute 'data-hide-intro'
+    if $.eventTarget(event).hasAttribute 'data-hide-intro'
       $.stopEvent(event)
       @hideIntro()
     return

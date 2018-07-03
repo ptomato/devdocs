@@ -3,10 +3,10 @@ module Docs
     self.name = 'Apache HTTP Server'
     self.slug = 'apache_http_server'
     self.type = 'apache'
-    self.release = '2.4.18'
-    self.base_url = 'http://httpd.apache.org/docs/2.4/en/'
+    self.release = '2.4.33'
+    self.base_url = 'https://httpd.apache.org/docs/2.4/en/'
     self.links = {
-      home: 'http://httpd.apache.org/'
+      home: 'https://httpd.apache.org/'
     }
 
     html_filters.push 'apache/clean_html', 'apache/entries'
@@ -30,7 +30,7 @@ module Docs
       /\Adeveloper\// ]
 
     options[:attribution] = <<-HTML
-      &copy; 2016 The Apache Software Foundation<br>
+      &copy; 2018 The Apache Software Foundation<br>
       Licensed under the Apache License, Version 2.0.
     HTML
   end

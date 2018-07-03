@@ -12,13 +12,15 @@ module Docs
           node.before(node.children).remove
         end
 
-        # Remove introduction
-        doc.child.remove while doc.child['id'] != 'parsing'
+        css('.docs-method-edit', 'hr').remove
 
-        # Remove plugin list
-        doc.children.last.remove while doc.children.last['id'] != 'plugins'
-
-        css('.docs-method-edit', '#plugins').remove
+        css('pre').each do |node|
+          if node.content =~ /\A</
+            node['data-language'] = 'html'
+          elsif node.content !~ /\A\d/
+            node['data-language'] = 'javascript'
+          end
+        end
 
         doc
       end

@@ -2,12 +2,9 @@ module Docs
   class Coffeescript
     class EntriesFilter < Docs::EntriesFilter
       ENTRIES = [
-        ['coffee command',              'usage',                    'Miscellaneous'],
-        ['Literate mode',               'literate',                 'Miscellaneous'],
-        ['Functions',                   'literals',                 'Language'],
-        ['->',                          'literals',                 'Statements'],
-        ['Objects and arrays',          'objects_and_arrays',       'Language'],
-        ['Lexical scoping',             'lexical-scope',            'Language'],
+        ['coffee command',              'cli',                      'Miscellaneous'],
+        ['->',                          'functions',                'Statements'],
+        ['await',                       'async-functions',          'Statements'],
         ['if...then...else',            'conditionals',             'Statements'],
         ['unless',                      'conditionals',             'Statements'],
         ['... splats',                  'splats',                   'Language'],
@@ -19,45 +16,56 @@ module Docs
         ['until',                       'loops',                    'Statements'],
         ['loop',                        'loops',                    'Statements'],
         ['do',                          'loops',                    'Statements'],
-        ['Array slicing and splicing',  'slices',                   'Language'],
         ['Ranges',                      'slices',                   'Language'],
-        ['Expressions',                 'expressions',              'Language'],
-        ['?',                           'the-existential-operator', 'Operators'],
-        ['?=',                          'the-existential-operator', 'Operators'],
-        ['?.',                          'the-existential-operator', 'Operators'],
+        ['?',                           'existential-operator',     'Operators'],
+        ['?=',                          'existential-operator',     'Operators'],
+        ['?.',                          'existential-operator',     'Operators'],
         ['class',                       'classes',                  'Statements'],
-        ['extends',                     'classes',                  'Operators'],
+        ['extends',                     'classes',                  'Statements'],
         ['super',                       'classes',                  'Statements'],
-        ['::',                          'classes',                  'Operators'],
-        ['Destructuring assignment',    'destructuring',            'Language'],
+        ['::',                          'prototypal-inheritance',   'Operators'],
         ['=>',                          'fat-arrow',                'Statements'],
-        ['Embedded JavaScript',         'embedded',                 'Language'],
+        ['yield',                       'generators',               'Statements'],
         ['switch...when...else',        'switch',                   'Statements'],
         ['try...catch...finally',       'try',                      'Statements'],
-        ['Chained comparisons',         'comparisons',              'Language'],
         ['#{} interpolation',           'strings',                  'Language'],
         ['Block strings',               'strings',                  'Language'],
         ['"""',                         'strings',                  'Language'],
-        ['Block comments',              'strings',                  'Language'],
-        ['###',                         'strings',                  'Language'],
-        ['Block regexes',               'regexes',                  'Language'],
-        ['cake command',                'cake',                     'Miscellaneous'],
-        ['Cakefile',                    'cake',                     'Miscellaneous'],
-        ['Source maps',                 'source-maps',              'Miscellaneous']
+        ['###',                         'comments',                 'Language'],
+        ['###::',                       'type-annotations',         'Language'],
+        ['///',                         'regexes',                  'Language'],
+        ['import',                      'modules',                  'Language'],
+        ['export',                      'modules',                  'Language']
       ]
 
       def additional_entries
-        entries = ENTRIES.dup
+        entries = []
 
-        # Operators
-        css('.definitions td:first-child > code').each do |node|
-          node.content.split(', ').each do |name|
-            next if %w(true false yes no on off this).include?(name)
-            name.sub! %r{\Aa (.+) b\z}, '\1'
-            id = name_to_id(name)
-            node['id'] = id
-            entries << [name, id, 'Operators']
+        ENTRIES.each do |entry|
+          raise "entry not found: #{entry.inspect}" unless at_css("[id='#{entry[1]}']")
+          entries << entry
+        end
+
+        css('.navbar > nav > .nav-link').each do |node|
+          name = node.content.strip
+          next if name.in?(%w(Overview Changelog)) || !node['href'].start_with?('#')
+          entries << [name, node['href'].remove('#'), 'Miscellaneous']
+
+          if name == 'Language Reference'
+            node.next_element.css('.nav-link').each do |n|
+              entries << [n.content, n['href'].remove('#'), name]
+            end
           end
+        end
+
+        at_css('#operators table').css('td:first-child > code').each do |node|
+          name = node.content.strip
+          next if %w(true false yes no on off this).include?(name)
+          name.sub! %r{\Aa (.+) b\z}, '\1'
+          name = 'for...from' if name == 'for a from b'
+          id = name_to_id(name)
+          node['id'] = id
+          entries << [name, id, 'Operators']
         end
 
         entries
@@ -68,6 +76,7 @@ module Docs
           when '**' then 'pow'
           when '//' then 'floor'
           when '%%' then 'mod'
+          when '@' then 'this'
           else name.parameterize
         end
       end

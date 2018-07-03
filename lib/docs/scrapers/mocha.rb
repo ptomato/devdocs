@@ -1,23 +1,22 @@
 module Docs
   class Mocha < UrlScraper
-    self.name = 'mocha'
     self.type = 'mocha'
-    self.release = '2.3.3'
-    self.base_url = 'http://mochajs.org/'
+    self.release = '5.0.1'
+    self.base_url = 'https://mochajs.org/'
     self.links = {
-      home: 'http://mochajs.org/',
+      home: 'https://mochajs.org/',
       code: 'https://github.com/mochajs/mocha'
     }
 
-    html_filters.push 'mocha/entries', 'mocha/clean_html', 'title'
+    html_filters.push 'mocha/clean_html', 'mocha/entries', 'title'
 
     options[:container] = '#content'
     options[:title] = 'mocha'
     options[:skip_links] = true
 
     options[:attribution] = <<-HTML
-      &copy; 2011&ndash;2015 TJ Holowaychuk<br>
-      Licensed under the MIT License.
+      &copy; 2011&ndash;2018 JS Foundation and contributors<br>
+      Licensed under the Creative Commons Attribution 4.0 International License.
     HTML
   end
 end

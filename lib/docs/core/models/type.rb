@@ -7,10 +7,6 @@ module Docs
       self.count ||= 0
     end
 
-    def <=>(other)
-      name.to_s.casecmp(other.name.to_s)
-    end
-
     def slug
       name.parameterize
     end

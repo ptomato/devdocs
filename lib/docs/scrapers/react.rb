@@ -1,30 +1,33 @@
 module Docs
   class React < UrlScraper
     self.name = 'React'
-    self.type = 'react'
-    self.release = '0.14.6'
-    self.base_url = 'https://facebook.github.io/react/'
-    self.root_path = 'docs/getting-started.html'
+    self.type = 'simple'
+    self.release = '16.3.0'
+    self.base_url = 'https://reactjs.org/docs/'
+    self.root_path = 'hello-world.html'
     self.links = {
-      home: 'https://facebook.github.io/react/',
+      home: 'https://reactjs.org/',
       code: 'https://github.com/facebook/react'
     }
 
     html_filters.push 'react/entries', 'react/clean_html'
 
-    options[:root_title] = 'React Documentation'
-    options[:container] = '.documentationContent'
-    options[:only_patterns] = [/\Adocs\//, /\Atips\//]
     options[:skip] = %w(
-      docs/
-      docs/videos.html
-      docs/complementary-tools.html
-      docs/examples.html
-      docs/conferences.html
-      tips/introduction.html)
+      codebase-overview.html
+      design-principles.html
+      how-to-contribute.html
+      implementation-notes.html
+    )
+
+    options[:replace_paths] = {
+      'more-about-refs.html' => 'refs-and-the-dom.html',
+      'interactivity-and-dynamic-uis.html' => 'state-and-lifecycle.html',
+      'working-with-the-browser.html' => 'refs-and-the-dom.html',
+      'top-level-api.html' => 'react-api.html',
+    }
 
     options[:attribution] = <<-HTML
-      &copy; 2013&ndash;2016 Facebook Inc.<br>
+      &copy; 2013&ndash;present Facebook Inc.<br>
       Licensed under the Creative Commons Attribution 4.0 International Public License.
     HTML
   end

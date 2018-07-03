@@ -29,6 +29,7 @@ ajax.defaults =
   # data
   # error
   # headers
+  # progress
   # success
   # url
 
@@ -54,6 +55,7 @@ applyCallbacks = (xhr, options) ->
   return unless options.async
 
   xhr.timer = setTimeout onTimeout.bind(undefined, xhr, options), options.timeout * 1000
+  xhr.onprogress = options.progress if options.progress
   xhr.onreadystatechange = ->
     if xhr.readyState is 4
       clearTimeout(xhr.timer)
@@ -72,9 +74,6 @@ applyHeaders = (xhr, options) ->
 
   if options.dataType
     options.headers['Accept'] = MIME_TYPES[options.dataType] or options.dataType
-
-  if isSameOrigin(options.url)
-    options.headers['X-Requested-With'] = 'XMLHttpRequest'
 
   for key, value of options.headers
     xhr.setRequestHeader(key, value)
@@ -108,9 +107,6 @@ abort = (xhr) ->
   xhr.onreadystatechange = null
   xhr.abort()
   return
-
-isSameOrigin = (url) ->
-  url.indexOf('http') isnt 0 or url.indexOf(location.origin) is 0
 
 parseResponse = (xhr, options) ->
   if options.dataType is 'json'

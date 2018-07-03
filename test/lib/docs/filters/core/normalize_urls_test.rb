@@ -39,9 +39,19 @@ class NormalizeUrlsFilterTest < MiniTest::Spec
     assert_equal link_to(context[:url]), filter_output_string
   end
 
-  it "rewrites invalid relative urls" do
+  it "rewrites invalid link urls" do
     @body = link_to '%'
     assert_equal link_to('#'), filter_output_string
+  end
+
+  it "rewrites invalid image urls" do
+    @body = '<img src="%">'
+    assert_equal '<img src="#">', filter_output_string
+  end
+
+  it "doesn't rewrite invalid iframe urls" do
+    @body = '<iframe src="%"></iframe>'
+    assert_equal @body, filter_output_string
   end
 
   it "repairs un-encoded spaces" do
@@ -71,6 +81,11 @@ class NormalizeUrlsFilterTest < MiniTest::Spec
 
   it "doesn't rewrite email urls" do
     @body = link_to 'mailto:test@example.com'
+    assert_equal @body, filter_output_string
+  end
+
+  it "doesn't rewrite data image urls" do
+    @body = '<img src="data:image/gif;base64,aaaa">'
     assert_equal @body, filter_output_string
   end
 
@@ -112,6 +127,24 @@ class NormalizeUrlsFilterTest < MiniTest::Spec
     it "doesn't replace urls not found in the hash" do
       context[:replace_urls] = {}
       assert_equal @body, filter_output_string
+    end
+  end
+
+  context "when context[:fix_urls_before_parse] is a block" do
+    before do
+      @body = link_to 'foo[bar]'
+    end
+
+    it "calls the block with each absolute url" do
+      context[:fix_urls_before_parse] = ->(arg) { (@args ||= []).push(arg); nil }
+      @body += link_to 'foo[bar]'
+      filter.call
+      assert_equal ['foo[bar]'] * 2, @args
+    end
+
+    it "replaces the url with the block's return value" do
+      context[:fix_urls_before_parse] = ->(url) { '/fixed' }
+      assert_equal link_to('http://example.com/fixed'), filter_output_string
     end
   end
 

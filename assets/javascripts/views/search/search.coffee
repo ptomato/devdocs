@@ -14,13 +14,12 @@ class app.views.Search extends app.View
     submit: 'onSubmit'
 
   @shortcuts:
-    typing: 'autoFocus'
+    typing: 'focus'
     altG: 'google'
     altS: 'stackoverflow'
 
   @routes:
-    root: 'onRoot'
-    after: 'autoFocus'
+    after: 'afterRoute'
 
   init: ->
     @addSubview @scope = new app.views.SearchScope @el
@@ -32,29 +31,29 @@ class app.views.Search extends app.View
 
     app.on 'ready', @onReady
     $.on window, 'hashchange', @searchUrl
-    $.on window, 'focus', @autoFocus
+    $.on window, 'focus', @onWindowFocus
     return
 
-  focus: ->
+  focus: =>
     @input.focus() unless document.activeElement is @input
     return
 
   autoFocus: =>
-    @focus() unless $.isTouchScreen()
+    unless app.isMobile() or $.isAndroid() or $.isIOS()
+      @input.focus() unless document.activeElement?.tagName is 'INPUT'
     return
 
-  reset: ->
+  onWindowFocus: (event) =>
+    @autoFocus() if event.target is window
+
+  getScopeDoc: ->
+    @scope.getScope() if @scope.isActive()
+
+  reset: (force) ->
+    @scope.reset() if force or not @input.value
     @el.reset()
     @onInput()
     @autoFocus()
-    return
-
-  disable: ->
-    @input.setAttribute('disabled', 'disabled')
-    return
-
-  enable: ->
-    @input.removeAttribute('disabled')
     return
 
   onReady: =>
@@ -83,17 +82,21 @@ class app.views.Search extends app.View
     return
 
   searchUrl: =>
-    return unless app.router.isRoot()
-    @scope.searchUrl()
+    if location.pathname is '/'
+      @scope.searchUrl()
+    else if not app.router.isIndex()
+      return
 
     return unless value = @extractHashValue()
     @input.value = @value = value
+    @input.setSelectionRange(value.length, value.length)
     @search true
     true
 
   clear: ->
     @removeClass @constructor.activeClass
     @trigger 'clear'
+    return
 
   externalSearch: (url) ->
     if value = @value
@@ -124,16 +127,17 @@ class app.views.Search extends app.View
     if event.target is @resetLink
       $.stopEvent(event)
       @reset()
-      @focus()
     return
 
   onSubmit: (event) ->
     $.stopEvent(event)
     return
 
-  onRoot: (context) =>
-    @reset() unless context.init
+  afterRoute: (name, context) =>
+    return if app.shortcuts.eventInProgress?.name is 'escape'
+    @reset(true) if not context.init and app.router.isIndex()
     @delay @searchUrl if context.hash
+    $.requestAnimationFrame @autoFocus
     return
 
   extractHashValue: ->
@@ -141,5 +145,7 @@ class app.views.Search extends app.View
       app.router.replaceHash()
       value
 
+  HASH_RGX = new RegExp "^##{SEARCH_PARAM}=(.*)"
+
   getHashValue: ->
-    try (new RegExp "##{SEARCH_PARAM}=(.*)").exec($.urlDecode location.hash)?[1] catch
+    try HASH_RGX.exec($.urlDecode location.hash)?[1] catch

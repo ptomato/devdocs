@@ -6,7 +6,7 @@
   .method-description > h2, h3, h4, h5, h6 { font-size: 1em; }
 
   .method-heading {
-    font-weight: bold;
+    font-weight: $boldFontWeight;
     @extend %block-label, %label-blue;
 
     + .method-heading { margin-top: -.5em; }
@@ -27,6 +27,10 @@
     @extend %user-select-none;
 
     &:hover { text-decoration: underline; }
+
+    @include print {
+      display: none;
+    }
   }
 
   .method-description { position: relative; }
@@ -43,4 +47,9 @@
 
     > pre { margin: 0; }
   }
+
+  // Rails guides
+  .note { @extend %note; }
+  .info { @extend %note, %note-blue; }
+  .warning { @extend %note, %note-red; }
 }

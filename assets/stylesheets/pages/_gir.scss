@@ -1,0 +1,17 @@
+._gir {
+  @extend %simple;
+  /* Whitespace in normal <code> elements should not be treated as if it were in
+  a <pre> element */
+  pre > code {
+    white-space: pre-wrap;
+  }
+  code {
+    white-space: normal;
+  }
+
+  .deprecated-note,
+  .stability-note { @extend %note, %note-red; }
+  .since-note { @extend %note, %note-orange; }
+
+  .index .deprecated { text-decoration: line-through; }
+}

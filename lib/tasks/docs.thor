@@ -35,6 +35,7 @@ class DocsCLI < Thor
       return puts 'ERROR: [path] must be an absolute path.'
     end
 
+    Docs.install_report :image
     Docs.install_report :store if options[:verbose]
     if options[:debug]
       GC.disable
@@ -52,40 +53,50 @@ class DocsCLI < Thor
 
   desc 'generate <doc> [--version] [--verbose] [--debug] [--force] [--package]', 'Generate a documentation'
   option :version, type: :string
+  option :all, type: :boolean
   option :verbose, type: :boolean
   option :debug, type: :boolean
   option :force, type: :boolean
   option :package, type: :boolean
   def generate(name)
+    Docs.rescue_errors = true
     Docs.install_report :store if options[:verbose]
     Docs.install_report :scraper if options[:debug]
-    Docs.install_report :progress_bar, :doc if $stdout.tty?
+    Docs.install_report :progress_bar, :doc, :image if $stdout.tty?
 
-    unless options[:force]
+    require 'unix_utils' if options[:package]
+
+    doc = Docs.find(name, options[:version])
+
+    if doc < Docs::UrlScraper && !options[:force]
       puts <<-TEXT.strip_heredoc
-        Note: this command will scrape the documentation from the source.
-        Some scrapers require a local setup. Others will send thousands of
-        HTTP requests, potentially slowing down the source site.
-        Please don't use it unless you are modifying the code.
+        /!\\ WARNING /!\\
 
-        To download the latest tested version of a documentation, use:
-        thor docs:download #{name}\n
+        Some scrapers send thousands of HTTP requests in a short period of time,
+        which can slow down the source site and trouble its maintainers.
+
+        Please scrape responsibly. Don't do it unless you're modifying the code.
+
+        To download the latest tested version of this documentation, run:
+          thor docs:download #{name}\n
       TEXT
       return unless yes? 'Proceed? (y/n)'
     end
 
-    if Docs.generate(name, options[:version])
-      generate_manifest
-      if options[:package]
-        require 'unix_utils'
-        package_doc(Docs.find(name, options[:version]))
+    result = if doc.version && options[:all]
+      doc.superclass.versions.all? do |_doc|
+        puts "==> #{_doc.version}"
+        generate_doc(_doc, package: options[:package]).tap { puts "\n" }
       end
-      puts 'Done'
     else
-      puts "Failed!#{' (try running with --debug for more information)' unless options[:debug]}"
+      generate_doc(doc, package: options[:package])
     end
+
+    generate_manifest if result
   rescue Docs::DocNotFound => error
     handle_doc_not_found_error(error)
+  ensure
+    Docs.rescue_errors = false
   end
 
   desc 'manifest', 'Create the manifest'
@@ -136,7 +147,9 @@ class DocsCLI < Thor
 
   desc 'upload', '[private]'
   option :dryrun, type: :boolean
+  option :packaged, type: :boolean
   def upload(*names)
+    names = Dir[File.join(Docs.store_path, '*.tar.gz')].map { |f| File.basename(f, '.tar.gz') } if options[:packaged]
     docs = find_docs(names)
     assert_docs(docs)
     docs.each do |doc|
@@ -147,11 +160,23 @@ class DocsCLI < Thor
     end
   end
 
+  desc 'commit', '[private]'
+  option :message, type: :string
+  option :amend, type: :boolean
+  def commit(name)
+    doc = Docs.find(name, false)
+    message = options[:message] || "Update #{doc.name} documentation (#{doc.versions.first.release})"
+    amend = " --amend" if options[:amend]
+    system("git add assets/ *#{name}*") && system("git commit -m '#{message}'#{amend}")
+  rescue Docs::DocNotFound => error
+    handle_doc_not_found_error(error)
+  end
+
   private
 
   def find_docs(names)
     names.map do |name|
-      name, version = name.split('@')
+      name, version = name.split(/@|~/)
       Docs.find(name, version)
     end
   end
@@ -167,6 +192,17 @@ class DocsCLI < Thor
   def handle_doc_not_found_error(error)
     puts %(ERROR: #{error}.)
     puts 'Run "thor docs:list" to see the list of docs and versions.'
+  end
+
+  def generate_doc(doc, package: nil)
+    if Docs.generate(doc)
+      package_doc(doc) if package
+      puts 'Done'
+      true
+    else
+      puts "Failed!#{' (try running with --debug for more information)' unless options[:debug]}"
+      false
+    end
   end
 
   def download_docs(docs)
@@ -196,23 +232,16 @@ class DocsCLI < Thor
   end
 
   def download_doc(doc)
-    target = File.join(Docs.store_path, "#{doc.path}.tar.gz")
+    target_path = File.join(Docs.store_path, doc.path)
     open "http://dl.devdocs.io/#{doc.path}.tar.gz" do |file|
-      FileUtils.mkpath(Docs.store_path)
-      FileUtils.mv(file, target)
-      unpackage_doc(doc)
+      FileUtils.mkpath(target_path)
+      file.close
+      tar = UnixUtils.gunzip(file.path)
+      dir = UnixUtils.untar(tar)
+      FileUtils.rm_rf(target_path)
+      FileUtils.mv(dir, target_path)
+      FileUtils.rm(file.path)
     end
-  end
-
-  def unpackage_doc(doc)
-    path = File.join(Docs.store_path, doc.path)
-    FileUtils.mkpath(path)
-    tar = UnixUtils.gunzip("#{path}.tar.gz")
-    dir = UnixUtils.untar(tar)
-    FileUtils.rm_rf(path)
-    FileUtils.mv(dir, path)
-    FileUtils.rm(tar)
-    FileUtils.rm("#{path}.tar.gz")
   end
 
   def package_doc(doc)

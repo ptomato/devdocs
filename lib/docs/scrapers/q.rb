@@ -1,8 +1,7 @@
 module Docs
-  class Q < UrlScraper
+  class Q < Github
     self.name = 'Q'
-    self.type = 'q'
-    self.release = '1.4.1'
+    self.release = '1.5.1'
     self.base_url = 'https://github.com/kriskowal/q/wiki/'
     self.root_path = 'API-Reference'
     self.links = {
@@ -10,14 +9,14 @@ module Docs
       code: 'https://github.com/kriskowal/q'
     }
 
-    html_filters.push 'q/clean_html', 'q/entries', 'title'
+    html_filters.push 'q/entries', 'title'
 
     options[:container] = '.markdown-body'
     options[:title] = 'Q'
     options[:skip_links] = true
 
     options[:attribution] = <<-HTML
-      &copy; 2009&ndash;2015 Kristopher Michael Kowal and contributors<br>
+      &copy; 2009&ndash;2017 Kristopher Michael Kowal<br>
       Licensed under the MIT License.
     HTML
   end

@@ -10,12 +10,11 @@
   init: ->
     try @initErrorTracking() catch
     return unless @browserCheck()
-    @showLoading()
 
     @el = $('._app')
-    @store = new Store
+    @localStorage = new LocalStorageStore
     @appCache = new app.AppCache if app.AppCache.isEnabled()
-    @settings = new app.Settings @store
+    @settings = new app.Settings
     @db = new app.DB()
 
     @docs = new app.collections.Docs
@@ -27,10 +26,8 @@
     @document = new app.views.Document
     @mobile = new app.views.Mobile if @isMobile()
 
-    if navigator.userAgent.match /iPad;.*CPU.*OS 7_\d/i
-      document.documentElement.style.height = "#{window.innerHeight}px"
-
-    if @DOC
+    if document.body.hasAttribute('data-doc')
+      @DOC = JSON.parse(document.body.getAttribute('data-doc'))
       @bootOne()
     else if @DOCS
       @bootAll()
@@ -40,8 +37,8 @@
 
   browserCheck: ->
     return true if @isSupportedBrowser()
-    document.body.className = ''
     document.body.innerHTML = app.templates.unsupportedBrowser
+    @hideLoadingScreen()
     false
 
   initErrorTracking: ->
@@ -53,15 +50,33 @@
     else
       if @config.sentry_dsn
         Raven.config @config.sentry_dsn,
+          release: @config.release
           whitelistUrls: [/devdocs/]
           includePaths: [/devdocs/]
-          ignoreErrors: [/dpQuery/, /NPObject/, /NS_ERROR/, /^null$/]
+          ignoreErrors: [/NPObject/, /NS_ERROR/, /^null$/, /EvalError/]
           tags:
-            mode: if @DOC then 'single' else 'full'
+            mode: if @isSingleDoc() then 'single' else 'full'
             iframe: (window.top isnt window).toString()
+            electron: (!!window.process?.versions?.electron).toString()
+          shouldSendCallback: =>
+            try
+              if @isInjectionError()
+                @onInjectionError()
+                return false
+              if @isAndroidWebview()
+                return false
+            true
+          dataCallback: (data) ->
+            try
+              $.extend(data.user ||= {}, app.settings.dump())
+              data.user.docs = data.user.docs.split('/') if data.user.docs
+              data.user.lastIDBTransaction = app.lastIDBTransaction if app.lastIDBTransaction
+              data.tags.scriptCount = document.scripts.length
+            data
         .install()
       @previousErrorHandler = onerror
       window.onerror = @onWindowError.bind(@)
+      CookieStore.onBlocked = @onCookieBlocked
     return
 
   bootOne: ->
@@ -77,8 +92,6 @@
     for doc in @DOCS
       (if docs.indexOf(doc.slug) >= 0 then @docs else @disabledDocs).add(doc)
     @migrateDocs()
-    @docs.sort()
-    @disabledDocs.sort()
     @docs.load @start.bind(@), @onBootError.bind(@), readCache: true, writeCache: true
     delete @DOCS
     return
@@ -89,25 +102,31 @@
     @initDoc(doc) for doc in @docs.all()
     @trigger 'ready'
     @router.start()
-    @hideLoading()
-    @welcomeBack() unless @doc
-    @removeEvent 'ready bootError'
-    try navigator.mozApps?.getSelf().onsuccess = -> app.mozApp = true catch
+    @hideLoadingScreen()
+    setTimeout =>
+      @welcomeBack() unless @doc
+      @removeEvent 'ready bootError'
+    , 50
     return
 
   initDoc: (doc) ->
-    @entries.add type.toEntry() for type in doc.types.all()
+    doc.entries.add type.toEntry() for type in doc.types.all()
     @entries.add doc.entries.all()
     return
 
   migrateDocs: ->
     for slug in @settings.getDocs() when not @docs.findBy('slug', slug)
       needsSaving = true
-      if doc = @disabledDocs.findBy('slug_without_version', slug)
+      doc = @disabledDocs.findBy('slug', 'webpack') if slug == 'webpack~2'
+      doc = @disabledDocs.findBy('slug', 'angular') if slug == 'angular~4_typescript'
+      doc = @disabledDocs.findBy('slug', 'angular~2') if slug == 'angular~2_typescript'
+      doc ||= @disabledDocs.findBy('slug_without_version', slug)
+      if doc
         @disabledDocs.remove(doc)
         @docs.add(doc)
 
     @saveDocs() if needsSaving
+    return
 
   enableDoc: (doc, _onSuccess, onError) ->
     return if @docs.contains(doc)
@@ -145,7 +164,7 @@
     return
 
   reset: ->
-    @store.clear()
+    @localStorage.reset()
     @settings.reset()
     @db?.reset()
     @appCache?.update()
@@ -154,45 +173,48 @@
 
   showTip: (tip) ->
     return if @isSingleDoc()
-    tips = @settings.get('tips') || []
+    tips = @settings.getTips()
     if tips.indexOf(tip) is -1
       tips.push(tip)
-      @settings.set('tips', tips)
+      @settings.setTips(tips)
       new app.views.Tip(tip)
     return
 
-  showLoading: ->
-    document.body.classList.remove '_noscript'
-    document.body.classList.add '_loading'
-    return
-
-  hideLoading: ->
-    document.body.classList.remove '_booting'
-    document.body.classList.remove '_loading'
+  hideLoadingScreen: ->
+    document.body.classList.add '_overlay-scrollbars' if $.overlayScrollbarsEnabled()
+    document.documentElement.classList.remove '_booting'
     return
 
   indexHost: ->
     # Can't load the index files from the host/CDN when applicationCache is
     # enabled because it doesn't support caching URLs that use CORS.
-    @config[if @appCache and @settings.hasDocs() then 'index_path' else 'docs_host']
+    @config[if @appCache and @settings.hasDocs() then 'index_path' else 'docs_origin']
 
   onBootError: (args...) ->
     @trigger 'bootError'
-    @hideLoading()
+    @hideLoadingScreen()
     return
 
   onQuotaExceeded: ->
     return if @quotaExceeded
     @quotaExceeded = true
     new app.views.Notif 'QuotaExceeded', autoHide: null
-    Raven.captureMessage 'QuotaExceededError'
+    return
+
+  onCookieBlocked: (key, value, actual) ->
+    return if @cookieBlocked
+    @cookieBlocked = true
+    new app.views.Notif 'CookieBlocked', autoHide: null
+    Raven.captureMessage "CookieBlocked/#{key}", level: 'warning', extra: {value, actual}
+    return
 
   onWindowError: (args...) ->
+    return if @cookieBlocked
     if @isInjectionError args...
       @onInjectionError()
     else if @isAppError args...
       @previousErrorHandler? args...
-      @hideLoading()
+      @hideLoadingScreen()
       @errorNotif or= new app.views.Notif 'Error'
       @errorNotif.show()
     return
@@ -203,13 +225,13 @@
       alert """
         JavaScript code has been injected in the page which prevents DevDocs from running correctly.
         Please check your browser extensions/addons. """
-      Raven.captureMessage 'injection error'
+      Raven.captureMessage 'injection error', level: 'info'
     return
 
   isInjectionError: ->
     # Some browser extensions expect the entire web to use jQuery.
     # I gave up trying to fight back.
-    window.$ isnt app._$ or window.$$ isnt app._$$ or window.page isnt app._page
+    window.$ isnt app._$ or window.$$ isnt app._$$ or window.page isnt app._page or typeof $.empty isnt 'function' or typeof page.show isnt 'function'
 
   isAppError: (error, file) ->
     # Ignore errors from external scripts.
@@ -221,33 +243,27 @@
         bind:               !!Function::bind
         pushState:          !!history.pushState
         matchMedia:         !!window.matchMedia
-        classList:          !!document.body.classList
         insertAdjacentHTML: !!document.body.insertAdjacentHTML
         defaultPrevented:     document.createEvent('CustomEvent').defaultPrevented is false
         cssGradients:         supportsCssGradients()
 
       for key, value of features when not value
-        Raven.captureMessage "unsupported/#{key}"
+        Raven.captureMessage "unsupported/#{key}", level: 'info'
         return false
 
       true
     catch error
-      Raven.captureMessage 'unsupported/exception', extra: { error: error }
+      Raven.captureMessage 'unsupported/exception', level: 'info', extra: { error: error }
       false
 
   isSingleDoc: ->
-    !!(@DOC or @doc)
+    document.body.hasAttribute('data-doc')
 
   isMobile: ->
-    try
-      # Need to sniff the user agent because some Android and Windows Phone devices don't take
-      # resolution (dpi) into account when reporting device width/height.
-      @_isMobile ?= (window.matchMedia('(max-device-width: 767px)').matches) or
-                    (window.matchMedia('(max-device-height: 767px) and (max-device-width: 1024px)').matches) or
-                    (navigator.userAgent.indexOf('Android') isnt -1 and navigator.userAgent.indexOf('Mobile') isnt -1) or
-                    (navigator.userAgent.indexOf('IEMobile') isnt -1)
-    catch
-      @_isMobile = false
+    @_isMobile ?= app.views.Mobile.detect()
+
+  isAndroidWebview: ->
+    @_isAndroidWebview ?= app.views.Mobile.detectAndroidWebview()
 
   isInvalidLocation: ->
     @config.env is 'production' and location.host.indexOf(app.config.production_host) isnt 0

@@ -2,9 +2,13 @@ module Docs
   class Express < UrlScraper
     self.name = 'Express'
     self.type = 'express'
-    self.release = '4.13.0'
-    self.base_url = 'http://expressjs.com/'
+    self.release = '4.16.1'
+    self.base_url = 'http://expressjs.com/en/'
     self.root_path = '4x/api.html'
+    self.initial_paths = %w(
+      starter/installing.html
+      guide/routing.html
+      advanced/developing-template-engines.html )
     self.links = {
       home: 'http://expressjs.com/',
       code: 'https://github.com/strongloop/express/'
@@ -14,17 +18,15 @@ module Docs
 
     options[:title] = false
     options[:root_title] = 'Express'
-    options[:container] = ->(filter) { filter.root_page? ? '#api-doc' : '.content' }
 
     options[:only_patterns] = [
       /\Astarter/,
       /\Aguide/,
-      /\Aadvanced/
-    ]
+      /\Aadvanced/ ]
 
     options[:attribution] = <<-HTML
-      &copy; 2009&ndash;2015 TJ Holowaychuk<br>
-      Licensed under the MIT License.
+      &copy; 2017 StrongLoop, IBM, and other expressjs.com contributors.<br>
+      Licensed under the Creative Commons Attribution-ShareAlike License v3.0.
     HTML
   end
 end

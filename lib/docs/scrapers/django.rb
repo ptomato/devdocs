@@ -8,7 +8,7 @@ module Docs
       code: 'https://github.com/django/django'
     }
 
-    html_filters.push 'django/entries', 'django/clean_html'
+    html_filters.push 'django/entries', 'sphinx/clean_html', 'django/clean_html'
     text_filters.push 'django/fix_urls'
 
     options[:container] = '#bd'
@@ -34,14 +34,32 @@ module Docs
       Licensed under the BSD License.
     HTML
 
+    version '2.0' do
+      self.release = '2.0.5'
+      self.dir = '/Users/Thibaut/DevDocs/Docs/Django20'
+      self.base_url = 'https://docs.djangoproject.com/en/2.0/'
+    end
+
+    version '1.11' do
+      self.release = '1.11.9'
+      self.dir = '/Users/Thibaut/DevDocs/Docs/Django111'
+      self.base_url = 'https://docs.djangoproject.com/en/1.11/'
+    end
+
+    version '1.10' do
+      self.release = '1.10.8'
+      self.dir = '/Users/Thibaut/DevDocs/Docs/Django110'
+      self.base_url = 'https://docs.djangoproject.com/en/1.10/'
+    end
+
     version '1.9' do
-      self.release = '1.9.1'
+      self.release = '1.9.13'
       self.dir = '/Users/Thibaut/DevDocs/Docs/Django19'
       self.base_url = 'https://docs.djangoproject.com/en/1.9/'
     end
 
     version '1.8' do
-      self.release = '1.8.8'
+      self.release = '1.8.18'
       self.dir = '/Users/Thibaut/DevDocs/Docs/Django18'
       self.base_url = 'https://docs.djangoproject.com/en/1.8/'
     end
