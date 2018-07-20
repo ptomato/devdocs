@@ -34,7 +34,9 @@ module Docs
 
     def run_doctool(gir_path)
       puts 'Generating HTML documentation...'
-      dir = Dir.mktmpdir
+      dir = Dir.mktmpdir 
+
+      puts "Running: #{doctool} #{gir_path} -o #{dir} -l gjs -f devdocs"
       unless system "#{doctool} #{gir_path} -o #{dir} -l gjs -f devdocs"
         FileUtils.remove_entry dir
         fail 'g-ir-doc-tool failed'
