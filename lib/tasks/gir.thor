@@ -21,7 +21,11 @@ class GirCLI < Thor
     end
     glob.each do |path|
       puts 'Generating scraper for ' + File.basename(path) + '...'
-      generate path
+      begin
+        generate path
+      rescue REXML::ParseException
+        puts 'Failed to generate scraper for... ' + File.basename(path) + '...'
+      end
     end
   end
 
