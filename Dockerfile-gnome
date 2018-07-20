@@ -7,7 +7,7 @@ ENV LC_ALL en_US.UTF-8
 # Build dependencies and GIR packages
 RUN dnf update -y && \
     dnf install -y 'dnf-command(builddep)' git redhat-rpm-config gcc{,-c++} \
-        libxml2-devel nodejs python-markdown && \
+        libxml2-devel nodejs python2-markdown python2-mako && \
     dnf builddep -y gobject-introspection && \
     dnf install -y NetworkManager-glib-devel cairo-devel cheese-libs-devel \
         clutter-{gst,gst2,gst3,gtk}-devel evince-devel geocode-glib-devel \
@@ -20,14 +20,14 @@ RUN dnf update -y && \
         libnotify-devel libpeas-devel librsvg2-devel libsecret-devel \
         libzapojit-devel pango-devel polkit-devel poppler-glib-devel \
         rest-devel telepathy-glib-devel tracker-devel udisks-devel \
-        upower-devel vte{,291,3}-devel webkitgtk{,3,4}-devel
+        upower-devel vte{,291,3}-devel
 
 # Get rvm in order to use the particular version of Ruby that Devdocs needs
 # bash -l starts a login shell which gets us into the rvm environment
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && \
     curl -L https://get.rvm.io | bash -s stable && \
     /bin/bash -l -c "rvm requirements" && \
-    /bin/bash -l -c "rvm install 2.4.1" && \
+    /bin/bash -l -c "rvm install 2.5.1" && \
     /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
 RUN git clone https://github.com/ptomato/gobject-introspection -b wip/ptomato/devdocs322 --depth=1 /opt/gi
