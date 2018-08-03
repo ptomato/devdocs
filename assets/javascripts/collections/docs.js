@@ -1,11 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS202: Simplify dynamic range loops
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let NORMALIZE_VERSION_RGX = undefined;
   let NORMALIZE_VERSION_SUB = undefined;
@@ -54,7 +46,7 @@
 
       var fail = function (...args) {
         if (onError) {
-          onError(...Array.from(args || []));
+          onError(...(args || []));
           onError = null;
         }
         next();
@@ -66,7 +58,7 @@
     }
 
     clearCache() {
-      for (let doc of Array.from(this.models)) {
+      for (let doc of this.models) {
         doc.clearCache();
       }
     }

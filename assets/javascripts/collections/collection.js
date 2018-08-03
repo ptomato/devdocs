@@ -1,10 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 app.Collection = class Collection {
   constructor(objects) {
     if (objects == null) {
@@ -22,7 +15,7 @@ app.Collection = class Collection {
       objects = [];
     }
     this.models = [];
-    for (let object of Array.from(objects)) {
+    for (let object of objects) {
       this.add(object);
     }
   }
@@ -31,11 +24,11 @@ app.Collection = class Collection {
     if (object instanceof app.Model) {
       this.models.push(object);
     } else if (object instanceof Array) {
-      for (let obj of Array.from(object)) {
+      for (let obj of object) {
         this.add(obj);
       }
     } else if (object instanceof app.Collection) {
-      this.models.push(...Array.from(object.all() || []));
+      this.models.push(...(object.all() || []));
     } else {
       this.models.push(new(this.model())(object));
     }
@@ -54,7 +47,7 @@ app.Collection = class Collection {
   }
 
   each(fn) {
-    for (let model of Array.from(this.models)) {
+    for (let model of this.models) {
       fn(model);
     }
   }
@@ -68,7 +61,7 @@ app.Collection = class Collection {
   }
 
   findBy(attr, value) {
-    for (let model of Array.from(this.models)) {
+    for (let model of this.models) {
       if (model[attr] === value) {
         return model;
       }
@@ -76,12 +69,12 @@ app.Collection = class Collection {
   }
 
   findAllBy(attr, value) {
-    return Array.from(this.models).filter((model) => model[attr] === value);
+    return this.models.filter((model) => model[attr] === value);
   }
 
   countAllBy(attr, value) {
     let i = 0;
-    for (let model of Array.from(this.models)) {
+    for (let model of this.models) {
       if (model[attr] === value) {
         i += 1;
       }

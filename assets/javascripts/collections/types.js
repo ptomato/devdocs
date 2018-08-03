@@ -1,11 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let GUIDES_RGX = undefined;
   let APPENDIX_RGX = undefined;
@@ -19,7 +11,7 @@
 
     groups() {
       const result = [];
-      for (let type of Array.from(this.models)) {
+      for (let type of this.models) {
         var name;
         (result[name = this._groupFor(type)] || (result[name] = [])).push(type);
       }
