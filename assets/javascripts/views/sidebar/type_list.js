@@ -11,15 +11,29 @@ const Cls = (app.views.TypeList = class TypeList extends app.View {
   static initClass() {
     this.tagName = 'div';
     this.className = '_list _list-sub';
-  
+
     this.events = {
-      open:  'onOpen',
+      open: 'onOpen',
       close: 'onClose'
     };
   }
 
-  constructor(doc) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.onOpen = this.onOpen.bind(this);   this.onClose = this.onClose.bind(this);   this.doc = doc; super(...arguments); }
+  constructor(doc) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.onOpen = this.onOpen.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.doc = doc;
+    super(...arguments);
+  }
 
   init() {
     this.lists = {};
@@ -29,19 +43,27 @@ const Cls = (app.views.TypeList = class TypeList extends app.View {
 
   activate() {
     if (super.activate(...arguments)) {
-      for (let slug in this.lists) { const list = this.lists[slug]; list.activate(); }
+      for (let slug in this.lists) {
+        const list = this.lists[slug];
+        list.activate();
+      }
     }
   }
 
   deactivate() {
     if (super.deactivate(...arguments)) {
-      for (let slug in this.lists) { const list = this.lists[slug]; list.deactivate(); }
+      for (let slug in this.lists) {
+        const list = this.lists[slug];
+        list.deactivate();
+      }
     }
   }
 
   render() {
     let html = '';
-    for (let group of Array.from(this.doc.types.groups())) { html += this.tmpl('sidebarType', group); }
+    for (let group of Array.from(this.doc.types.groups())) {
+      html += this.tmpl('sidebarType', group);
+    }
     return this.html(html);
   }
 

@@ -13,8 +13,20 @@ const Cls = (app.views.EntryList = class EntryList extends app.views.PaginatedLi
     this.className = '_list _list-sub';
   }
 
-  constructor(entries) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.entries = entries; super(...arguments); }
+  constructor(entries) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.entries = entries;
+    super(...arguments);
+  }
 
   init() {
     this.renderPaginated();
