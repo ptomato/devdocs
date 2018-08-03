@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.ListFold = class ListFold extends app.View {
+app.views.ListFold = class ListFold extends app.View {
   static initClass() {
     this.targetClass = '_list-dir';
     this.handleClass = '_list-arrow';
@@ -20,24 +12,17 @@ const Cls = (app.views.ListFold = class ListFold extends app.View {
       left: 'onLeft',
       right: 'onRight'
     };
+
+    return this;
   }
 
   constructor(el) {
-    { // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+
     this.onLeft = this.onLeft.bind(this);
     this.onRight = this.onRight.bind(this);
     this.onClick = this.onClick.bind(this);
     this.el = el;
-    super(...arguments);
   }
 
   open(el) {
@@ -116,5 +101,4 @@ const Cls = (app.views.ListFold = class ListFold extends app.View {
       }
     }
   }
-});
-Cls.initClass();
+}.initClass();

@@ -1,34 +1,19 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.ListSelect = class ListSelect extends app.View {
+app.views.ListSelect = class ListSelect extends app.View {
   static initClass() {
     this.activeClass = 'active';
 
     this.events = {
       click: 'onClick'
     };
+
+    return this;
   }
 
   constructor(el) {
-    { // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
-    this.onClick = this.onClick.bind(this);
-    this.el = el;
     super(...arguments);
+
+    this.onClick = this.onClick.bind(this);
+    this.el = el; 
   }
 
   deactivate() {
@@ -54,7 +39,9 @@ const Cls = (app.views.ListSelect = class ListSelect extends app.View {
   }
 
   selectByHref(href) {
-    if (__guard__(this.getSelection(), x => x.getAttribute('href')) !== href) {
+    let selection = this.getSelection();
+
+    if (selection && selection.getAttribute('href') !== href) {
       this.select(this.find(`a[href='${href}']`));
     }
   }
@@ -76,9 +63,4 @@ const Cls = (app.views.ListSelect = class ListSelect extends app.View {
       this.select(target);
     }
   }
-});
-Cls.initClass();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+}.initClass();

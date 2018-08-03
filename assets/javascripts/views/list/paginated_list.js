@@ -1,13 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS202: Simplify dynamic range loops
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let PER_PAGE = undefined;
   const Cls = (app.views.PaginatedList = class PaginatedList extends app.View {
@@ -16,23 +6,16 @@
     }
 
     constructor(data) {
-      let base; {
-        // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) {
-          super();
-        }
-        let thisFn = (() => {
-          return this;
-        }).toString();
-        let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-        eval(`${thisName} = this;`);
-      }
+      super(...arguments);
+
+      let base;
+
       this.onClick = this.onClick.bind(this);
       this.data = data;
       if (((base = this.constructor.events || (this.constructor.events = {}))).click == null) {
         base.click = 'onClick';
       }
-      super(...arguments);
+
     }
 
     renderPaginated() {

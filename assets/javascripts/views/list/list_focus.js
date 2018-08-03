@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.ListFocus = class ListFocus extends app.View {
+app.views.ListFocus = class ListFocus extends app.View {
   static initClass() {
     this.activeClass = 'focus';
 
@@ -22,20 +14,13 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
       superEnter: 'onSuperEnter',
       escape: 'blur'
     };
+
+    return this;
   }
 
   constructor(el) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+
     this.blur = this.blur.bind(this);
     this.onDown = this.onDown.bind(this);
     this.onUp = this.onUp.bind(this);
@@ -44,7 +29,7 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
     this.onSuperEnter = this.onSuperEnter.bind(this);
     this.onClick = this.onClick.bind(this);
     this.el = el;
-    super(...arguments);
+   
     this.focusOnNextFrame = $.framify(this.focus, this);
   }
 
@@ -199,5 +184,4 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
       });
     }
   }
-});
-Cls.initClass();
+}.initClass();
