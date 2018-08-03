@@ -1,24 +1,19 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-app.templates.helpPage = function() {
-  let key, value;
-  const ctrlKey = $.isMac() ? 'cmd' : 'ctrl';
-  const navKey = $.isMac() ? 'cmd' : 'alt';
+{
+  app.templates.helpPage = function () {
+    let key, value;
+    const ctrlKey = $.isMac() ? 'cmd' : 'ctrl';
+    const navKey = $.isMac() ? 'cmd' : 'alt';
 
-  const aliases_one = {};
-  const aliases_two = {};
-  const keys = Object.keys(app.models.Entry.ALIASES);
-  const middle = Math.ceil(keys.length / 2) - 1;
-  for (let i = 0; i < keys.length; i++) {
-    key = keys[i];
-    (i > middle ? aliases_two : aliases_one)[key] = app.models.Entry.ALIASES[key];
-  }
+    const aliases_one = {};
+    const aliases_two = {};
+    const keys = Object.keys(app.models.Entry.ALIASES);
+    const middle = Math.ceil(keys.length / 2) - 1;
+    for (let i = 0; i < keys.length; i++) {
+      key = keys[i];
+      (i > middle ? aliases_two : aliases_one)[key] = app.models.Entry.ALIASES[key];
+    }
 
-  return `\
+    return `\
 <nav class="_toc" role="directory">
   <h3 class="_toc-title">Table of Contents</h3>
   <ul class="_toc-list">
@@ -176,4 +171,5 @@ app.templates.helpPage = function() {
 </div>
 <p>Feel free to suggest new aliases on <a href="https://github.com/freeCodeCamp/devdocs/issues/new">GitHub</a>.\
 `;
-};
+  };
+}

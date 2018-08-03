@@ -1,9 +1,5 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-app.templates.settingsPage = settings => `\
+{
+  app.templates.settingsPage = settings => `\
 <h1 class="_lined-heading">Preferences</h1>
 
 <div class="_settings-fieldset">
@@ -46,4 +42,5 @@ app.templates.settingsPage = settings => `\
 
 <p>
   <button type="button" class="_btn-link _reset-btn" data-behavior="reset">Reset all preferences and data</button>\
-` ;
+`;
+}
