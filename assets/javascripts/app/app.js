@@ -12,17 +12,23 @@ this.app = {
   _$$: $$,
   _page: page,
   collections: {},
-  models:      {},
-  templates:   {},
-  views:       {},
+  models: {},
+  templates: {},
+  views: {},
 
   init() {
-    try { this.initErrorTracking(); } catch (error) {}
-    if (!this.browserCheck()) { return; }
+    try {
+      this.initErrorTracking();
+    } catch (error) {}
+    if (!this.browserCheck()) {
+      return;
+    }
 
     this.el = $('._app');
     this.localStorage = new LocalStorageStore;
-    if (app.AppCache.isEnabled()) { this.appCache = new app.AppCache; }
+    if (app.AppCache.isEnabled()) {
+      this.appCache = new app.AppCache;
+    }
     this.settings = new app.Settings;
     this.db = new app.DB();
 
@@ -33,7 +39,9 @@ this.app = {
     this.router = new app.Router;
     this.shortcuts = new app.Shortcuts;
     this.document = new app.views.Document;
-    if (this.isMobile()) { this.mobile = new app.views.Mobile; }
+    if (this.isMobile()) {
+      this.mobile = new app.views.Mobile;
+    }
 
     if (document.body.hasAttribute('data-doc')) {
       this.DOC = JSON.parse(document.body.getAttribute('data-doc'));
@@ -46,7 +54,9 @@ this.app = {
   },
 
   browserCheck() {
-    if (this.isSupportedBrowser()) { return true; }
+    if (this.isSupportedBrowser()) {
+      return true;
+    }
     document.body.innerHTML = app.templates.unsupportedBrowser;
     this.hideLoadingScreen();
     return false;
@@ -85,8 +95,12 @@ this.app = {
           dataCallback(data) {
             try {
               $.extend(data.user || (data.user = {}), app.settings.dump());
-              if (data.user.docs) { data.user.docs = data.user.docs.split('/'); }
-              if (app.lastIDBTransaction) { data.user.lastIDBTransaction = app.lastIDBTransaction; }
+              if (data.user.docs) {
+                data.user.docs = data.user.docs.split('/');
+              }
+              if (app.lastIDBTransaction) {
+                data.user.lastIDBTransaction = app.lastIDBTransaction;
+              }
               data.tags.scriptCount = document.scripts.length;
             } catch (error) {}
             return data;
@@ -102,7 +116,9 @@ this.app = {
   bootOne() {
     this.doc = new app.models.Doc(this.DOC);
     this.docs.reset([this.doc]);
-    this.doc.load(this.start.bind(this), this.onBootError.bind(this), {readCache: true});
+    this.doc.load(this.start.bind(this), this.onBootError.bind(this), {
+      readCache: true
+    });
     new app.views.Notice('singleDoc', this.doc);
     delete this.DOC;
   },
@@ -113,39 +129,60 @@ this.app = {
       (docs.indexOf(doc.slug) >= 0 ? this.docs : this.disabledDocs).add(doc);
     }
     this.migrateDocs();
-    this.docs.load(this.start.bind(this), this.onBootError.bind(this), {readCache: true, writeCache: true});
+    this.docs.load(this.start.bind(this), this.onBootError.bind(this), {
+      readCache: true,
+      writeCache: true
+    });
     delete this.DOCS;
   },
 
   start() {
-    for (var doc of Array.from(this.docs.all())) { this.entries.add(doc.toEntry()); }
-    for (doc of Array.from(this.disabledDocs.all())) { this.entries.add(doc.toEntry()); }
-    for (doc of Array.from(this.docs.all())) { this.initDoc(doc); }
+    for (var doc of Array.from(this.docs.all())) {
+      this.entries.add(doc.toEntry());
+    }
+    for (doc of Array.from(this.disabledDocs.all())) {
+      this.entries.add(doc.toEntry());
+    }
+    for (doc of Array.from(this.docs.all())) {
+      this.initDoc(doc);
+    }
     this.trigger('ready');
     this.router.start();
     this.hideLoadingScreen();
     setTimeout(() => {
-      if (!this.doc) { this.welcomeBack(); }
+      if (!this.doc) {
+        this.welcomeBack();
+      }
       return this.removeEvent('ready bootError');
-    }
-    , 50);
+    }, 50);
   },
 
   initDoc(doc) {
-    for (let type of Array.from(doc.types.all())) { doc.entries.add(type.toEntry()); }
+    for (let type of Array.from(doc.types.all())) {
+      doc.entries.add(type.toEntry());
+    }
     this.entries.add(doc.entries.all());
   },
 
   migrateDocs() {
     let needsSaving;
     for (let slug of Array.from(this.settings.getDocs())) {
-      if (!this.docs.findBy('slug', slug)) {var doc;
-      
+      if (!this.docs.findBy('slug', slug)) {
+        var doc;
+
         needsSaving = true;
-        if (slug === 'webpack~2') { doc = this.disabledDocs.findBy('slug', 'webpack'); }
-        if (slug === 'angular~4_typescript') { doc = this.disabledDocs.findBy('slug', 'angular'); }
-        if (slug === 'angular~2_typescript') { doc = this.disabledDocs.findBy('slug', 'angular~2'); }
-        if (!doc) { doc = this.disabledDocs.findBy('slug_without_version', slug); }
+        if (slug === 'webpack~2') {
+          doc = this.disabledDocs.findBy('slug', 'webpack');
+        }
+        if (slug === 'angular~4_typescript') {
+          doc = this.disabledDocs.findBy('slug', 'angular');
+        }
+        if (slug === 'angular~2_typescript') {
+          doc = this.disabledDocs.findBy('slug', 'angular~2');
+        }
+        if (!doc) {
+          doc = this.disabledDocs.findBy('slug_without_version', slug);
+        }
         if (doc) {
           this.disabledDocs.remove(doc);
           this.docs.add(doc);
@@ -153,14 +190,20 @@ this.app = {
       }
     }
 
-    if (needsSaving) { this.saveDocs(); }
+    if (needsSaving) {
+      this.saveDocs();
+    }
   },
 
   enableDoc(doc, _onSuccess, onError) {
-    if (this.docs.contains(doc)) { return; }
+    if (this.docs.contains(doc)) {
+      return;
+    }
 
     const onSuccess = () => {
-      if (this.docs.contains(doc)) { return; }
+      if (this.docs.contains(doc)) {
+        return;
+      }
       this.disabledDocs.remove(doc);
       this.docs.add(doc);
       this.docs.sort();
@@ -169,7 +212,9 @@ this.app = {
       _onSuccess();
     };
 
-    doc.load(onSuccess, onError, {writeCache: true});
+    doc.load(onSuccess, onError, {
+      writeCache: true
+    });
   },
 
   saveDocs() {
@@ -181,7 +226,11 @@ this.app = {
   welcomeBack() {
     let visitCount = this.settings.get('count');
     this.settings.set('count', ++visitCount);
-    if (visitCount === 5) { new app.views.Notif('Share', {autoHide: null}); }
+    if (visitCount === 5) {
+      new app.views.Notif('Share', {
+        autoHide: null
+      });
+    }
     new app.views.News();
     new app.views.Updates();
     return this.updateChecker = new app.UpdateChecker();
@@ -190,7 +239,11 @@ this.app = {
   reload() {
     this.docs.clearCache();
     this.disabledDocs.clearCache();
-    if (this.appCache) { this.appCache.reload(); } else { window.location = '/'; }
+    if (this.appCache) {
+      this.appCache.reload();
+    } else {
+      window.location = '/';
+    }
   },
 
   reset() {
@@ -206,7 +259,9 @@ this.app = {
   },
 
   showTip(tip) {
-    if (this.isSingleDoc()) { return; }
+    if (this.isSingleDoc()) {
+      return;
+    }
     const tips = this.settings.getTips();
     if (tips.indexOf(tip) === -1) {
       tips.push(tip);
@@ -216,7 +271,9 @@ this.app = {
   },
 
   hideLoadingScreen() {
-    if ($.overlayScrollbarsEnabled()) { document.body.classList.add('_overlay-scrollbars'); }
+    if ($.overlayScrollbarsEnabled()) {
+      document.body.classList.add('_overlay-scrollbars');
+    }
     document.documentElement.classList.remove('_booting');
   },
 
@@ -232,20 +289,36 @@ this.app = {
   },
 
   onQuotaExceeded() {
-    if (this.quotaExceeded) { return; }
+    if (this.quotaExceeded) {
+      return;
+    }
     this.quotaExceeded = true;
-    new app.views.Notif('QuotaExceeded', {autoHide: null});
+    new app.views.Notif('QuotaExceeded', {
+      autoHide: null
+    });
   },
 
   onCookieBlocked(key, value, actual) {
-    if (this.cookieBlocked) { return; }
+    if (this.cookieBlocked) {
+      return;
+    }
     this.cookieBlocked = true;
-    new app.views.Notif('CookieBlocked', {autoHide: null});
-    Raven.captureMessage(`CookieBlocked/${key}`, {level: 'warning', extra: {value, actual}});
+    new app.views.Notif('CookieBlocked', {
+      autoHide: null
+    });
+    Raven.captureMessage(`CookieBlocked/${key}`, {
+      level: 'warning',
+      extra: {
+        value,
+        actual
+      }
+    });
   },
 
   onWindowError(...args) {
-    if (this.cookieBlocked) { return; }
+    if (this.cookieBlocked) {
+      return;
+    }
     if (this.isInjectionError(...Array.from(args || []))) {
       this.onInjectionError();
     } else if (this.isAppError(...Array.from(args || []))) {
@@ -253,7 +326,9 @@ this.app = {
         this.previousErrorHandler(...Array.from(args || []));
       }
       this.hideLoadingScreen();
-      if (!this.errorNotif) { this.errorNotif = new app.views.Notif('Error'); }
+      if (!this.errorNotif) {
+        this.errorNotif = new app.views.Notif('Error');
+      }
       this.errorNotif.show();
     }
   },
@@ -263,9 +338,10 @@ this.app = {
       this.injectionError = true;
       alert(`\
 JavaScript code has been injected in the page which prevents DevDocs from running correctly.
-Please check your browser extensions/addons. `
-      );
-      Raven.captureMessage('injection error', {level: 'info'});
+Please check your browser extensions/addons. `);
+      Raven.captureMessage('injection error', {
+        level: 'info'
+      });
     }
   },
 
@@ -283,25 +359,32 @@ Please check your browser extensions/addons. `
   isSupportedBrowser() {
     try {
       const features = {
-        bind:               !!Function.prototype.bind,
-        pushState:          !!history.pushState,
-        matchMedia:         !!window.matchMedia,
+        bind: !!Function.prototype.bind,
+        pushState: !!history.pushState,
+        matchMedia: !!window.matchMedia,
         insertAdjacentHTML: !!document.body.insertAdjacentHTML,
-        defaultPrevented:     document.createEvent('CustomEvent').defaultPrevented === false,
-        cssGradients:         supportsCssGradients()
+        defaultPrevented: document.createEvent('CustomEvent').defaultPrevented === false,
+        cssGradients: supportsCssGradients()
       };
 
       for (let key in features) {
         const value = features[key];
         if (!value) {
-          Raven.captureMessage(`unsupported/${key}`, {level: 'info'});
+          Raven.captureMessage(`unsupported/${key}`, {
+            level: 'info'
+          });
           return false;
         }
       }
 
       return true;
     } catch (error) {
-      Raven.captureMessage('unsupported/exception', {level: 'info', extra: { error }});
+      Raven.captureMessage('unsupported/exception', {
+        level: 'info',
+        extra: {
+          error
+        }
+      });
       return false;
     }
   },
@@ -323,7 +406,7 @@ Please check your browser extensions/addons. `
   }
 };
 
-var supportsCssGradients = function() {
+var supportsCssGradients = function () {
   const el = document.createElement('div');
   el.style.cssText = "background-image: -webkit-linear-gradient(top, #000, #fff); background-image: linear-gradient(to top, #000, #fff);";
   return el.style.backgroundImage.indexOf('gradient') >= 0;

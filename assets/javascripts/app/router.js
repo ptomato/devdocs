@@ -10,19 +10,19 @@
 const Cls = (app.Router = class Router {
   static initClass() {
     $.extend(this.prototype, Events);
-  
+
     this.routes = [
-      ['*',              'before'   ],
-      ['/',              'root'     ],
-      ['/settings',      'settings' ],
-      ['/offline',       'offline'  ],
-      ['/about',         'about'    ],
-      ['/news',          'news'     ],
-      ['/help',          'help'     ],
-      ['/:doc-:type/',   'type'     ],
-      ['/:doc/',         'doc'      ],
-      ['/:doc/:path(*)', 'entry'    ],
-      ['*',              'notFound' ]
+      ['*', 'before'],
+      ['/', 'root'],
+      ['/settings', 'settings'],
+      ['/offline', 'offline'],
+      ['/about', 'about'],
+      ['/news', 'news'],
+      ['/help', 'help'],
+      ['/:doc-:type/', 'type'],
+      ['/:doc/', 'doc'],
+      ['/:doc/:path(*)', 'entry'],
+      ['*', 'notFound']
     ];
   }
 
@@ -89,9 +89,15 @@ const Cls = (app.Router = class Router {
   entry(context, next) {
     let entry;
     const doc = app.docs.findBySlug(context.params.doc);
-    if (!doc) { return next(); }
-    let { path } = context.params;
-    const { hash } = context;
+    if (!doc) {
+      return next();
+    }
+    let {
+      path
+    } = context.params;
+    const {
+      hash
+    } = context;
 
     if (entry = doc.findEntryByPathAndHash(path, hash)) {
       context.doc = doc;
@@ -100,44 +106,60 @@ const Cls = (app.Router = class Router {
       return;
     } else if (path.slice(-6) === '/index') {
       path = path.substr(0, path.length - 6);
-      if (entry = doc.findEntryByPathAndHash(path, hash)) { return entry.fullPath(); }
+      if (entry = doc.findEntryByPathAndHash(path, hash)) {
+        return entry.fullPath();
+      }
     } else {
       path = `${path}/index`;
-      if (entry = doc.findEntryByPathAndHash(path, hash)) { return entry.fullPath(); }
+      if (entry = doc.findEntryByPathAndHash(path, hash)) {
+        return entry.fullPath();
+      }
     }
 
     return next();
   }
 
   root() {
-    if (app.isSingleDoc()) { return '/'; }
+    if (app.isSingleDoc()) {
+      return '/';
+    }
     this.triggerRoute('root');
   }
 
   settings(context) {
-    if (app.isSingleDoc()) { return `/#/${context.path}`; }
+    if (app.isSingleDoc()) {
+      return `/#/${context.path}`;
+    }
     this.triggerRoute('settings');
   }
 
-  offline(context){
-    if (app.isSingleDoc()) { return `/#/${context.path}`; }
+  offline(context) {
+    if (app.isSingleDoc()) {
+      return `/#/${context.path}`;
+    }
     this.triggerRoute('offline');
   }
 
   about(context) {
-    if (app.isSingleDoc()) { return `/#/${context.path}`; }
+    if (app.isSingleDoc()) {
+      return `/#/${context.path}`;
+    }
     context.page = 'about';
     this.triggerRoute('page');
   }
 
   news(context) {
-    if (app.isSingleDoc()) { return `/#/${context.path}`; }
+    if (app.isSingleDoc()) {
+      return `/#/${context.path}`;
+    }
     context.page = 'news';
     this.triggerRoute('page');
   }
 
   help(context) {
-    if (app.isSingleDoc()) { return `/#/${context.path}`; }
+    if (app.isSingleDoc()) {
+      return `/#/${context.path}`;
+    }
     context.page = 'help';
     this.triggerRoute('page');
   }
