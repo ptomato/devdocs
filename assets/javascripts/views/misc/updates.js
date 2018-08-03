@@ -11,16 +11,19 @@
 const Cls = (app.views.Updates = class Updates extends app.views.Notif {
   static initClass() {
     this.className += ' _notif-news';
-  
-    this.defautOptions =
-      {autoHide: 30000};
+
+    this.defautOptions = {
+      autoHide: 30000
+    };
   }
 
   init() {
     this.lastUpdateTime = this.getLastUpdateTime();
     this.updatedDocs = this.getUpdatedDocs();
     this.updatedDisabledDocs = this.getUpdatedDisabledDocs();
-    if ((this.updatedDocs.length > 0) || (this.updatedDisabledDocs.length > 0)) { this.show(); }
+    if ((this.updatedDocs.length > 0) || (this.updatedDisabledDocs.length > 0)) {
+      this.show();
+    }
     this.markAllAsRead();
   }
 
@@ -29,15 +32,20 @@ const Cls = (app.views.Updates = class Updates extends app.views.Notif {
   }
 
   getUpdatedDocs() {
-    if (!this.lastUpdateTime) { return []; }
+    if (!this.lastUpdateTime) {
+      return [];
+    }
     return Array.from(app.docs.all()).filter((doc) => doc.mtime > this.lastUpdateTime);
   }
 
   getUpdatedDisabledDocs() {
-    if (!this.lastUpdateTime) { return []; }
+    if (!this.lastUpdateTime) {
+      return [];
+    }
     return (() => {
       const result = [];
-      for (let doc of Array.from(app.disabledDocs.all())) {         if ((doc.mtime > this.lastUpdateTime) && app.docs.findBy('slug_without_version', doc.slug_without_version)) {
+      for (let doc of Array.from(app.disabledDocs.all())) {
+        if ((doc.mtime > this.lastUpdateTime) && app.docs.findBy('slug_without_version', doc.slug_without_version)) {
           result.push(doc);
         }
       }

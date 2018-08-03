@@ -11,14 +11,17 @@
 const Cls = (app.views.News = class News extends app.views.Notif {
   static initClass() {
     this.className += ' _notif-news';
-  
-    this.defautOptions =
-      {autoHide: 30000};
+
+    this.defautOptions = {
+      autoHide: 30000
+    };
   }
 
   init() {
     this.unreadNews = this.getUnreadNews();
-    if (this.unreadNews.length) { this.show(); }
+    if (this.unreadNews.length) {
+      this.show();
+    }
     this.markAllAsRead();
   }
 
@@ -28,12 +31,16 @@ const Cls = (app.views.News = class News extends app.views.Notif {
 
   getUnreadNews() {
     let time;
-    if (!(time = this.getLastReadTime())) { return []; }
+    if (!(time = this.getLastReadTime())) {
+      return [];
+    }
 
     return (() => {
       const result = [];
       for (let news of Array.from(app.news)) {
-        if (new Date(news[0]).getTime() <= time) { break; }
+        if (new Date(news[0]).getTime() <= time) {
+          break;
+        }
         result.push(news);
       }
       return result;

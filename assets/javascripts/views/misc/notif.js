@@ -9,27 +9,36 @@ const Cls = (app.views.Notif = class Notif extends app.View {
   static initClass() {
     this.className = '_notif';
     this.activeClass = '_in';
-    this.attributes =
-      {role: 'alert'};
-  
-    this.defautOptions =
-      {autoHide: 15000};
-  
-    this.events =
-      {click: 'onClick'};
+    this.attributes = {
+      role: 'alert'
+    };
+
+    this.defautOptions = {
+      autoHide: 15000
+    };
+
+    this.events = {
+      click: 'onClick'
+    };
   }
 
   constructor(type, options) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
     this.onClick = this.onClick.bind(this);
     this.type = type;
-    if (options == null) { options = {}; }
+    if (options == null) {
+      options = {};
+    }
     this.options = options;
     this.options = $.extend({}, this.constructor.defautOptions, this.options);
     super(...arguments);
@@ -50,7 +59,9 @@ const Cls = (app.views.Notif = class Notif extends app.View {
       this.appendTo(document.body);
       this.el.offsetWidth; // force reflow
       this.addClass(this.constructor.activeClass);
-      if (this.options.autoHide) { this.timeout = this.delay(this.hide, this.options.autoHide); }
+      if (this.options.autoHide) {
+        this.timeout = this.delay(this.hide, this.options.autoHide);
+      }
     }
   }
 
@@ -73,9 +84,13 @@ const Cls = (app.views.Notif = class Notif extends app.View {
   }
 
   onClick(event) {
-    if (event.which !== 1) { return; }
+    if (event.which !== 1) {
+      return;
+    }
     const target = $.eventTarget(event);
-    if (target.hasAttribute('data-behavior')) { return; }
+    if (target.hasAttribute('data-behavior')) {
+      return;
+    }
     if ((target.tagName !== 'A') || target.classList.contains('_notif-close')) {
       $.stopEvent(event);
       this.hide();
