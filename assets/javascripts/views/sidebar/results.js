@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Results = class Results extends app.View {
+app.views.Results = class Results extends app.View {
   static initClass() {
     this.className = '_list';
 
@@ -17,19 +9,13 @@ const Cls = (app.views.Results = class Results extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
+
+    return this;
   }
 
   constructor(sidebar, search) {
-    { // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+
     this.onResults = this.onResults.bind(this);
     this.onNoResults = this.onNoResults.bind(this);
     this.onClear = this.onClear.bind(this);
@@ -37,16 +23,7 @@ const Cls = (app.views.Results = class Results extends app.View {
     this.onClick = this.onClick.bind(this);
     this.sidebar = sidebar;
     this.search = search;
-    super(...arguments);
-  }
 
-  deactivate() {
-    if (super.deactivate(...arguments)) {
-      this.empty();
-    }
-  }
-
-  init() {
     this.addSubview(this.listFocus = new app.views.ListFocus(this.el));
     this.addSubview(this.listSelect = new app.views.ListSelect(this.el));
 
@@ -54,6 +31,12 @@ const Cls = (app.views.Results = class Results extends app.View {
       .on('results', this.onResults)
       .on('noresults', this.onNoResults)
       .on('clear', this.onClear);
+  }
+
+  deactivate() {
+    if (super.deactivate(...arguments)) {
+      this.empty();
+    }
   }
 
   onResults(entries, flags) {
@@ -124,5 +107,4 @@ const Cls = (app.views.Results = class Results extends app.View {
       }
     }
   }
-});
-Cls.initClass();
+}.initClass();

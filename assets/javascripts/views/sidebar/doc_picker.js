@@ -1,30 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.DocPicker = class DocPicker extends app.View {
+app.views.DocPicker = class DocPicker extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...args);
+
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onDOMFocus = this.onDOMFocus.bind(this);
-    super(...args);
+
+    this.addSubview(this.listFold = new app.views.ListFold(this.el));
   }
 
   static initClass() {
@@ -34,10 +16,8 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
       mousedown: 'onMouseDown',
       mouseup: 'onMouseUp'
     };
-  }
 
-  init() {
-    this.addSubview(this.listFold = new app.views.ListFold(this.el));
+    return this;
   }
 
   activate() {
@@ -75,13 +55,18 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
     }
 
     this.html(html + this.tmpl('docPickerNote'));
+    const inputTags = this.findByTag('input');
 
-    $.requestAnimationFrame(() => __guard__(this.findByTag('input'), x => x.focus()));
+    if (inputTags) {
+      $.requestAnimationFrame(() => {
+        inputTags.focus();
+      });
+    }
   }
 
   renderVersions(docs) {
     let html = '';
-    for (let doc of Array.from(docs)) {
+    for (let doc of docs) {
       html += this.tmpl('sidebarLabel', doc, {
         checked: app.docs.contains(doc)
       });
@@ -149,9 +134,4 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
     }
     this.focusEl = target;
   }
-});
-Cls.initClass();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+}.initClass();

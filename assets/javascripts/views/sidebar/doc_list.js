@@ -1,31 +1,21 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.DocList = class DocList extends app.View {
+app.views.DocList = class DocList extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...args);
+
     this.render = this.render.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onEnabled = this.onEnabled.bind(this);
     this.afterRoute = this.afterRoute.bind(this);
-    super(...args);
+
+    this.lists = {};
+
+    this.addSubview(this.listFocus = new app.views.ListFocus(this.el));
+    this.addSubview(this.listFold = new app.views.ListFold(this.el));
+    this.addSubview(this.listSelect = new app.views.ListSelect(this.el));
+
+    app.on('ready', this.render);
   }
 
   static initClass() {
@@ -48,16 +38,8 @@ const Cls = (app.views.DocList = class DocList extends app.View {
       disabledTitle: '._list-title',
       disabledList: '._disabled-list'
     };
-  }
 
-  init() {
-    this.lists = {};
-
-    this.addSubview(this.listFocus = new app.views.ListFocus(this.el));
-    this.addSubview(this.listFold = new app.views.ListFold(this.el));
-    this.addSubview(this.listSelect = new app.views.ListSelect(this.el));
-
-    app.on('ready', this.render);
+    return this;
   }
 
   activate() {
@@ -81,7 +63,7 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
   render() {
     let html = '';
-    for (let doc of Array.from(app.docs.all())) {
+    for (let doc of app.docs.all()) {
       html += this.tmpl('sidebarDoc', doc, {
         fullName: app.docs.countAllBy('name', doc.name) > 1
       });
@@ -111,7 +93,7 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   appendDisabledList() {
     let doc;
     let html = '';
-    const docs = [].concat(...Array.from(app.disabledDocs.all() || []));
+    const docs = [].concat(...(app.disabledDocs.all() || []));
 
     while ((doc = docs.shift())) {
       if (doc.version != null) {
@@ -278,5 +260,4 @@ const Cls = (app.views.DocList = class DocList extends app.View {
       this.select(context.type || context.entry);
     }
   }
-});
-Cls.initClass();
+}.initClass();

@@ -1,13 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
+app.views.SidebarHover = class SidebarHover extends app.View {
   static initClass() {
     this.itemClass = '_list-hover';
 
@@ -23,20 +14,12 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
     this.routes = {
       after: 'onRoute'
     };
+
+    return this;
   }
 
   constructor(el) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
     this.position = this.position.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -46,10 +29,14 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
     this.onClick = this.onClick.bind(this);
     this.onRoute = this.onRoute.bind(this);
     this.el = el;
-    if (!isPointerEventsSupported()) {
+
+    // TODO Cleanup (el_)
+    const el_ = document.createElement('div');
+    el_.style.cssText = 'pointer-events: auto';
+
+    if (el_.style.pointerEvents !== 'auto') {
       delete this.constructor.events.mouseover;
     }
-    super(...arguments);
   }
 
   show(el) {
@@ -93,7 +80,11 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
   }
 
   isTarget(el) {
-    return __guard__(el != null ? el.classList : undefined, x => x.contains(this.constructor.itemClass));
+    if (el != null && el.classList) {
+      return el.classList.contains(this.constructor.itemClass);
+    }
+
+    return false;
   }
 
   isSelected(el) {
@@ -143,15 +134,4 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
   onRoute() {
     this.hide();
   }
-});
-Cls.initClass();
-
-var isPointerEventsSupported = function () {
-  const el = document.createElement('div');
-  el.style.cssText = 'pointer-events: auto';
-  return el.style.pointerEvents === 'auto';
-};
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+}.initClass();

@@ -1,25 +1,7 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Sidebar = class Sidebar extends app.View {
+app.views.Sidebar = class Sidebar extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...args);
+
     this.resetHoverOnMouseMove = this.resetHoverOnMouseMove.bind(this);
     this.resetHover = this.resetHover.bind(this);
     this.showResults = this.showResults.bind(this);
@@ -33,29 +15,7 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
     this.onAltR = this.onAltR.bind(this);
     this.onEscape = this.onEscape.bind(this);
     this.afterRoute = this.afterRoute.bind(this);
-    super(...args);
-  }
 
-  static initClass() {
-    this.el = '._sidebar';
-
-    this.events = {
-      focus: 'onFocus',
-      select: 'onSelect',
-      click: 'onClick'
-    };
-
-    this.routes = {
-      after: 'afterRoute'
-    };
-
-    this.shortcuts = {
-      altR: 'onAltR',
-      escape: 'onEscape'
-    };
-  }
-
-  init() {
     if (!app.isMobile()) {
       this.addSubview(this.hover = new app.views.SidebarHover(this.el));
     }
@@ -80,6 +40,27 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
     $.on(document.documentElement, 'mouseenter', () => this.resetDisplay({
       forceNoHover: false
     }));
+  }
+
+  static initClass() {
+    this.el = '._sidebar';
+
+    this.events = {
+      focus: 'onFocus',
+      select: 'onSelect',
+      click: 'onClick'
+    };
+
+    this.routes = {
+      after: 'afterRoute'
+    };
+
+    this.shortcuts = {
+      altR: 'onAltR',
+      escape: 'onEscape'
+    };
+
+    return this;
   }
 
   display() {
@@ -208,7 +189,11 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
     if (event.which !== 1) {
       return;
     }
-    if (__guardMethod__($.eventTarget(event), 'hasAttribute', o => o.hasAttribute('data-reset-list'))) {
+
+    let target = $.eventTarget(event);
+
+    // TODO: Cleanup
+    if (target && typeof target.hasAttribute !== 'undefined' && target.hasAttribute && target.hasAttribute('data-reset-list')) {
       $.stopEvent(event);
       this.onAltR();
     }
@@ -247,13 +232,4 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
     }
     this.resetDisplay();
   }
-});
-Cls.initClass();
-
-function __guardMethod__(obj, methodName, transform) {
-  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
-    return transform(obj, methodName);
-  } else {
-    return undefined;
-  }
-}
+}.initClass();
