@@ -6,13 +6,13 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-(function() {
+(function () {
   let GUIDES_RGX = undefined;
   let APPENDIX_RGX = undefined;
   const Cls = (app.collections.Types = class Types extends app.Collection {
     static initClass() {
       this.model = 'Type';
-  
+
       GUIDES_RGX = /(^|\()(guides?|tutorials?|reference|book|getting\ started|manual|examples)($|[\):])/i;
       APPENDIX_RGX = /appendix/i;
     }
