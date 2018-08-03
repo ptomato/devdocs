@@ -1,11 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let INT = undefined;
   const Cls = (this.CookieStore = class CookieStore {
@@ -50,7 +42,7 @@
 
     reset() {
       try {
-        for (let cookie of Array.from(document.cookie.split(/;\s?/))) {
+        for (let cookie of document.cookie.split(/;\s?/)) {
           Cookies.expire(cookie.split('=')[0]);
         }
         return;
@@ -59,7 +51,7 @@
 
     dump() {
       const result = {};
-      for (let cookie of Array.from(document.cookie.split(/;\s?/))) {
+      for (let cookie of document.cookie.split(/;\s?/)) {
         if (cookie[0] !== '_') {
           cookie = cookie.split('=');
           result[cookie[0]] = cookie[1];

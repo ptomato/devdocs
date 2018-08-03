@@ -1,16 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * DS208: Avoid top-level this
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const MIME_TYPES = {
-  json: 'application/json',
-  html: 'text/html'
-};
-
 this.ajax = function (options) {
   applyDefaults(options);
   serializeData(options);
@@ -96,6 +83,12 @@ var applyCallbacks = function (xhr, options) {
 };
 
 var applyHeaders = function (xhr, options) {
+  // TODO MIME_TYPES temporarily moved out of global scope.
+  const MIME_TYPES = {
+    json: 'application/json',
+    html: 'text/html'
+  };
+
   if (!options.headers) {
     options.headers = {};
   }

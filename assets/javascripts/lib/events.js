@@ -1,16 +1,7 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS207: Consider shorter variations of null checks
- * DS208: Avoid top-level this
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 this.Events = {
   on(event, callback) {
     if (event.indexOf(' ') >= 0) {
-      for (let name of Array.from(event.split(' '))) {
+      for (let name of event.split(' ')) {
         this.on(name, callback);
       }
     } else {
@@ -23,7 +14,7 @@ this.Events = {
   off(event, callback) {
     let callbacks, index;
     if (event.indexOf(' ') >= 0) {
-      for (let name of Array.from(event.split(' '))) {
+      for (let name of event.split(' ')) {
         this.off(name, callback);
       }
     } else if ((callbacks = this._callbacks != null ? this._callbacks[event] : undefined) && ((index = callbacks.indexOf(callback)) >= 0)) {
@@ -42,22 +33,22 @@ this.Events = {
       args
     };
     if (callbacks = this._callbacks != null ? this._callbacks[event] : undefined) {
-      for (let callback of Array.from(callbacks.slice(0))) {
+      for (let callback of callbacks.slice(0)) {
         if (typeof callback === 'function') {
-          callback(...Array.from(args || []));
+          callback(...(args || []));
         }
       }
     }
     this.eventInProgress = null;
     if (event !== 'all') {
-      this.trigger('all', event, ...Array.from(args));
+      this.trigger('all', event, ...args);
     }
     return this;
   },
 
   removeEvent(event) {
     if (this._callbacks != null) {
-      for (let name of Array.from(event.split(' '))) {
+      for (let name of event.split(' ')) {
         delete this._callbacks[name];
       }
     }
