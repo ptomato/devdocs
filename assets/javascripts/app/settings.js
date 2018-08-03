@@ -63,7 +63,13 @@
     }
 
     getDocs() {
-      return __guard__(this.store.get('docs'), x => x.split('/')) || app.config.default_docs;
+      let docs = this.store.get('docs');
+
+      if (docs) {
+        return docs.split('/');
+      }
+      
+      return app.config.default_docs;
     }
 
     setDocs(docs) {
