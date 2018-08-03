@@ -9,25 +9,30 @@
 const Cls = (app.views.ListFocus = class ListFocus extends app.View {
   static initClass() {
     this.activeClass = 'focus';
-  
-    this.events =
-      {click: 'onClick'};
-  
+
+    this.events = {
+      click: 'onClick'
+    };
+
     this.shortcuts = {
-      up:         'onUp',
-      down:       'onDown',
-      left:       'onLeft',
-      enter:      'onEnter',
+      up: 'onUp',
+      down: 'onDown',
+      left: 'onLeft',
+      enter: 'onEnter',
       superEnter: 'onSuperEnter',
-      escape:     'blur'
+      escape: 'blur'
     };
   }
 
   constructor(el) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -44,11 +49,15 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
   }
 
   focus(el, options) {
-    if (options == null) { options = {}; }
+    if (options == null) {
+      options = {};
+    }
     if (el && !el.classList.contains(this.constructor.activeClass)) {
       this.blur();
       el.classList.add(this.constructor.activeClass);
-      if (options.silent !== true) { $.trigger(el, 'focus'); }
+      if (options.silent !== true) {
+        $.trigger(el, 'focus');
+      }
     }
   }
 
@@ -88,7 +97,9 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
 
   findFirst(cursor) {
     let first;
-    if (!(first = cursor.firstChild)) { return; }
+    if (!(first = cursor.firstChild)) {
+      return;
+    }
 
     if (first.tagName === 'A') {
       return first;
@@ -122,7 +133,9 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
 
   findLast(cursor) {
     let last;
-    if (!(last = cursor.lastChild)) { return; }
+    if (!(last = cursor.lastChild)) {
+      return;
+    }
 
     if (last.tagName === 'A') {
       return last;
@@ -155,7 +168,9 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
     const cursor = this.getCursor();
     if (cursor && !cursor.classList.contains(app.views.ListFold.activeClass) && (cursor.parentNode !== this.el)) {
       const prev = cursor.parentNode.previousSibling;
-      if (prev && prev.classList.contains(app.views.ListFold.targetClass)) { this.focusOnNextFrame(cursor.parentNode.previousSibling); }
+      if (prev && prev.classList.contains(app.views.ListFold.targetClass)) {
+        this.focusOnNextFrame(cursor.parentNode.previousSibling);
+      }
     }
   }
 
@@ -174,10 +189,14 @@ const Cls = (app.views.ListFocus = class ListFocus extends app.View {
   }
 
   onClick(event) {
-    if ((event.which !== 1) || event.metaKey || event.ctrlKey) { return; }
+    if ((event.which !== 1) || event.metaKey || event.ctrlKey) {
+      return;
+    }
     const target = $.eventTarget(event);
     if (target.tagName === 'A') {
-      this.focus(target, {silent: true});
+      this.focus(target, {
+        silent: true
+      });
     }
   }
 });

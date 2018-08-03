@@ -9,16 +9,32 @@
 const Cls = (app.views.ListSelect = class ListSelect extends app.View {
   static initClass() {
     this.activeClass = 'active';
-  
-    this.events =
-      {click: 'onClick'};
+
+    this.events = {
+      click: 'onClick'
+    };
   }
 
-  constructor(el) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.onClick = this.onClick.bind(this);   this.el = el; super(...arguments); }
+  constructor(el) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.onClick = this.onClick.bind(this);
+    this.el = el;
+    super(...arguments);
+  }
 
   deactivate() {
-    if (super.deactivate(...arguments)) { this.deselect(); }
+    if (super.deactivate(...arguments)) {
+      this.deselect();
+    }
   }
 
   select(el) {
@@ -52,7 +68,9 @@ const Cls = (app.views.ListSelect = class ListSelect extends app.View {
   }
 
   onClick(event) {
-    if ((event.which !== 1) || event.metaKey || event.ctrlKey) { return; }
+    if ((event.which !== 1) || event.metaKey || event.ctrlKey) {
+      return;
+    }
     const target = $.eventTarget(event);
     if (target.tagName === 'A') {
       this.select(target);

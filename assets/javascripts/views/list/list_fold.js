@@ -11,18 +11,34 @@ const Cls = (app.views.ListFold = class ListFold extends app.View {
     this.targetClass = '_list-dir';
     this.handleClass = '_list-arrow';
     this.activeClass = 'open';
-  
-    this.events =
-      {click: 'onClick'};
-  
+
+    this.events = {
+      click: 'onClick'
+    };
+
     this.shortcuts = {
-      left:   'onLeft',
-      right:  'onRight'
+      left: 'onLeft',
+      right: 'onRight'
     };
   }
 
-  constructor(el) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.onLeft = this.onLeft.bind(this);   this.onRight = this.onRight.bind(this);   this.onClick = this.onClick.bind(this);   this.el = el; super(...arguments); }
+  constructor(el) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.onLeft = this.onLeft.bind(this);
+    this.onRight = this.onRight.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.el = el;
+    super(...arguments);
+  }
 
   open(el) {
     if (el && !el.classList.contains(this.constructor.activeClass)) {
@@ -72,10 +88,16 @@ const Cls = (app.views.ListFold = class ListFold extends app.View {
   }
 
   onClick(event) {
-    if ((event.which !== 1) || event.metaKey || event.ctrlKey) { return; }
-    if (!event.pageY) { return; } // ignore fabricated clicks
+    if ((event.which !== 1) || event.metaKey || event.ctrlKey) {
+      return;
+    }
+    if (!event.pageY) {
+      return;
+    } // ignore fabricated clicks
     let el = $.eventTarget(event);
-    if (el.parentNode.tagName.toUpperCase() === 'SVG') { el = el.parentNode; }
+    if (el.parentNode.tagName.toUpperCase() === 'SVG') {
+      el = el.parentNode;
+    }
 
     if (el.classList.contains(this.constructor.handleClass)) {
       $.stopEvent(event);
@@ -83,7 +105,9 @@ const Cls = (app.views.ListFold = class ListFold extends app.View {
     } else if (el.classList.contains(this.constructor.targetClass)) {
       if (el.hasAttribute('href')) {
         if (el.classList.contains(this.constructor.activeClass)) {
-          if (el.classList.contains(app.views.ListSelect.activeClass)) { this.close(el); }
+          if (el.classList.contains(app.views.ListSelect.activeClass)) {
+            this.close(el);
+          }
         } else {
           this.open(el);
         }
