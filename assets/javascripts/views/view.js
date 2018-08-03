@@ -1,14 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.View = class View {
+app.View = class View {
   static initClass() {
     $.extend(this.prototype, Events);
+
+    return this;
   }
 
   constructor() {
@@ -71,7 +65,7 @@ const Cls = (app.View = class View {
   resetClass() {
     this.el.className = this.originalClassName || '';
     if (this.constructor.className) {
-      for (let name of Array.from(this.constructor.className.split(' '))) {
+      for (let name of this.constructor.className.split(' ')) {
         this.addClass(name);
       }
     }
@@ -150,12 +144,12 @@ const Cls = (app.View = class View {
   }
 
   tmpl(...args) {
-    return app.templates.render(...Array.from(args || []));
+    return app.templates.render(...(args || []));
   }
 
   delay(fn, ...args) {
     const delay = typeof args[args.length - 1] === 'number' ? args.pop() : 0;
-    return setTimeout(fn.bind(this, ...Array.from(args)), delay);
+    return setTimeout(fn.bind(this, ...(args)), delay);
   }
 
   onDOM(event, callback) {
@@ -224,7 +218,7 @@ const Cls = (app.View = class View {
     }
     this.bindEvents();
     if (this.subviews) {
-      for (let view of Array.from(this.subviews)) {
+      for (let view of this.subviews) {
         view.activate();
       }
     }
@@ -238,7 +232,7 @@ const Cls = (app.View = class View {
     }
     this.unbindEvents();
     if (this.subviews) {
-      for (let view of Array.from(this.subviews)) {
+      for (let view of this.subviews) {
         view.deactivate();
       }
     }
@@ -250,5 +244,4 @@ const Cls = (app.View = class View {
     this.deactivate();
     $.remove(this.el);
   }
-});
-Cls.initClass();
+}.initClass();
