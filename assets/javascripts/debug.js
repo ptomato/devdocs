@@ -7,14 +7,16 @@
  * DS209: Avoid top-level return
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-if (!(typeof console !== 'undefined' && console !== null ? console.time : undefined) || !console.groupCollapsed) { return; }
+if (!(typeof console !== 'undefined' && console !== null ? console.time : undefined) || !console.groupCollapsed) {
+  return;
+}
 
 //
 // App
 //
 
 const _init = app.init;
-app.init = function() {
+app.init = function () {
   console.time('Init');
   _init.call(app);
   console.timeEnd('Init');
@@ -22,7 +24,7 @@ app.init = function() {
 };
 
 const _start = app.start;
-app.start = function() {
+app.start = function () {
   console.timeEnd('Load');
   console.time('Start');
   _start.call(app, ...arguments);
@@ -36,11 +38,11 @@ app.start = function() {
 const _super = app.Searcher;
 const _proto = app.Searcher.prototype;
 
-app.Searcher = function() {
+app.Searcher = function () {
   _super.apply(this, arguments);
 
   const _setup = this.setup.bind(this);
-  this.setup = function() {
+  this.setup = function () {
     console.groupCollapsed(`Search: ${this.query}`);
     console.time('Total');
     return _setup();
@@ -48,18 +50,20 @@ app.Searcher = function() {
 
   const _match = this.match.bind(this);
   this.match = () => {
-    if (this.matcher) { console.timeEnd(this.matcher.name); }
+    if (this.matcher) {
+      console.timeEnd(this.matcher.name);
+    }
     return _match();
   };
 
   const _setupMatcher = this.setupMatcher.bind(this);
-  this.setupMatcher = function() {
+  this.setupMatcher = function () {
     console.time(this.matcher.name);
     return _setupMatcher();
   };
 
   const _end = this.end.bind(this);
-  this.end = function() {
+  this.end = function () {
     console.log(`Results: ${this.totalResults}`);
     console.timeEnd('Total');
     console.groupEnd();
@@ -67,9 +71,11 @@ app.Searcher = function() {
   };
 
   const _kill = this.kill.bind(this);
-  this.kill = function() {
+  this.kill = function () {
     if (this.timeout) {
-      if (this.matcher) { console.timeEnd(this.matcher.name); }
+      if (this.matcher) {
+        console.timeEnd(this.matcher.name);
+      }
       console.groupEnd();
       console.timeEnd('Total');
       console.warn('Killed');
@@ -87,15 +93,23 @@ app.Searcher.prototype = _proto;
 // View tree
 //
 
-this.viewTree = function(view, level, visited) {
-  if (view == null) { view = app.document; }
-  if (level == null) { level = 0; }
-  if (visited == null) { visited = []; }
-  if (visited.indexOf(view) >= 0) { return; }
+this.viewTree = function (view, level, visited) {
+  if (view == null) {
+    view = app.document;
+  }
+  if (level == null) {
+    level = 0;
+  }
+  if (visited == null) {
+    visited = [];
+  }
+  if (visited.indexOf(view) >= 0) {
+    return;
+  }
   visited.push(view);
 
   console.log(`%c ${Array(level + 1).join('  ')}${view.constructor.name}: ${!!view.activated}`,
-              `color:${(view.activated && 'green') || 'red'}`);
+    `color:${(view.activated && 'green') || 'red'}`);
 
   for (let key of Object.keys(view || {})) {
     const value = view[key];
@@ -103,7 +117,12 @@ this.viewTree = function(view, level, visited) {
       if ((typeof value === 'object') && value.setupElement) {
         this.viewTree(value, level + 1, visited);
       } else if (value.constructor.toString().match(/Object\(\)/)) {
-        for (let k of Object.keys(value || {})) { const v = value[k]; if (v && (typeof v === 'object') && v.setupElement) { this.viewTree(v, level + 1, visited); } }
+        for (let k of Object.keys(value || {})) {
+          const v = value[k];
+          if (v && (typeof v === 'object') && v.setupElement) {
+            this.viewTree(v, level + 1, visited);
+          }
+        }
       }
     }
   }
