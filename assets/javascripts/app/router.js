@@ -162,7 +162,7 @@ app.Router = class Router {
   }
 
   isIndex() {
-    return ((this.context != null ? this.context.path : undefined) === '/') || (app.isSingleDoc() && this.context != null && this.context.entry.isIndex());
+    return ((this.context != null ? this.context.path : undefined) === '/') || (app.isSingleDoc() && this.context != null && this.context.entry != null && this.context.entry.isIndex());
   }
 
   setInitialPath() {
