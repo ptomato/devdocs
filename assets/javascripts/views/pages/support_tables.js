@@ -1,15 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 //= require views/pages/base
 
-const Cls = (app.views.SupportTablesPage = class SupportTablesPage extends app.views.BasePage {
+app.views.SupportTablesPage = class SupportTablesPage extends app.views.BasePage {
   static initClass() {
     this.events = {
       click: 'onClick'
     };
+
+    return this;
   }
 
   onClick(event) {
@@ -24,5 +21,4 @@ const Cls = (app.views.SupportTablesPage = class SupportTablesPage extends app.v
     }
     el.classList.add('show-all');
   }
-});
-Cls.initClass();
+}.initClass();

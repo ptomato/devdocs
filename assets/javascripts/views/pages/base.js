@@ -1,27 +1,10 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 app.views.BasePage = class BasePage extends app.View {
   constructor(el, entry) {
-    { // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+    
     this.paintCode = this.paintCode.bind(this);
     this.el = el;
     this.entry = entry;
-    super(...arguments);
   }
 
   deactivate() {
@@ -53,7 +36,7 @@ app.views.BasePage = class BasePage extends app.View {
   }
 
   highlightCode() {
-    for (let el of Array.from(this.findAll('pre[data-language]'))) {
+    for (let el of this.findAll('pre[data-language]')) {
       const language = el.getAttribute('data-language');
       el.classList.add(`language-${language}`);
       this.highlightNodes.push(el);
@@ -71,7 +54,7 @@ app.views.BasePage = class BasePage extends app.View {
       this.nodesPerFrame = 10;
     }
 
-    for (let el of Array.from(this.highlightNodes.splice(0, this.nodesPerFrame))) {
+    for (let el of this.highlightNodes.splice(0, this.nodesPerFrame)) {
       var clipEl;
       if (clipEl = el.lastElementChild) {
         $.remove(clipEl);

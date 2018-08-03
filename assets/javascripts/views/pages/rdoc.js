@@ -1,16 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 //= require views/pages/base
 
-const Cls = (app.views.RdocPage = class RdocPage extends app.views.BasePage {
+app.views.RdocPage = class RdocPage extends app.views.BasePage {
   static initClass() {
     this.events = {
       click: 'onClick'
     };
+
+    return this;
   }
 
   onClick(event) {
@@ -25,5 +21,4 @@ const Cls = (app.views.RdocPage = class RdocPage extends app.views.BasePage {
     source.style.display = isShown ? 'none' : 'block';
     return event.target.textContent = isShown ? 'Show source' : 'Hide source';
   }
-});
-Cls.initClass();
+}.initClass();
