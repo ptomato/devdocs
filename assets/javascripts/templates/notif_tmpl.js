@@ -36,7 +36,7 @@ You can also report this issue on <a href="https://github.com/freeCodeCamp/devdo
     textNotif(" Oops, an error occurred. ",
       " The file you selected is invalid. ");
 
-  app.templates.notifNews = news => notif('Changelog', `<div class="_notif-content _notif-news">${app.templates.newsList(news, {years: false})}</div>`);
+  app.templates.notifNews = news => notif('Changelog', `<div class="_notif-content _notif-news">${app.templates.newsList((news || []), {years: false})}</div>`);
 
   app.templates.notifUpdates = function (docs, disabledDocs) {
     let doc;

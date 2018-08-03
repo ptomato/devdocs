@@ -58,7 +58,8 @@ this.app = {
     // from a domain other than our own, because things are likely to break.
     // (e.g. cross-domain requests)
     if (this.isInvalidLocation()) {
-      new app.views.Notif('InvalidLocation');
+      let notif = new app.views.Notif('InvalidLocation');
+      notif.show();
     } else {
       if (this.config.sentry_dsn) {
         Raven.config(this.config.sentry_dsn, {
@@ -218,9 +219,10 @@ this.app = {
     let visitCount = this.settings.get('count');
     this.settings.set('count', ++visitCount);
     if (visitCount === 5) {
-      new app.views.Notif('Share', {
+      let notif = new app.views.Notif('Share', {
         autoHide: null
       });
+      notif.show();
     }
     new app.views.News();
     new app.views.Updates();
@@ -284,9 +286,10 @@ this.app = {
       return;
     }
     this.quotaExceeded = true;
-    new app.views.Notif('QuotaExceeded', {
+    let notif = new app.views.Notif('QuotaExceeded', {
       autoHide: null
     });
+    notif.show();
   },
 
   onCookieBlocked(key, value, actual) {
@@ -294,9 +297,10 @@ this.app = {
       return;
     }
     this.cookieBlocked = true;
-    new app.views.Notif('CookieBlocked', {
+    let notif = new app.views.Notif('CookieBlocked', {
       autoHide: null
     });
+    notif.show();
     Raven.captureMessage(`CookieBlocked/${key}`, {
       level: 'warning',
       extra: {

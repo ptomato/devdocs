@@ -29,9 +29,10 @@ app.UpdateChecker = class UpdateChecker {
   }
 
   onUpdateReady() {
-    new app.views.Notif('UpdateReady', {
+    let notif = new app.views.Notif('UpdateReady', {
       autoHide: null
     });
+    notif.show();
   }
 
   checkDocs() {
@@ -47,9 +48,10 @@ app.UpdateChecker = class UpdateChecker {
   }
 
   onDocsUpdateReady() {
-    new app.views.Notif('UpdateDocs', {
+    let notif = new app.views.Notif('UpdateDocs', {
       autoHide: null
     });
+    notif.show();
   }
 
   onFocus() {

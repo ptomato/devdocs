@@ -84,9 +84,10 @@
 
     import (file, input) {
       if (!file || (file.type !== 'application/json')) {
-        new app.views.Notif('ImportInvalid', {
+        let notif = new app.views.Notif('ImportInvalid', {
           autoHide: false
         });
+        notif.show();
         return;
       }
 
@@ -98,9 +99,10 @@
           } catch (error) {}
         })();
         if (!data || (data.constructor !== Object)) {
-          new app.views.Notif('ImportInvalid', {
+          let notif = new app.views.Notif('ImportInvalid', {
             autoHide: false
           });
+          notif.show();
           return;
         }
         app.settings.import(data);
