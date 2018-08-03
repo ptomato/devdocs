@@ -1,13 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.Router = class Router {
+app.Router = class Router {
   static initClass() {
     $.extend(this.prototype, Events);
 
@@ -24,10 +15,12 @@ const Cls = (app.Router = class Router {
       ['/:doc/:path(*)', 'entry'],
       ['*', 'notFound']
     ];
+
+    return this;
   }
 
   constructor() {
-    for (let [path, method] of Array.from(this.constructor.routes)) {
+    for (let [path, method] of this.constructor.routes) {
       page(path, this[method].bind(this));
     }
     this.setInitialPath();
@@ -169,7 +162,7 @@ const Cls = (app.Router = class Router {
   }
 
   isIndex() {
-    return ((this.context != null ? this.context.path : undefined) === '/') || (app.isSingleDoc() && __guard__(this.context != null ? this.context.entry : undefined, x => x.isIndex()));
+    return ((this.context != null ? this.context.path : undefined) === '/') || (app.isSingleDoc() && this.context != null && this.context.entry.isIndex());
   }
 
   setInitialPath() {
@@ -190,7 +183,13 @@ const Cls = (app.Router = class Router {
 
   getInitialPathFromHash() {
     try {
-      return __guard__((new RegExp("#/(.+)")).exec(decodeURIComponent(location.hash)), x => x[1]);
+      let regExp = new RegExp("#/(.+)");
+      let res = regExp.exec(decodeURIComponent(location.hash));
+
+      if (res != null) {
+        return res[1];
+      }
+
     } catch (error) {}
   }
 
@@ -205,9 +204,4 @@ const Cls = (app.Router = class Router {
   replaceHash(hash) {
     page.replace(location.pathname + location.search + (hash || ''), null, true);
   }
-});
-Cls.initClass();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+}.initClass();

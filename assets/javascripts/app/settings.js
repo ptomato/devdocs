@@ -1,13 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS104: Avoid inline assignments
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let PREFERENCE_KEYS = undefined;
   let INTERNAL_KEYS = undefined;
@@ -81,7 +71,11 @@
     }
 
     getTips() {
-      return __guard__(this.store.get('tips'), x => x.split('/')) || [];
+      let tips = this.store.get('tips');
+      if (tips != null) {
+        return tips.split('/');
+      }
+      return [];
     }
 
     setTips(tips) {
@@ -122,7 +116,7 @@
 
     export () {
       const data = this.dump();
-      for (let key of Array.from(INTERNAL_KEYS)) {
+      for (let key of INTERNAL_KEYS) {
         delete data[key];
       }
       return data;
@@ -153,7 +147,3 @@
   Cls.initClass();
   return Cls;
 })();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}

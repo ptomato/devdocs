@@ -1,12 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let NAME = undefined;
   let VERSION = undefined;
@@ -182,7 +173,7 @@
         } catch (error) {}
       }
 
-      for (let doc of Array.from(app.docs.all())) {
+      for (let doc of app.docs.all()) {
         if (!$.arrayDelete(objectStoreNames, doc.slug)) {
           try {
             db.createObjectStore(doc.slug);
@@ -190,7 +181,7 @@
         }
       }
 
-      for (let name of Array.from(objectStoreNames)) {
+      for (let name of objectStoreNames) {
         try {
           db.deleteObjectStore(name);
         } catch (error2) {}
@@ -361,7 +352,7 @@
         return;
       }
       const result = {};
-      for (let doc of Array.from(docs)) {
+      for (let doc of docs) {
         result[doc.slug] = this.cachedVersion(doc);
       }
       return result;
@@ -465,13 +456,13 @@
           return;
         }
 
-        for (var slug of Array.from(docs)) {
+        for (var slug of docs) {
           if (!app.docs.findBy('slug', slug)) {
             this.corruptedDocs.push(slug);
           }
         }
 
-        for (slug of Array.from(this.corruptedDocs)) {
+        for (slug of this.corruptedDocs) {
           $.arrayDelete(docs, slug);
         }
 
@@ -491,7 +482,7 @@
           }
         };
 
-        for (let doc of Array.from(docs)) {
+        for (let doc of docs) {
           txn.objectStore(doc).get('index').onsuccess = event => {
             if (!event.target.result) {
               this.corruptedDocs.push(event.target.source.name);

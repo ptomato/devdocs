@@ -1,12 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.AppCache = class AppCache {
+app.AppCache = class AppCache {
   static initClass() {
     $.extend(this.prototype, Events);
+
+    return this;
   }
 
   static isEnabled() {
@@ -64,5 +60,4 @@ const Cls = (app.AppCache = class AppCache {
       this.trigger('updateready');
     }
   }
-});
-Cls.initClass();
+}.initClass();

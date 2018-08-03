@@ -1,12 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS207: Consider shorter variations of null checks
- * DS208: Avoid top-level this
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 this.app = {
   _$: $,
   _$$: $$,
@@ -78,7 +69,7 @@ this.app = {
           tags: {
             mode: this.isSingleDoc() ? 'single' : 'full',
             iframe: (window.top !== window).toString(),
-            electron: (!!__guard__(window.process != null ? window.process.versions : undefined, x => x.electron)).toString()
+            // TODO electron: (!!__guard__(window.process != null ? window.process.versions : undefined, x => x.electron)).toString()
           },
           shouldSendCallback: () => {
             try {
@@ -125,7 +116,7 @@ this.app = {
 
   bootAll() {
     const docs = this.settings.getDocs();
-    for (let doc of Array.from(this.DOCS)) {
+    for (let doc of this.DOCS) {
       (docs.indexOf(doc.slug) >= 0 ? this.docs : this.disabledDocs).add(doc);
     }
     this.migrateDocs();
@@ -137,13 +128,13 @@ this.app = {
   },
 
   start() {
-    for (var doc of Array.from(this.docs.all())) {
+    for (var doc of this.docs.all()) {
       this.entries.add(doc.toEntry());
     }
-    for (doc of Array.from(this.disabledDocs.all())) {
+    for (doc of this.disabledDocs.all()) {
       this.entries.add(doc.toEntry());
     }
-    for (doc of Array.from(this.docs.all())) {
+    for (doc of this.docs.all()) {
       this.initDoc(doc);
     }
     this.trigger('ready');
@@ -158,7 +149,7 @@ this.app = {
   },
 
   initDoc(doc) {
-    for (let type of Array.from(doc.types.all())) {
+    for (let type of doc.types.all()) {
       doc.entries.add(type.toEntry());
     }
     this.entries.add(doc.entries.all());
@@ -166,7 +157,7 @@ this.app = {
 
   migrateDocs() {
     let needsSaving;
-    for (let slug of Array.from(this.settings.getDocs())) {
+    for (let slug of this.settings.getDocs()) {
       if (!this.docs.findBy('slug', slug)) {
         var doc;
 
@@ -218,7 +209,7 @@ this.app = {
   },
 
   saveDocs() {
-    this.settings.setDocs(Array.from(this.docs.all()).map((doc) => doc.slug));
+    this.settings.setDocs(this.docs.all().map((doc) => doc.slug));
     this.db.migrate();
     return (this.appCache != null ? this.appCache.updateInBackground() : undefined);
   },
@@ -413,7 +404,3 @@ var supportsCssGradients = function () {
 };
 
 $.extend(app, Events);
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}

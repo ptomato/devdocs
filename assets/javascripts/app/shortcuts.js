@@ -1,14 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.Shortcuts = class Shortcuts {
+app.Shortcuts = class Shortcuts {
   static initClass() {
     $.extend(this.prototype, Events);
+
+    return this;
   }
 
   constructor() {
@@ -38,46 +32,32 @@ const Cls = (app.Shortcuts = class Shortcuts {
   }
 
   onKeydown(event) {
-    if (this.buggyEvent(event)) {
-      return;
-    }
+    if (this.buggyEvent(event)) { return; }
     const result = (() => {
       if (event.ctrlKey || event.metaKey) {
-        if (!event.altKey && !event.shiftKey) {
-          return this.handleKeydownSuperEvent(event);
-        }
-      } else if (event.shiftKey) {
-        if (!event.altKey) {
-          return this.handleKeydownShiftEvent(event);
-        }
-      } else if (event.altKey) {
-        return this.handleKeydownAltEvent(event);
-      } else {
-        return this.handleKeydownEvent(event);
-      }
+      if (!event.altKey && !event.shiftKey) { return this.handleKeydownSuperEvent(event); }
+    } else if (event.shiftKey) {
+      if (!event.altKey) { return this.handleKeydownShiftEvent(event); }
+    } else if (event.altKey) {
+      return this.handleKeydownAltEvent(event);
+    } else {
+      return this.handleKeydownEvent(event);
+    }
     })();
 
-    if (result === false) {
-      event.preventDefault();
-    }
+    if (result === false) { event.preventDefault(); }
   }
 
   onKeypress(event) {
-    if (this.buggyEvent(event)) {
-      return;
-    }
+    if (this.buggyEvent(event)) { return; }
     if (!event.ctrlKey && !event.metaKey) {
       const result = this.handleKeypressEvent(event);
-      if (result === false) {
-        event.preventDefault();
-      }
+      if (result === false) { event.preventDefault(); }
     }
   }
 
   handleKeydownEvent(event, _force) {
-    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) {
-      return this.handleKeydownAltEvent(event, true);
-    }
+    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) { return this.handleKeydownAltEvent(event, true); }
 
     if (!event.target.form && ((48 <= event.which && event.which <= 57) || (65 <= event.which && event.which <= 90))) {
       this.trigger('typing');
@@ -86,9 +66,7 @@ const Cls = (app.Shortcuts = class Shortcuts {
 
     switch (event.which) {
       case 8:
-        if (!event.target.form) {
-          return this.trigger('typing');
-        }
+        if (!event.target.form) { return this.trigger('typing'); }
         break;
       case 13:
         return this.trigger('enter');
@@ -106,19 +84,13 @@ const Cls = (app.Shortcuts = class Shortcuts {
       case 34:
         return this.trigger('pageDown');
       case 35:
-        if (!event.target.form) {
-          return this.trigger('pageBottom');
-        }
+        if (!event.target.form) { return this.trigger('pageBottom'); }
         break;
       case 36:
-        if (!event.target.form) {
-          return this.trigger('pageTop');
-        }
+        if (!event.target.form) { return this.trigger('pageTop'); }
         break;
       case 37:
-        if (!event.target.value) {
-          return this.trigger('left');
-        }
+        if (!event.target.value) { return this.trigger('left'); }
         break;
       case 38:
         this.trigger('up');
@@ -127,9 +99,7 @@ const Cls = (app.Shortcuts = class Shortcuts {
         }
         return false;
       case 39:
-        if (!event.target.value) {
-          return this.trigger('right');
-        }
+        if (!event.target.value) { return this.trigger('right'); }
         break;
       case 40:
         this.trigger('down');
@@ -175,27 +145,27 @@ const Cls = (app.Shortcuts = class Shortcuts {
   }
 
   handleKeydownShiftEvent(event, _force) {
-    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) {
-      return this.handleKeydownEvent(event, true);
-    }
+    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) { return this.handleKeydownEvent(event, true); }
 
     if (!event.target.form && (65 <= event.which && event.which <= 90)) {
       this.trigger('typing');
       return;
     }
-
+    
+    let selection = getSelection();
+    
     switch (event.which) {
       case 32:
         this.trigger('pageUp');
         return false;
       case 38:
-        if (!__guard__(getSelection(), x => x.toString())) {
+        if (selection != null && !selection.toString()) {
           this.trigger('altUp');
           return false;
         }
         break;
       case 40:
-        if (!__guard__(getSelection(), x1 => x1.toString())) {
+        if (selection != null && !selection.toString()) {
           this.trigger('altDown');
           return false;
         }
@@ -204,9 +174,7 @@ const Cls = (app.Shortcuts = class Shortcuts {
   }
 
   handleKeydownAltEvent(event, _force) {
-    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) {
-      return this.handleKeydownEvent(event, true);
-    }
+    if (!_force && [37, 38, 39, 40].includes(event.which) && this.swapArrowKeysBehavior()) { return this.handleKeydownEvent(event, true); }
 
     switch (event.which) {
       case 9:
@@ -265,9 +233,4 @@ const Cls = (app.Shortcuts = class Shortcuts {
       return true;
     }
   }
-});
-Cls.initClass();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+}.initClass();
