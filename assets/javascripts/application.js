@@ -1,8 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 //= require_tree ./vendor
 
 //= require lib/license
@@ -25,7 +20,7 @@
 
 //= require tracking
 
-var init = function() {
+var init = function () {
   document.removeEventListener('DOMContentLoaded', init, false);
 
   if (document.body) {
