@@ -1,28 +1,10 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let SEARCH_PARAM = undefined;
   let HASH_RGX = undefined;
   const Cls = (app.views.Search = class Search extends app.View {
     constructor(...args) {
-      {
-        // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) {
-          super();
-        }
-        let thisFn = (() => {
-          return this;
-        }).toString();
-        let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-        eval(`${thisName} = this;`);
-      }
+      super(...args);
+
       this.focus = this.focus.bind(this);
       this.autoFocus = this.autoFocus.bind(this);
       this.onWindowFocus = this.onWindowFocus.bind(this);
@@ -35,7 +17,17 @@
       this.onEnd = this.onEnd.bind(this);
       this.onClick = this.onClick.bind(this);
       this.afterRoute = this.afterRoute.bind(this);
-      super(...args);
+
+      this.addSubview(this.scope = new app.views.SearchScope(this.el));
+
+      this.searcher = new app.Searcher;
+      this.searcher
+        .on('results', this.onResults)
+        .on('end', this.onEnd);
+
+      app.on('ready', this.onReady);
+      $.on(window, 'hashchange', this.searchUrl);
+      $.on(window, 'focus', this.onWindowFocus);
     }
 
     static initClass() {
@@ -66,19 +58,6 @@
       };
 
       HASH_RGX = new RegExp(`^#${SEARCH_PARAM}=(.*)`);
-    }
-
-    init() {
-      this.addSubview(this.scope = new app.views.SearchScope(this.el));
-
-      this.searcher = new app.Searcher;
-      this.searcher
-        .on('results', this.onResults)
-        .on('end', this.onEnd);
-
-      app.on('ready', this.onReady);
-      $.on(window, 'hashchange', this.searchUrl);
-      $.on(window, 'focus', this.onWindowFocus);
     }
 
     focus() {
@@ -239,8 +218,13 @@
 
     getHashValue() {
       try {
-        return __guard__(HASH_RGX.exec($.urlDecode(location.hash)), x => x[1]);
+        let res = HASH_RGX.exec($.urlDecode(location.hash));
+        if (res != null) {
+          return res[1];
+        }
       } catch (error) {}
+
+      return null;
     }
   });
   Cls.initClass();

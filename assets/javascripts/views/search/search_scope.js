@@ -1,12 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let SEARCH_PARAM = undefined;
   let HASH_RGX = undefined;
@@ -31,25 +22,16 @@
     }
 
     constructor(el) {
-      { // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) {
-          super();
-        }
-        let thisFn = (() => {
-          return this;
-        }).toString();
-        let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-        eval(`${thisName} = this;`);
-      }
+      super(...arguments);
+
       this.onResults = this.onResults.bind(this);
       this.reset = this.reset.bind(this);
       this.onKeydown = this.onKeydown.bind(this);
       this.afterRoute = this.afterRoute.bind(this);
       this.el = el;
-      super(...arguments);
-    }
 
-    init() {
+      this.refreshElements();
+
       this.placeholder = this.input.getAttribute('placeholder');
 
       this.searcher = new app.SynchronousSearcher({
@@ -57,7 +39,6 @@
         max_results: 1
       });
       this.searcher.on('results', this.onResults);
-
     }
 
     getScope() {
@@ -177,8 +158,14 @@
 
     getHashValue() {
       try {
-        return __guard__(HASH_RGX.exec($.urlDecode(location.hash)), x => x[1]);
+        let res = HASH_RGX.exec($.urlDecode(location.hash));
+
+        if (res != null) {
+          return res[1];
+        }
       } catch (error) {}
+
+      return null;
     }
 
     afterRoute(name, context) {
@@ -190,7 +177,3 @@
   Cls.initClass();
   return Cls;
 })();
-
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
