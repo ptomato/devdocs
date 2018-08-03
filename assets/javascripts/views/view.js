@@ -13,8 +13,12 @@ const Cls = (app.View = class View {
 
   constructor() {
     this.setupElement();
-    if (this.el.className) { this.originalClassName = this.el.className; }
-    if (this.constructor.className) { this.resetClass(); }
+    if (this.el.className) {
+      this.originalClassName = this.el.className;
+    }
+    if (this.constructor.className) {
+      this.resetClass();
+    }
     this.refreshElements();
     if (typeof this.init === 'function') {
       this.init();
@@ -23,12 +27,13 @@ const Cls = (app.View = class View {
   }
 
   setupElement() {
-    if (this.el == null) { this.el = typeof this.constructor.el === 'string' ?
-      $(this.constructor.el)
-    : this.constructor.el ?
-      this.constructor.el
-    :
-      document.createElement(this.constructor.tagName || 'div'); }
+    if (this.el == null) {
+      this.el = typeof this.constructor.el === 'string' ?
+        $(this.constructor.el) :
+        this.constructor.el ?
+        this.constructor.el :
+        document.createElement(this.constructor.tagName || 'div');
+    }
 
     if (this.constructor.attributes) {
       for (let key in this.constructor.attributes) {
@@ -40,7 +45,10 @@ const Cls = (app.View = class View {
 
   refreshElements() {
     if (this.constructor.elements) {
-      for (let name in this.constructor.elements) { const selector = this.constructor.elements[name]; this[name] = this.find(selector); }
+      for (let name in this.constructor.elements) {
+        const selector = this.constructor.elements[name];
+        this[name] = this.find(selector);
+      }
     }
   }
 
@@ -63,7 +71,9 @@ const Cls = (app.View = class View {
   resetClass() {
     this.el.className = this.originalClassName || '';
     if (this.constructor.className) {
-      for (let name of Array.from(this.constructor.className.split(' '))) { this.addClass(name); }
+      for (let name of Array.from(this.constructor.className.split(' '))) {
+        this.addClass(name);
+      }
     }
   }
 
@@ -159,30 +169,48 @@ const Cls = (app.View = class View {
   bindEvents() {
     let method, name;
     if (this.constructor.events) {
-      for (name in this.constructor.events) { method = this.constructor.events[name]; this.onDOM(name, this[method]); }
+      for (name in this.constructor.events) {
+        method = this.constructor.events[name];
+        this.onDOM(name, this[method]);
+      }
     }
 
     if (this.constructor.routes) {
-      for (name in this.constructor.routes) { method = this.constructor.routes[name]; app.router.on(name, this[method]); }
+      for (name in this.constructor.routes) {
+        method = this.constructor.routes[name];
+        app.router.on(name, this[method]);
+      }
     }
 
     if (this.constructor.shortcuts) {
-      for (name in this.constructor.shortcuts) { method = this.constructor.shortcuts[name]; app.shortcuts.on(name, this[method]); }
+      for (name in this.constructor.shortcuts) {
+        method = this.constructor.shortcuts[name];
+        app.shortcuts.on(name, this[method]);
+      }
     }
   }
 
   unbindEvents() {
     let method, name;
     if (this.constructor.events) {
-      for (name in this.constructor.events) { method = this.constructor.events[name]; this.offDOM(name, this[method]); }
+      for (name in this.constructor.events) {
+        method = this.constructor.events[name];
+        this.offDOM(name, this[method]);
+      }
     }
 
     if (this.constructor.routes) {
-      for (name in this.constructor.routes) { method = this.constructor.routes[name]; app.router.off(name, this[method]); }
+      for (name in this.constructor.routes) {
+        method = this.constructor.routes[name];
+        app.router.off(name, this[method]);
+      }
     }
 
     if (this.constructor.shortcuts) {
-      for (name in this.constructor.shortcuts) { method = this.constructor.shortcuts[name]; app.shortcuts.off(name, this[method]); }
+      for (name in this.constructor.shortcuts) {
+        method = this.constructor.shortcuts[name];
+        app.shortcuts.off(name, this[method]);
+      }
     }
   }
 
@@ -191,17 +219,29 @@ const Cls = (app.View = class View {
   }
 
   activate() {
-    if (this.activated) { return; }
+    if (this.activated) {
+      return;
+    }
     this.bindEvents();
-    if (this.subviews) { for (let view of Array.from(this.subviews)) { view.activate(); } }
+    if (this.subviews) {
+      for (let view of Array.from(this.subviews)) {
+        view.activate();
+      }
+    }
     this.activated = true;
     return true;
   }
 
   deactivate() {
-    if (!this.activated) { return; }
+    if (!this.activated) {
+      return;
+    }
     this.unbindEvents();
-    if (this.subviews) { for (let view of Array.from(this.subviews)) { view.deactivate(); } }
+    if (this.subviews) {
+      for (let view of Array.from(this.subviews)) {
+        view.deactivate();
+      }
+    }
     this.activated = false;
     return true;
   }
