@@ -11,8 +11,12 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -34,16 +38,17 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
 
   static initClass() {
     this.el = '._sidebar';
-  
+
     this.events = {
       focus: 'onFocus',
       select: 'onSelect',
       click: 'onClick'
     };
-  
-    this.routes =
-      {after: 'afterRoute'};
-  
+
+    this.routes = {
+      after: 'afterRoute'
+    };
+
     this.shortcuts = {
       altR: 'onAltR',
       escape: 'onEscape'
@@ -51,13 +56,15 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   }
 
   init() {
-    if (!app.isMobile()) { this.addSubview(this.hover  = new app.views.SidebarHover(this.el)); }
+    if (!app.isMobile()) {
+      this.addSubview(this.hover = new app.views.SidebarHover(this.el));
+    }
     this.addSubview(this.search = new app.views.Search);
 
     this.search
       .on('searching', this.onSearching)
       .on('clear', this.onSearchClear)
-    .scope
+      .scope
       .on('change', this.onScopeChange);
 
     this.results = new app.views.Results(this, this.search);
@@ -65,8 +72,14 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
 
     app.on('ready', this.onReady);
 
-    $.on(document.documentElement, 'mouseleave', event => { if (event.clientX < 10) { return this.display(); } });
-    $.on(document.documentElement, 'mouseenter', () => this.resetDisplay({forceNoHover: false}));
+    $.on(document.documentElement, 'mouseleave', event => {
+      if (event.clientX < 10) {
+        return this.display();
+      }
+    });
+    $.on(document.documentElement, 'mouseenter', () => this.resetDisplay({
+      forceNoHover: false
+    }));
   }
 
   display() {
@@ -74,8 +87,12 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   }
 
   resetDisplay(options) {
-    if (options == null) { options = {}; }
-    if (!this.hasClass('show')) { return; }
+    if (options == null) {
+      options = {};
+    }
+    if (!this.hasClass('show')) {
+      return;
+    }
     this.removeClass('show');
 
     if ((options.forceNoHover !== false) && !this.hasClass('no-hover')) {
@@ -136,8 +153,14 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   }
 
   onScopeChange(newDoc, previousDoc) {
-    if (previousDoc) { this.docList.closeDoc(previousDoc); }
-    if (newDoc) { this.docList.reveal(newDoc.toEntry()); } else { this.scrollToTop(); }
+    if (previousDoc) {
+      this.docList.closeDoc(previousDoc);
+    }
+    if (newDoc) {
+      this.docList.reveal(newDoc.toEntry());
+    } else {
+      this.scrollToTop();
+    }
   }
 
   saveScrollPosition() {
@@ -170,7 +193,11 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
 
   onFocus(event) {
     this.display();
-    if (event.target !== this.el) { $.scrollTo(event.target, this.el, 'continuous', {bottomGap: 2}); }
+    if (event.target !== this.el) {
+      $.scrollTo(event.target, this.el, 'continuous', {
+        bottomGap: 2
+      });
+    }
   }
 
   onSelect() {
@@ -178,7 +205,9 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   }
 
   onClick(event) {
-    if (event.which !== 1) { return; }
+    if (event.which !== 1) {
+      return;
+    }
     if (__guardMethod__($.eventTarget(event), 'hasAttribute', o => o.hasAttribute('data-reset-list'))) {
       $.stopEvent(event);
       this.onAltR();
@@ -187,7 +216,9 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
 
   onAltR() {
     this.reset();
-    this.docList.reset({revealCurrent: true});
+    this.docList.reset({
+      revealCurrent: true
+    });
     this.display();
   }
 
@@ -195,7 +226,11 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
     let doc;
     this.reset();
     this.resetDisplay();
-    if ((doc = this.search.getScopeDoc())) { this.docList.reveal(doc.toEntry()); } else { this.scrollToTop(); }
+    if ((doc = this.search.getScopeDoc())) {
+      this.docList.reveal(doc.toEntry());
+    } else {
+      this.scrollToTop();
+    }
   }
 
   onDocEnabled() {
@@ -204,8 +239,12 @@ const Cls = (app.views.Sidebar = class Sidebar extends app.View {
   }
 
   afterRoute(name, context) {
-    if ((app.shortcuts.eventInProgress != null ? app.shortcuts.eventInProgress.name : undefined) === 'escape') { return; }
-    if (!context.init && app.router.isIndex()) { this.reset(); }
+    if ((app.shortcuts.eventInProgress != null ? app.shortcuts.eventInProgress.name : undefined) === 'escape') {
+      return;
+    }
+    if (!context.init && app.router.isIndex()) {
+      this.reset();
+    }
     this.resetDisplay();
   }
 });

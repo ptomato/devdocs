@@ -10,25 +10,30 @@
 const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
   static initClass() {
     this.itemClass = '_list-hover';
-  
+
     this.events = {
-      focus:     'onFocus',
-      blur:      'onBlur',
+      focus: 'onFocus',
+      blur: 'onBlur',
       mouseover: 'onMouseover',
-      mouseout:  'onMouseout',
-      scroll:    'onScroll',
-      click:     'onClick'
+      mouseout: 'onMouseout',
+      scroll: 'onScroll',
+      click: 'onClick'
     };
-  
-    this.routes =
-      {after: 'onRoute'};
+
+    this.routes = {
+      after: 'onRoute'
+    };
   }
 
   constructor(el) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -54,7 +59,9 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
         this.cursor = el;
         this.clone = this.makeClone(this.cursor);
         $.append(document.body, this.clone);
-        if (this.offsetTop == null) { this.offsetTop = this.el.offsetTop; }
+        if (this.offsetTop == null) {
+          this.offsetTop = this.el.offsetTop;
+        }
         this.position();
       }
     }
@@ -139,7 +146,7 @@ const Cls = (app.views.SidebarHover = class SidebarHover extends app.View {
 });
 Cls.initClass();
 
-var isPointerEventsSupported = function() {
+var isPointerEventsSupported = function () {
   const el = document.createElement('div');
   el.style.cssText = 'pointer-events: auto';
   return el.style.pointerEvents === 'auto';

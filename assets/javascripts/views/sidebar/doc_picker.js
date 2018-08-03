@@ -12,8 +12,12 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -25,7 +29,7 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
 
   static initClass() {
     this.className = '_list _list-picker';
-  
+
     this.events = {
       mousedown: 'onMouseDown',
       mouseup: 'onMouseUp'
@@ -60,9 +64,13 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
       if (doc.version != null) {
         let versions;
         [docs, versions] = Array.from(this.extractVersions(docs, doc));
-        html += this.tmpl('sidebarVersionedDoc', doc, this.renderVersions(versions), {open: app.docs.contains(doc)});
+        html += this.tmpl('sidebarVersionedDoc', doc, this.renderVersions(versions), {
+          open: app.docs.contains(doc)
+        });
       } else {
-        html += this.tmpl('sidebarLabel', doc, {checked: app.docs.contains(doc)});
+        html += this.tmpl('sidebarLabel', doc, {
+          checked: app.docs.contains(doc)
+        });
       }
     }
 
@@ -73,7 +81,11 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
 
   renderVersions(docs) {
     let html = '';
-    for (let doc of Array.from(docs)) { html += this.tmpl('sidebarLabel', doc, {checked: app.docs.contains(doc)}); }
+    for (let doc of Array.from(docs)) {
+      html += this.tmpl('sidebarLabel', doc, {
+        checked: app.docs.contains(doc)
+      });
+    }
     return html;
   }
 
@@ -105,7 +117,9 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
   }
 
   onDOMFocus(event) {
-    const { target } = event;
+    const {
+      target
+    } = event;
     if (target.tagName === 'INPUT') {
       if ((!this.mouseDown || !(Date.now() < (this.mouseDown + 100))) && (!this.mouseUp || !(Date.now() < (this.mouseUp + 100)))) {
         $.scrollTo(target.parentNode, null, 'continuous');
@@ -114,13 +128,21 @@ const Cls = (app.views.DocPicker = class DocPicker extends app.View {
       target.blur();
       if (!this.mouseDown || !(Date.now() < (this.mouseDown + 100))) {
         if (this.focusEl === $('input', target.nextElementSibling)) {
-          if (target.classList.contains(app.views.ListFold.activeClass)) { this.listFold.close(target); }
+          if (target.classList.contains(app.views.ListFold.activeClass)) {
+            this.listFold.close(target);
+          }
           let prev = target.previousElementSibling;
-          while ((prev.tagName !== 'LABEL') && !prev.classList.contains(app.views.ListFold.targetClass)) { prev = prev.previousElementSibling; }
-          if (prev.classList.contains(app.views.ListFold.activeClass)) { prev = $.makeArray($$('input', prev.nextElementSibling)).pop(); }
+          while ((prev.tagName !== 'LABEL') && !prev.classList.contains(app.views.ListFold.targetClass)) {
+            prev = prev.previousElementSibling;
+          }
+          if (prev.classList.contains(app.views.ListFold.activeClass)) {
+            prev = $.makeArray($$('input', prev.nextElementSibling)).pop();
+          }
           this.delay(() => prev.focus());
         } else {
-          if (!target.classList.contains(app.views.ListFold.activeClass)) { this.listFold.open(target); }
+          if (!target.classList.contains(app.views.ListFold.activeClass)) {
+            this.listFold.open(target);
+          }
           this.delay(() => $('input', target.nextElementSibling).focus());
         }
       }

@@ -10,8 +10,12 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -26,18 +30,20 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
   static initClass() {
     this.className = '_list';
-    this.attributes =
-      {role: 'navigation'};
-  
+    this.attributes = {
+      role: 'navigation'
+    };
+
     this.events = {
-      open:  'onOpen',
+      open: 'onOpen',
       close: 'onClose',
       click: 'onClick'
     };
-  
-    this.routes =
-      {after: 'afterRoute'};
-  
+
+    this.routes = {
+      after: 'afterRoute'
+    };
+
     this.elements = {
       disabledTitle: '._list-title',
       disabledList: '._disabled-list'
@@ -47,8 +53,8 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   init() {
     this.lists = {};
 
-    this.addSubview(this.listFocus  = new app.views.ListFocus(this.el));
-    this.addSubview(this.listFold   = new app.views.ListFold(this.el));
+    this.addSubview(this.listFocus = new app.views.ListFocus(this.el));
+    this.addSubview(this.listFold = new app.views.ListFold(this.el));
     this.addSubview(this.listSelect = new app.views.ListSelect(this.el));
 
     app.on('ready', this.render);
@@ -56,28 +62,40 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
   activate() {
     if (super.activate(...arguments)) {
-      for (let slug in this.lists) { const list = this.lists[slug]; list.activate(); }
+      for (let slug in this.lists) {
+        const list = this.lists[slug];
+        list.activate();
+      }
       this.listSelect.selectCurrent();
     }
   }
 
   deactivate() {
     if (super.deactivate(...arguments)) {
-      for (let slug in this.lists) { const list = this.lists[slug]; list.deactivate(); }
+      for (let slug in this.lists) {
+        const list = this.lists[slug];
+        list.deactivate();
+      }
     }
   }
 
   render() {
     let html = '';
     for (let doc of Array.from(app.docs.all())) {
-      html += this.tmpl('sidebarDoc', doc, {fullName: app.docs.countAllBy('name', doc.name) > 1});
+      html += this.tmpl('sidebarDoc', doc, {
+        fullName: app.docs.countAllBy('name', doc.name) > 1
+      });
     }
     this.html(html);
-    if (!app.isSingleDoc() && (app.disabledDocs.size() !== 0)) { this.renderDisabled(); }
+    if (!app.isSingleDoc() && (app.disabledDocs.size() !== 0)) {
+      this.renderDisabled();
+    }
   }
 
   renderDisabled() {
-    this.append(this.tmpl('sidebarDisabled', {count: app.disabledDocs.size()}));
+    this.append(this.tmpl('sidebarDisabled', {
+      count: app.disabledDocs.size()
+    }));
     this.refreshElements();
     this.renderDisabledList();
   }
@@ -99,13 +117,19 @@ const Cls = (app.views.DocList = class DocList extends app.View {
       if (doc.version != null) {
         let versions = '';
         while (true) {
-          versions += this.tmpl('sidebarDoc', doc, {disabled: true});
-          if ((docs[0] != null ? docs[0].name : undefined) !== doc.name) { break; }
+          versions += this.tmpl('sidebarDoc', doc, {
+            disabled: true
+          });
+          if ((docs[0] != null ? docs[0].name : undefined) !== doc.name) {
+            break;
+          }
           doc = docs.shift();
         }
         html += this.tmpl('sidebarDisabledVersionedDoc', doc, versions);
       } else {
-        html += this.tmpl('sidebarDoc', doc, {disabled: true});
+        html += this.tmpl('sidebarDoc', doc, {
+          disabled: true
+        });
       }
     }
 
@@ -115,19 +139,25 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   }
 
   removeDisabledList() {
-    if (this.disabledList) { $.remove(this.disabledList); }
+    if (this.disabledList) {
+      $.remove(this.disabledList);
+    }
     this.disabledTitle.classList.remove('open-title');
     this.refreshElements();
   }
 
   reset(options) {
-    if (options == null) { options = {}; }
+    if (options == null) {
+      options = {};
+    }
     this.listSelect.deselect();
     if (this.listFocus != null) {
       this.listFocus.blur();
     }
     this.listFold.reset();
-    if (options.revealCurrent || app.isSingleDoc()) { this.revealCurrent(); }
+    if (options.revealCurrent || app.isSingleDoc()) {
+      this.revealCurrent();
+    }
   }
 
   onOpen(event) {
@@ -136,8 +166,7 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
     if (doc && !this.lists[doc.slug]) {
       this.lists[doc.slug] = doc.types.isEmpty() ?
-        new app.views.EntryList(doc.entries.all())
-      :
+        new app.views.EntryList(doc.entries.all()) :
         new app.views.TypeList(doc);
       $.after(event.target, this.lists[doc.slug].el);
     }
@@ -159,7 +188,9 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
   reveal(model) {
     this.openDoc(model.doc);
-    if (model.type) { this.openType(model.getType()); }
+    if (model.type) {
+      this.openType(model.getType());
+    }
     this.focus(model);
     this.paginateTo(model);
     this.scrollTo(model);
@@ -180,7 +211,9 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   }
 
   openDoc(doc) {
-    if (app.disabledDocs.contains(doc) && doc.version) { this.listFold.open(this.find(`[data-slug='${doc.slug_without_version}']`)); }
+    if (app.disabledDocs.contains(doc) && doc.version) {
+      this.listFold.open(this.find(`[data-slug='${doc.slug_without_version}']`));
+    }
     this.listFold.open(this.find(`[data-slug='${doc.slug}']`));
   }
 
@@ -199,7 +232,9 @@ const Cls = (app.views.DocList = class DocList extends app.View {
   }
 
   scrollTo(model) {
-    $.scrollTo(this.find(`a[href='${model.fullPath()}']`), null, 'top', {margin: app.isMobile() ? 48 : 0});
+    $.scrollTo(this.find(`a[href='${model.fullPath()}']`), null, 'top', {
+      margin: app.isMobile() ? 48 : 0
+    });
   }
 
   toggleDisabled() {
@@ -221,7 +256,9 @@ const Cls = (app.views.DocList = class DocList extends app.View {
     } else if (slug = target.getAttribute('data-enable')) {
       $.stopEvent(event);
       const doc = app.disabledDocs.findBy('slug', slug);
-      if (doc) { app.enableDoc(doc, this.onEnabled, this.onEnabled); }
+      if (doc) {
+        app.enableDoc(doc, this.onEnabled, this.onEnabled);
+      }
     }
   }
 
@@ -232,7 +269,11 @@ const Cls = (app.views.DocList = class DocList extends app.View {
 
   afterRoute(route, context) {
     if (context.init) {
-      if (this.activated) { this.reset({revealCurrent: true}); }
+      if (this.activated) {
+        this.reset({
+          revealCurrent: true
+        });
+      }
     } else {
       this.select(context.type || context.entry);
     }

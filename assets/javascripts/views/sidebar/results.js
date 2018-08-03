@@ -9,16 +9,36 @@
 const Cls = (app.views.Results = class Results extends app.View {
   static initClass() {
     this.className = '_list';
-  
-    this.events =
-      {click: 'onClick'};
-  
-    this.routes =
-      {after: 'afterRoute'};
+
+    this.events = {
+      click: 'onClick'
+    };
+
+    this.routes = {
+      after: 'afterRoute'
+    };
   }
 
-  constructor(sidebar, search) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.onResults = this.onResults.bind(this);   this.onNoResults = this.onNoResults.bind(this);   this.onClear = this.onClear.bind(this);   this.afterRoute = this.afterRoute.bind(this);   this.onClick = this.onClick.bind(this);   this.sidebar = sidebar; this.search = search; super(...arguments); }
+  constructor(sidebar, search) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.onResults = this.onResults.bind(this);
+    this.onNoResults = this.onNoResults.bind(this);
+    this.onClear = this.onClear.bind(this);
+    this.afterRoute = this.afterRoute.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.sidebar = sidebar;
+    this.search = search;
+    super(...arguments);
+  }
 
   deactivate() {
     if (super.deactivate(...arguments)) {
@@ -27,7 +47,7 @@ const Cls = (app.views.Results = class Results extends app.View {
   }
 
   init() {
-    this.addSubview(this.listFocus  = new app.views.ListFocus(this.el));
+    this.addSubview(this.listFocus = new app.views.ListFocus(this.el));
     this.addSubview(this.listSelect = new app.views.ListSelect(this.el));
 
     this.search
@@ -37,14 +57,22 @@ const Cls = (app.views.Results = class Results extends app.View {
   }
 
   onResults(entries, flags) {
-    if (flags.initialResults) { if (this.listFocus != null) {
-      this.listFocus.blur();
-    } }
-    if (flags.initialResults) { this.empty(); }
+    if (flags.initialResults) {
+      if (this.listFocus != null) {
+        this.listFocus.blur();
+      }
+    }
+    if (flags.initialResults) {
+      this.empty();
+    }
     this.append(this.tmpl('sidebarResult', entries));
 
     if (flags.initialResults) {
-      if (flags.urlSearch) { this.openFirst(); } else { this.focusFirst(); }
+      if (flags.urlSearch) {
+        this.openFirst();
+      } else {
+        this.focusFirst();
+      }
     }
   }
 
@@ -57,9 +85,11 @@ const Cls = (app.views.Results = class Results extends app.View {
   }
 
   focusFirst() {
-    if (!app.isMobile()) { if (this.listFocus != null) {
-      this.listFocus.focusOnNextFrame(this.el.firstElementChild);
-    } }
+    if (!app.isMobile()) {
+      if (this.listFocus != null) {
+        this.listFocus.focusOnNextFrame(this.el.firstElementChild);
+      }
+    }
   }
 
   openFirst() {
@@ -83,11 +113,15 @@ const Cls = (app.views.Results = class Results extends app.View {
 
   onClick(event) {
     let slug;
-    if (event.which !== 1) { return; }
+    if (event.which !== 1) {
+      return;
+    }
     if (slug = $.eventTarget(event).getAttribute('data-enable')) {
       $.stopEvent(event);
       const doc = app.disabledDocs.findBy('slug', slug);
-      if (doc) { return app.enableDoc(doc, this.onDocEnabled.bind(this, doc), $.noop); }
+      if (doc) {
+        return app.enableDoc(doc, this.onDocEnabled.bind(this, doc), $.noop);
+      }
     }
   }
 });
