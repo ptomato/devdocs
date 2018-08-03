@@ -13,7 +13,9 @@ app.models.Doc = class Doc extends app.Model {
     this.slug_without_version = this.slug.split('~')[0];
     this.fullName = `${this.name}` + (this.version ? ` ${this.version}` : '');
     this.icon = this.slug_without_version;
-    if (this.version) { this.short_version = this.version.split(' ')[0]; }
+    if (this.version) {
+      this.short_version = this.version.split(' ')[0];
+    }
     this.text = this.toEntry().text;
   }
 
@@ -24,17 +26,25 @@ app.models.Doc = class Doc extends app.Model {
 
   resetEntries(entries) {
     this.entries = new app.collections.Entries(entries);
-    this.entries.each(entry => { return entry.doc = this; });
+    this.entries.each(entry => {
+      return entry.doc = this;
+    });
   }
 
   resetTypes(types) {
     this.types = new app.collections.Types(types);
-    this.types.each(type => { return type.doc = this; });
+    this.types.each(type => {
+      return type.doc = this;
+    });
   }
 
   fullPath(path) {
-    if (path == null) { path = ''; }
-    if (path[0] !== '/') { path = `/${path}`; }
+    if (path == null) {
+      path = '';
+    }
+    if (path[0] !== '/') {
+      path = `/${path}`;
+    }
     return `/${this.slug}${path}`;
   }
 
@@ -51,13 +61,17 @@ app.models.Doc = class Doc extends app.Model {
   }
 
   toEntry() {
-    if (this.entry) { return this.entry; }
+    if (this.entry) {
+      return this.entry;
+    }
     this.entry = new app.models.Entry({
       doc: this,
       name: this.fullName,
       path: 'index'
     });
-    if (this.version) { this.entry.addAlias(this.name); }
+    if (this.version) {
+      this.entry.addAlias(this.name);
+    }
     return this.entry;
   }
 
@@ -73,13 +87,19 @@ app.models.Doc = class Doc extends app.Model {
   }
 
   load(onSuccess, onError, options) {
-    if (options == null) { options = {}; }
-    if (options.readCache && this._loadFromCache(onSuccess)) { return; }
+    if (options == null) {
+      options = {};
+    }
+    if (options.readCache && this._loadFromCache(onSuccess)) {
+      return;
+    }
 
     const callback = data => {
       this.reset(data);
       onSuccess();
-      if (options.writeCache) { this._setCache(data); }
+      if (options.writeCache) {
+        this._setCache(data);
+      }
     };
 
     return ajax({
@@ -95,7 +115,9 @@ app.models.Doc = class Doc extends app.Model {
 
   _loadFromCache(onSuccess) {
     let data;
-    if (!(data = this._getCache())) { return; }
+    if (!(data = this._getCache())) {
+      return;
+    }
 
     const callback = () => {
       this.reset(data);
@@ -108,7 +130,9 @@ app.models.Doc = class Doc extends app.Model {
 
   _getCache() {
     let data;
-    if (!(data = app.localStorage.get(this.slug))) { return; }
+    if (!(data = app.localStorage.get(this.slug))) {
+      return;
+    }
 
     if (data[0] === this.mtime) {
       return data[1];
@@ -123,7 +147,9 @@ app.models.Doc = class Doc extends app.Model {
   }
 
   install(onSuccess, onError, onProgress) {
-    if (this.installing) { return; }
+    if (this.installing) {
+      return;
+    }
     this.installing = true;
 
     const error = () => {
@@ -146,7 +172,9 @@ app.models.Doc = class Doc extends app.Model {
   }
 
   uninstall(onSuccess, onError) {
-    if (this.installing) { return; }
+    if (this.installing) {
+      return;
+    }
     this.installing = true;
 
     const success = () => {
@@ -163,7 +191,10 @@ app.models.Doc = class Doc extends app.Model {
   }
 
   getInstallStatus(callback) {
-    app.db.version(this, value => callback({installed: !!value, mtime: value}));
+    app.db.version(this, value => callback({
+      installed: !!value,
+      mtime: value
+    }));
   }
 
   isOutdated(status) {

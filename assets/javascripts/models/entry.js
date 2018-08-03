@@ -6,13 +6,13 @@
  */
 //= require app/searcher
 
-(function() {
+(function () {
   let applyAliases = undefined;
   const Cls = (app.models.Entry = class Entry extends app.Model {
     static initClass() {
-  
+
       let ALIASES;
-      applyAliases = function(string) {
+      applyAliases = function (string) {
         if (ALIASES.hasOwnProperty(string)) {
           return [string, ALIASES[string]];
         } else {
@@ -27,7 +27,7 @@
         }
         return string;
       };
-  
+
       this.ALIASES = (ALIASES = {
         'angular': 'ng',
         'angular.js': 'ng',
@@ -69,7 +69,9 @@
 
     addAlias(name) {
       const text = applyAliases(app.Searcher.normalizeString(name));
-      if (!Array.isArray(this.text)) { this.text = [this.text]; }
+      if (!Array.isArray(this.text)) {
+        this.text = [this.text];
+      }
       this.text.push(Array.isArray(text) ? text[1] : text);
     }
 
@@ -91,7 +93,9 @@
 
     _filePath() {
       let result = this.path.replace(/#.*/, '');
-      if (result.slice(-5) !== '.html') { result += '.html'; }
+      if (result.slice(-5) !== '.html') {
+        result += '.html';
+      }
       return result;
     }
 
