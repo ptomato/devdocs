@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Mobile = class Mobile extends app.View {
+app.views.Mobile = class Mobile extends app.View {
   static initClass() {
     this.className = '_mobile';
 
@@ -24,6 +16,8 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
+
+    return this;
   }
 
   static detect() {
@@ -49,17 +43,8 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
   }
 
   constructor() {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+
     this.showSidebar = this.showSidebar.bind(this);
     this.hideSidebar = this.hideSidebar.bind(this);
     this.onClickBack = this.onClickBack.bind(this);
@@ -71,10 +56,7 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
     this.onEscape = this.onEscape.bind(this);
     this.afterRoute = this.afterRoute.bind(this);
     this.el = document.documentElement;
-    super(...arguments);
-  }
 
-  init() {
     if (window.FastClick != null) {
       window.FastClick.attach(this.body);
     }
@@ -211,5 +193,4 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
       this.forward.setAttribute('disabled', 'disabled');
     }
   }
-});
-Cls.initClass();
+}.initClass();

@@ -1,35 +1,17 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let SIDEBAR_HIDDEN_LAYOUT = undefined;
   const Cls = (app.views.Settings = class Settings extends app.View {
     constructor(...args) {
-      {
-        // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) {
-          super();
-        }
-        let thisFn = (() => {
-          return this;
-        }).toString();
-        let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-        eval(`${thisName} = this;`);
-      }
+      super(...args);
+
       this.onChange = this.onChange.bind(this);
       this.onEnter = this.onEnter.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.onImport = this.onImport.bind(this);
       this.onClick = this.onClick.bind(this);
       this.onAppCacheProgress = this.onAppCacheProgress.bind(this);
-      super(...args);
+
+      this.addSubview(this.docPicker = new app.views.DocPicker);
     }
 
     static initClass() {
@@ -53,10 +35,6 @@
       this.shortcuts = {
         enter: 'onEnter'
       };
-    }
-
-    init() {
-      this.addSubview(this.docPicker = new app.views.DocPicker);
     }
 
     activate() {
@@ -106,7 +84,7 @@
         this.saveBtn.textContent = app.appCache ? 'Downloading\u2026' : 'Saving\u2026';
         const disabledDocs = new app.collections.Docs((() => {
           const result = [];
-          for (let doc of Array.from(app.docs.all())) {
+          for (let doc of app.docs.all()) {
             if (docs.indexOf(doc.slug) === -1) {
               result.push(doc);
             }

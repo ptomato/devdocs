@@ -1,27 +1,26 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Document = class Document extends app.View {
+app.views.Document = class Document extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...args);
     this.afterRoute = this.afterRoute.bind(this);
     this.onVisibilityChange = this.onVisibilityChange.bind(this);
-    super(...args);
+
+    this.addSubview((this.menu = new app.views.Menu),
+      this.addSubview(this.sidebar = new app.views.Sidebar));
+
+    if (app.views.Resizer.isSupported()) {
+      this.addSubview(this.resizer = new app.views.Resizer);
+    }
+    this.addSubview(this.content = new app.views.Content);
+    if (!app.isSingleDoc() && !app.isMobile()) {
+      this.addSubview(this.path = new app.views.Path);
+    }
+    if (!app.isSingleDoc()) {
+      this.settings = new app.views.Settings;
+    }
+
+    $.on(document.body, 'click', this.onClick);
+
+    this.activate();
   }
 
   static initClass() {
@@ -42,25 +41,8 @@ const Cls = (app.views.Document = class Document extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
-  }
 
-  init() {
-    this.addSubview((this.menu = new app.views.Menu),
-      this.addSubview(this.sidebar = new app.views.Sidebar));
-    if (app.views.Resizer.isSupported()) {
-      this.addSubview(this.resizer = new app.views.Resizer);
-    }
-    this.addSubview(this.content = new app.views.Content);
-    if (!app.isSingleDoc() && !app.isMobile()) {
-      this.addSubview(this.path = new app.views.Path);
-    }
-    if (!app.isSingleDoc()) {
-      this.settings = new app.views.Settings;
-    }
-
-    $.on(document.body, 'click', this.onClick);
-
-    this.activate();
+    return this;
   }
 
   setTitle(title) {
@@ -140,5 +122,4 @@ const Cls = (app.views.Document = class Document extends app.View {
         break;
     }
   }
-});
-Cls.initClass();
+}.initClass();
