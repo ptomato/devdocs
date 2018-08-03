@@ -14,32 +14,52 @@
 //
 
 let smoothDistance, smoothDuration, smoothEnd, smoothStart;
-this.$ = function(selector, el) {
-  if (el == null) { el = document; }
-  try { return el.querySelector(selector); } catch (error) {}
+this.$ = function (selector, el) {
+  if (el == null) {
+    el = document;
+  }
+  try {
+    return el.querySelector(selector);
+  } catch (error) {}
 };
 
-this.$$ = function(selector, el) {
-  if (el == null) { el = document; }
-  try { return el.querySelectorAll(selector); } catch (error) {}
+this.$$ = function (selector, el) {
+  if (el == null) {
+    el = document;
+  }
+  try {
+    return el.querySelectorAll(selector);
+  } catch (error) {}
 };
 
 $.id = id => document.getElementById(id);
 
-$.hasChild = function(parent, el) {
-  if (!parent) { return; }
+$.hasChild = function (parent, el) {
+  if (!parent) {
+    return;
+  }
   while (el) {
-    if (el === parent) { return true; }
-    if (el === document.body) { return; }
+    if (el === parent) {
+      return true;
+    }
+    if (el === document.body) {
+      return;
+    }
     el = el.parentNode;
   }
 };
 
-$.closestLink = function(el, parent) {
-  if (parent == null) { parent = document.body; }
+$.closestLink = function (el, parent) {
+  if (parent == null) {
+    parent = document.body;
+  }
   while (el) {
-    if (el.tagName === 'A') { return el; }
-    if (el === parent) { return; }
+    if (el.tagName === 'A') {
+      return el;
+    }
+    if (el === parent) {
+      return;
+    }
     el = el.parentNode;
   }
 };
@@ -48,39 +68,51 @@ $.closestLink = function(el, parent) {
 // Events
 //
 
-$.on = function(el, event, callback, useCapture) {
-  if (useCapture == null) { useCapture = false; }
+$.on = function (el, event, callback, useCapture) {
+  if (useCapture == null) {
+    useCapture = false;
+  }
   if (event.indexOf(' ') >= 0) {
-    for (let name of Array.from(event.split(' '))) { $.on(el, name, callback); }
+    for (let name of Array.from(event.split(' '))) {
+      $.on(el, name, callback);
+    }
   } else {
     el.addEventListener(event, callback, useCapture);
   }
 };
 
-$.off = function(el, event, callback, useCapture) {
-  if (useCapture == null) { useCapture = false; }
+$.off = function (el, event, callback, useCapture) {
+  if (useCapture == null) {
+    useCapture = false;
+  }
   if (event.indexOf(' ') >= 0) {
-    for (let name of Array.from(event.split(' '))) { $.off(el, name, callback); }
+    for (let name of Array.from(event.split(' '))) {
+      $.off(el, name, callback);
+    }
   } else {
     el.removeEventListener(event, callback, useCapture);
   }
 };
 
-$.trigger = function(el, type, canBubble, cancelable) {
-  if (canBubble == null) { canBubble = true; }
-  if (cancelable == null) { cancelable = true; }
+$.trigger = function (el, type, canBubble, cancelable) {
+  if (canBubble == null) {
+    canBubble = true;
+  }
+  if (cancelable == null) {
+    cancelable = true;
+  }
   const event = document.createEvent('Event');
   event.initEvent(type, canBubble, cancelable);
   el.dispatchEvent(event);
 };
 
-$.click = function(el) {
+$.click = function (el) {
   const event = document.createEvent('MouseEvent');
   event.initMouseEvent('click', true, true, window, null, 0, 0, 0, 0, false, false, false, false, 0, null);
   el.dispatchEvent(event);
 };
 
-$.stopEvent = function(event) {
+$.stopEvent = function (event) {
   event.preventDefault();
   event.stopPropagation();
   event.stopImmediatePropagation();
@@ -92,11 +124,13 @@ $.eventTarget = event => event.target.correspondingUseElement || event.target;
 // Manipulation
 //
 
-const buildFragment = function(value) {
+const buildFragment = function (value) {
   const fragment = document.createDocumentFragment();
 
   if ($.isCollection(value)) {
-    for (let child of Array.from($.makeArray(value))) { fragment.appendChild(child); }
+    for (let child of Array.from($.makeArray(value))) {
+      fragment.appendChild(child);
+    }
   } else {
     fragment.innerHTML = value;
   }
@@ -104,27 +138,31 @@ const buildFragment = function(value) {
   return fragment;
 };
 
-$.append = function(el, value) {
+$.append = function (el, value) {
   if (typeof value === 'string') {
     el.insertAdjacentHTML('beforeend', value);
   } else {
-    if ($.isCollection(value)) { value = buildFragment(value); }
+    if ($.isCollection(value)) {
+      value = buildFragment(value);
+    }
     el.appendChild(value);
   }
 };
 
-$.prepend = function(el, value) {
+$.prepend = function (el, value) {
   if (!el.firstChild) {
     $.append(value);
   } else if (typeof value === 'string') {
     el.insertAdjacentHTML('afterbegin', value);
   } else {
-    if ($.isCollection(value)) { value = buildFragment(value); }
+    if ($.isCollection(value)) {
+      value = buildFragment(value);
+    }
     el.insertBefore(value, el.firstChild);
   }
 };
 
-$.before = function(el, value) {
+$.before = function (el, value) {
   if ((typeof value === 'string') || $.isCollection(value)) {
     value = buildFragment(value);
   }
@@ -132,7 +170,7 @@ $.before = function(el, value) {
   el.parentNode.insertBefore(value, el);
 };
 
-$.after = function(el, value) {
+$.after = function (el, value) {
   if ((typeof value === 'string') || $.isCollection(value)) {
     value = buildFragment(value);
   }
@@ -144,11 +182,13 @@ $.after = function(el, value) {
   }
 };
 
-$.remove = function(value) {
+$.remove = function (value) {
   if ($.isCollection(value)) {
-    for (let el of Array.from($.makeArray(value))) { if (el.parentNode != null) {
-      el.parentNode.removeChild(el);
-    } }
+    for (let el of Array.from($.makeArray(value))) {
+      if (el.parentNode != null) {
+        el.parentNode.removeChild(el);
+      }
+    }
   } else {
     if (value.parentNode != null) {
       value.parentNode.removeChild(value);
@@ -156,13 +196,15 @@ $.remove = function(value) {
   }
 };
 
-$.empty = function(el) {
-  while (el.firstChild) { el.removeChild(el.firstChild); }
+$.empty = function (el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
 };
 
 // Calls the function while the element is off the DOM to avoid triggering
 // unnecessary reflows and repaints.
-$.batchUpdate = function(el, fn) {
+$.batchUpdate = function (el, fn) {
   const parent = el.parentNode;
   const sibling = el.nextSibling;
   parent.removeChild(el);
@@ -182,8 +224,10 @@ $.batchUpdate = function(el, fn) {
 
 $.rect = el => el.getBoundingClientRect();
 
-$.offset = function(el, container) {
-  if (container == null) { container = document.body; }
+$.offset = function (el, container) {
+  if (container == null) {
+    container = document.body;
+  }
   let top = 0;
   let left = 0;
 
@@ -199,29 +243,49 @@ $.offset = function(el, container) {
   };
 };
 
-$.scrollParent = function(el) {
+$.scrollParent = function (el) {
   while ((el = el.parentNode) && (el.nodeType === 1)) {
     var needle;
-    if (el.scrollTop > 0) { break; }
-    if ((needle = __guard__(getComputedStyle(el), x => x.overflowY), ['auto', 'scroll'].includes(needle))) { break; }
+    if (el.scrollTop > 0) {
+      break;
+    }
+    if ((needle = __guard__(getComputedStyle(el), x => x.overflowY), ['auto', 'scroll'].includes(needle))) {
+      break;
+    }
   }
   return el;
 };
 
-$.scrollTo = function(el, parent, position, options) {
-  if (position == null) { position = 'center'; }
-  if (options == null) { options = {}; }
-  if (!el) { return; }
+$.scrollTo = function (el, parent, position, options) {
+  if (position == null) {
+    position = 'center';
+  }
+  if (options == null) {
+    options = {};
+  }
+  if (!el) {
+    return;
+  }
 
-  if (parent == null) { parent = $.scrollParent(el); }
-  if (!parent) { return; }
+  if (parent == null) {
+    parent = $.scrollParent(el);
+  }
+  if (!parent) {
+    return;
+  }
 
   const parentHeight = parent.clientHeight;
   const parentScrollHeight = parent.scrollHeight;
-  if (!(parentScrollHeight > parentHeight)) { return; }
+  if (!(parentScrollHeight > parentHeight)) {
+    return;
+  }
 
-  const { top } = $.offset(el, parent);
-  const { offsetTop } = parent.firstElementChild;
+  const {
+    top
+  } = $.offset(el, parent);
+  const {
+    offsetTop
+  } = parent.firstElementChild;
 
   switch (position) {
     case 'top':
@@ -231,7 +295,9 @@ $.scrollTo = function(el, parent, position, options) {
       parent.scrollTop = top - Math.round((parentHeight / 2) - (el.offsetHeight / 2));
       break;
     case 'continuous':
-      var { scrollTop } = parent;
+      var {
+        scrollTop
+      } = parent;
       var height = el.offsetHeight;
 
       var lastElementOffset = parent.lastElementChild.offsetTop + parent.lastElementChild.offsetHeight;
@@ -241,8 +307,8 @@ $.scrollTo = function(el, parent, position, options) {
       // ancestor, move it near the top with a gap = options.topGap * target's height.
       if ((top - offsetTop) <= (scrollTop + (height * (options.topGap || 1)))) {
         parent.scrollTop = top - offsetTop - (height * (options.topGap || 1));
-      // If the target element is below the visible portion of its scrollable
-      // ancestor, move it near the bottom with a gap = options.bottomGap * target's height.
+        // If the target element is below the visible portion of its scrollable
+        // ancestor, move it near the bottom with a gap = options.bottomGap * target's height.
       } else if ((top + offsetBottom) >= ((scrollTop + parentHeight) - (height * ((options.bottomGap || 1) + 1)))) {
         parent.scrollTop = ((top + offsetBottom) - parentHeight) + (height * ((options.bottomGap || 1) + 1));
       }
@@ -250,9 +316,13 @@ $.scrollTo = function(el, parent, position, options) {
   }
 };
 
-$.scrollToWithImageLock = function(el, parent, ...args) {
-  if (parent == null) { parent = $.scrollParent(el); }
-  if (!parent) { return; }
+$.scrollToWithImageLock = function (el, parent, ...args) {
+  if (parent == null) {
+    parent = $.scrollParent(el);
+  }
+  if (!parent) {
+    return;
+  }
 
   $.scrollTo(el, parent, ...Array.from(args));
 
@@ -260,9 +330,9 @@ $.scrollToWithImageLock = function(el, parent, ...args) {
   // nearby images are loaded and rendered.
   for (var image of Array.from(parent.getElementsByTagName('img'))) {
     if (!image.complete) {
-      (function() {
+      (function () {
         let timeout;
-        const onLoad = function(event) {
+        const onLoad = function (event) {
           clearTimeout(timeout);
           unbind(event.target);
           return $.scrollTo(el, parent, ...Array.from(args));
@@ -278,11 +348,15 @@ $.scrollToWithImageLock = function(el, parent, ...args) {
 };
 
 // Calls the function while locking the element's position relative to the window.
-$.lockScroll = function(el, fn) {
+$.lockScroll = function (el, fn) {
   let parent;
   if (parent = $.scrollParent(el)) {
-    let { top } = $.rect(el);
-    if (![document.body, document.documentElement].includes(parent)) { top -= $.rect(parent).top; }
+    let {
+      top
+    } = $.rect(el);
+    if (![document.body, document.documentElement].includes(parent)) {
+      top -= $.rect(parent).top;
+    }
     fn();
     parent.scrollTop = $.offset(el, parent).top - top;
   } else {
@@ -290,9 +364,9 @@ $.lockScroll = function(el, fn) {
   }
 };
 
-let smoothScroll =  (smoothStart = (smoothEnd = (smoothDistance = (smoothDuration = null))));
+let smoothScroll = (smoothStart = (smoothEnd = (smoothDistance = (smoothDuration = null))));
 
-$.smoothScroll = function(el, end) {
+$.smoothScroll = function (el, end) {
   if (!window.requestAnimationFrame) {
     el.scrollTop = end;
     return;
@@ -312,7 +386,7 @@ $.smoothScroll = function(el, end) {
   smoothDuration = Math.min(300, Math.abs(smoothDistance));
   const startTime = Date.now();
 
-  smoothScroll = function() {
+  smoothScroll = function () {
     const p = Math.min(1, (Date.now() - startTime) / smoothDuration);
     const y = Math.max(0, Math.floor(smoothStart + (smoothDistance * (p < 0.5 ? 2 * p * p : (p * (4 - (p * 2))) - 1))));
     el.scrollTop = y;
@@ -329,7 +403,7 @@ $.smoothScroll = function(el, end) {
 // Utilities
 //
 
-$.extend = function(target, ...objects) {
+$.extend = function (target, ...objects) {
   for (let object of Array.from(objects)) {
     if (object) {
       for (let key in object) {
@@ -341,7 +415,7 @@ $.extend = function(target, ...objects) {
   return target;
 };
 
-$.makeArray = function(object) {
+$.makeArray = function (object) {
   if (Array.isArray(object)) {
     return object;
   } else {
@@ -349,7 +423,7 @@ $.makeArray = function(object) {
   }
 };
 
-$.arrayDelete = function(array, object) {
+$.arrayDelete = function (array, object) {
   const index = array.indexOf(object);
   if (index >= 0) {
     array.splice(index, 1);
@@ -381,7 +455,7 @@ $.escapeRegexp = string => string.replace(ESCAPE_REGEXP, "\\$1");
 
 $.urlDecode = string => decodeURIComponent(string.replace(/\+/g, '%20'));
 
-$.classify = function(string) {
+$.classify = function (string) {
   string = string.split('_');
   for (let i = 0; i < string.length; i++) {
     const substr = string[i];
@@ -390,7 +464,7 @@ $.classify = function(string) {
   return string.join('');
 };
 
-$.framify = function(fn, obj) {
+$.framify = function (fn, obj) {
   if (window.requestAnimationFrame) {
     return (...args) => requestAnimationFrame(fn.bind(obj, ...Array.from(args)));
   } else {
@@ -398,7 +472,7 @@ $.framify = function(fn, obj) {
   }
 };
 
-$.requestAnimationFrame = function(fn) {
+$.requestAnimationFrame = function (fn) {
   if (window.requestAnimationFrame) {
     requestAnimationFrame(fn);
   } else {
@@ -410,12 +484,14 @@ $.requestAnimationFrame = function(fn) {
 // Miscellaneous
 //
 
-$.noop = function() {};
+$.noop = function () {};
 
-$.popup = function(value) {
+$.popup = function (value) {
   try {
     const win = window.open();
-    if (win.opener) { win.opener = null; }
+    if (win.opener) {
+      win.opener = null;
+    }
     win.location = value.href || value;
   } catch (error) {
     window.open(value.href || value, '_blank');
@@ -434,8 +510,10 @@ $.isAndroid = () => isAndroid != null ? isAndroid : (isAndroid = (navigator.user
 let isIOS = null;
 $.isIOS = () => isIOS != null ? isIOS : (isIOS = ((navigator.userAgent != null ? navigator.userAgent.indexOf('iPhone') : undefined) >= 0) || ((navigator.userAgent != null ? navigator.userAgent.indexOf('iPad') : undefined) >= 0));
 
-$.overlayScrollbarsEnabled = function() {
-  if (!$.isMac()) { return false; }
+$.overlayScrollbarsEnabled = function () {
+  if (!$.isMac()) {
+    return false;
+  }
   const div = document.createElement('div');
   div.setAttribute('style', 'width: 100px; height: 100px; overflow: scroll; position: absolute');
   document.body.appendChild(div);
@@ -449,14 +527,16 @@ const HIGHLIGHT_DEFAULTS = {
   delay: 1000
 };
 
-$.highlight = function(el, options) {
-  if (options == null) { options = {}; }
+$.highlight = function (el, options) {
+  if (options == null) {
+    options = {};
+  }
   options = $.extend({}, HIGHLIGHT_DEFAULTS, options);
   el.classList.add(options.className);
   setTimeout((() => el.classList.remove(options.className)), options.delay);
 };
 
-$.copyToClipboard = function(string) {
+$.copyToClipboard = function (string) {
   let result;
   const textarea = document.createElement('textarea');
   textarea.style.position = 'fixed';
@@ -468,8 +548,7 @@ $.copyToClipboard = function(string) {
     result = !!document.execCommand('copy');
   } catch (error) {
     result = false;
-  }
-  finally {
+  } finally {
     document.body.removeChild(textarea);
   }
   return result;

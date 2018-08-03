@@ -11,7 +11,7 @@ const MIME_TYPES = {
   html: 'text/html'
 };
 
-this.ajax = function(options) {
+this.ajax = function (options) {
   applyDefaults(options);
   serializeData(options);
 
@@ -24,7 +24,9 @@ this.ajax = function(options) {
   xhr.send(options.data);
 
   if (options.async) {
-    return {abort: abort.bind(undefined, xhr)};
+    return {
+      abort: abort.bind(undefined, xhr)
+    };
   } else {
     return parseResponse(xhr, options);
   }
@@ -36,23 +38,27 @@ ajax.defaults = {
   timeout: 30,
   type: 'GET'
 };
-  // contentType
-  // context
-  // data
-  // error
-  // headers
-  // progress
-  // success
-  // url
+// contentType
+// context
+// data
+// error
+// headers
+// progress
+// success
+// url
 
-var applyDefaults = function(options) {
+var applyDefaults = function (options) {
   for (let key in ajax.defaults) {
-    if (options[key] == null) { options[key] = ajax.defaults[key]; }
+    if (options[key] == null) {
+      options[key] = ajax.defaults[key];
+    }
   }
 };
 
-var serializeData = function(options) {
-  if (!options.data) { return; }
+var serializeData = function (options) {
+  if (!options.data) {
+    return;
+  }
 
   if (options.type === 'GET') {
     options.url += `?${serializeParams(options.data)}`;
@@ -70,15 +76,18 @@ var serializeParams = params =>
       result.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     }
     return result;
-  })()).join('&')
-;
+  })()).join('&');
 
-var applyCallbacks = function(xhr, options) {
-  if (!options.async) { return; }
+var applyCallbacks = function (xhr, options) {
+  if (!options.async) {
+    return;
+  }
 
   xhr.timer = setTimeout(onTimeout.bind(undefined, xhr, options), options.timeout * 1000);
-  if (options.progress) { xhr.onprogress = options.progress; }
-  xhr.onreadystatechange = function() {
+  if (options.progress) {
+    xhr.onprogress = options.progress;
+  }
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       clearTimeout(xhr.timer);
       onComplete(xhr, options);
@@ -86,8 +95,10 @@ var applyCallbacks = function(xhr, options) {
   };
 };
 
-var applyHeaders = function(xhr, options) {
-  if (!options.headers) { options.headers = {}; }
+var applyHeaders = function (xhr, options) {
+  if (!options.headers) {
+    options.headers = {};
+  }
 
   if (options.contentType) {
     options.headers['Content-Type'] = options.contentType;
@@ -107,7 +118,7 @@ var applyHeaders = function(xhr, options) {
   }
 };
 
-var onComplete = function(xhr, options) {
+var onComplete = function (xhr, options) {
   if (200 <= xhr.status && xhr.status < 300) {
     let response;
     if ((response = parseResponse(xhr, options)) != null) {
@@ -120,30 +131,30 @@ var onComplete = function(xhr, options) {
   }
 };
 
-var onSuccess = function(response, xhr, options) {
+var onSuccess = function (response, xhr, options) {
   if (options.success != null) {
     options.success.call(options.context, response, xhr, options);
   }
 };
 
-var onError = function(type, xhr, options) {
+var onError = function (type, xhr, options) {
   if (options.error != null) {
     options.error.call(options.context, type, xhr, options);
   }
 };
 
-var onTimeout = function(xhr, options) {
+var onTimeout = function (xhr, options) {
   xhr.abort();
   onError('timeout', xhr, options);
 };
 
-var abort = function(xhr) {
+var abort = function (xhr) {
   clearTimeout(xhr.timer);
   xhr.onreadystatechange = null;
   xhr.abort();
 };
 
-var parseResponse = function(xhr, options) {
+var parseResponse = function (xhr, options) {
   if (options.dataType === 'json') {
     return parseJSON(xhr.responseText);
   } else {
@@ -151,6 +162,8 @@ var parseResponse = function(xhr, options) {
   }
 };
 
-var parseJSON = function(json) {
-  try { return JSON.parse(json); } catch (error) {}
+var parseJSON = function (json) {
+  try {
+    return JSON.parse(json);
+  } catch (error) {}
 };
