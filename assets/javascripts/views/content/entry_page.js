@@ -8,14 +8,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-(function() {
+(function () {
   let LINKS = undefined;
   const Cls = (app.views.EntryPage = class EntryPage extends app.View {
     constructor(...args) {
       {
         // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) { super(); }
-        let thisFn = (() => { return this; }).toString();
+        if (false) {
+          super();
+        }
+        let thisFn = (() => {
+          return this;
+        }).toString();
         let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
         eval(`${thisName} = this;`);
       }
@@ -30,16 +34,19 @@
     static initClass() {
       this.className = '_page';
       this.errorClass = '_page-error';
-  
-      this.events =
-        {click: 'onClick'};
-  
-      this.shortcuts =
-        {altO: 'onAltO'};
-  
-      this.routes =
-        {before: 'beforeRoute'};
-  
+
+      this.events = {
+        click: 'onClick'
+      };
+
+      this.shortcuts = {
+        altO: 'onAltO'
+      };
+
+      this.routes = {
+        before: 'beforeRoute'
+      };
+
       LINKS = {
         home: 'Homepage',
         code: 'Source code'
@@ -64,15 +71,23 @@
     }
 
     render(content, fromCache) {
-      if (content == null) { content = ''; }
-      if (fromCache == null) { fromCache = false; }
-      if (!this.activated) { return; }
+      if (content == null) {
+        content = '';
+      }
+      if (fromCache == null) {
+        fromCache = false;
+      }
+      if (!this.activated) {
+        return;
+      }
       this.empty();
-      this.subview = new (this.subViewClass())(this.el, this.entry);
+      this.subview = new(this.subViewClass())(this.el, this.entry);
 
       $.batchUpdate(this.el, () => {
         this.subview.render(content, fromCache);
-        if (!fromCache) { this.addCopyButtons(); }
+        if (!fromCache) {
+          this.addCopyButtons();
+        }
       });
 
       if (app.disabledDocs.findBy('slug', this.entry.doc.slug)) {
@@ -92,17 +107,23 @@
         this.copyButton.title = 'Copy to clipboard';
         this.copyButton.setAttribute('aria-label', 'Copy to clipboard');
       }
-      for (let el of Array.from(this.findAllByTag('pre'))) { el.appendChild(this.copyButton.cloneNode(true)); }
+      for (let el of Array.from(this.findAllByTag('pre'))) {
+        el.appendChild(this.copyButton.cloneNode(true));
+      }
     }
 
     polyfillMathML() {
-      if ((window.supportsMathML !== false) || !!this.polyfilledMathML || !this.findByTag('math')) { return; }
+      if ((window.supportsMathML !== false) || !!this.polyfilledMathML || !this.findByTag('math')) {
+        return;
+      }
       this.polyfilledMathML = true;
       $.append(document.head, `<link rel="stylesheet" href="${app.config.mathml_stylesheet}">`);
     }
 
     prepareContent(content) {
-      if (!this.entry.isIndex() || !this.entry.doc.links) { return content; }
+      if (!this.entry.isIndex() || !this.entry.doc.links) {
+        return content;
+      }
 
       const links = (() => {
         const result = [];
@@ -147,7 +168,9 @@
     onRoute(context) {
       const isSameFile = context.entry.filePath() === (this.entry != null ? this.entry.filePath() : undefined);
       this.entry = context.entry;
-      if (!isSameFile) { this.restore() || this.load(); }
+      if (!isSameFile) {
+        this.restore() || this.load();
+      }
     }
 
     load() {
@@ -163,7 +186,9 @@
     }
 
     onSuccess(response) {
-      if (!this.activated) { return; }
+      if (!this.activated) {
+        return;
+      }
       this.xhr = null;
       this.render(this.prepareContent(response));
     }
@@ -180,7 +205,9 @@
 
     cache() {
       let path;
-      if (this.xhr || !this.entry || this.cacheMap[(path = this.entry.filePath())]) { return; }
+      if (this.xhr || !this.entry || this.cacheMap[(path = this.entry.filePath())]) {
+        return;
+      }
 
       this.cacheMap[path] = this.el.innerHTML;
       this.cacheStack.push(path);
@@ -212,7 +239,9 @@
 
     onAltO() {
       let link;
-      if (!(link = this.find('._attribution:last-child ._attribution-link'))) { return; }
+      if (!(link = this.find('._attribution:last-child ._attribution-link'))) {
+        return;
+      }
       this.delay(() => $.popup(link.href + location.hash));
     }
   });

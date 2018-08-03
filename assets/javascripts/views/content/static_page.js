@@ -7,11 +7,11 @@
 const Cls = (app.views.StaticPage = class StaticPage extends app.View {
   static initClass() {
     this.className = '_static';
-  
+
     this.titles = {
-      about:    'About',
-      news:     'News',
-      help:     'User Guide',
+      about: 'About',
+      news: 'News',
+      help: 'User Guide',
       notFound: '404'
     };
   }

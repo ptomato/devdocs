@@ -14,8 +14,12 @@ const Cls = (app.views.Content = class Content extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -39,40 +43,40 @@ const Cls = (app.views.Content = class Content extends app.View {
   static initClass() {
     this.el = '._content';
     this.loadingClass = '_content-loading';
-  
-    this.events =
-      {click: 'onClick'};
-  
-    this.shortcuts = {
-      altUp:      'scrollStepUp',
-      altDown:    'scrollStepDown',
-      pageUp:     'scrollPageUp',
-      pageDown:   'scrollPageDown',
-      pageTop:    'scrollToTop',
-      pageBottom: 'scrollToBottom',
-      altF:       'onAltF'
+
+    this.events = {
+      click: 'onClick'
     };
-  
+
+    this.shortcuts = {
+      altUp: 'scrollStepUp',
+      altDown: 'scrollStepDown',
+      pageUp: 'scrollPageUp',
+      pageDown: 'scrollPageDown',
+      pageTop: 'scrollToTop',
+      pageBottom: 'scrollToBottom',
+      altF: 'onAltF'
+    };
+
     this.routes = {
       before: 'beforeRoute',
-      after:  'afterRoute'
+      after: 'afterRoute'
     };
   }
 
   init() {
     this.scrollEl = app.isMobile() ?
-      (document.scrollingElement || document.body)
-    :
+      (document.scrollingElement || document.body) :
       this.el;
     this.scrollMap = {};
     this.scrollStack = [];
 
-    this.rootPage     = new app.views.RootPage;
-    this.staticPage   = new app.views.StaticPage;
+    this.rootPage = new app.views.RootPage;
+    this.staticPage = new app.views.StaticPage;
     this.settingsPage = new app.views.SettingsPage;
-    this.offlinePage  = new app.views.OfflinePage;
-    this.typePage     = new app.views.TypePage;
-    this.entryPage    = new app.views.EntryPage;
+    this.offlinePage = new app.views.OfflinePage;
+    this.typePage = new app.views.TypePage;
+    this.entryPage = new app.views.EntryPage;
 
     this.entryPage
       .on('loading', this.onEntryLoading)
@@ -150,9 +154,12 @@ const Cls = (app.views.Content = class Content extends app.View {
   scrollToTarget() {
     let el;
     if (this.routeCtx.hash && (el = this.findTargetByHash(this.routeCtx.hash))) {
-      $.scrollToWithImageLock(el, this.scrollEl, 'top',
-        {margin: this.scrollEl === this.el ? 0 : $.offset(this.el).top});
-      $.highlight(el, {className: '_highlight'});
+      $.scrollToWithImageLock(el, this.scrollEl, 'top', {
+        margin: this.scrollEl === this.el ? 0 : $.offset(this.el).top
+      });
+      $.highlight(el, {
+        className: '_highlight'
+      });
     } else {
       this.scrollTo(this.scrollMap[this.routeCtx.state.id]);
     }
@@ -191,8 +198,12 @@ const Cls = (app.views.Content = class Content extends app.View {
   }
 
   cacheScrollPosition() {
-    if (!this.routeCtx || this.routeCtx.hash) { return; }
-    if (this.routeCtx.path === '/') { return; }
+    if (!this.routeCtx || this.routeCtx.hash) {
+      return;
+    }
+    if (this.routeCtx.path === '/') {
+      return;
+    }
 
     if (this.scrollMap[this.routeCtx.state.id] == null) {
       this.scrollStack.push(this.routeCtx.state.id);
@@ -245,8 +256,18 @@ const Cls = (app.views.Content = class Content extends app.View {
   }
 
   findTargetByHash(hash) {
-    let el = (() => { try { return $.id(decodeURIComponent(hash)); } catch (error) {} })();
-    if (!el) { el = (() => { try { return $.id(hash); } catch (error1) {} })(); }
+    let el = (() => {
+      try {
+        return $.id(decodeURIComponent(hash));
+      } catch (error) {}
+    })();
+    if (!el) {
+      el = (() => {
+        try {
+          return $.id(hash);
+        } catch (error1) {}
+      })();
+    }
     return el;
   }
 

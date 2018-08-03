@@ -10,8 +10,12 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -21,7 +25,7 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
 
   static initClass() {
     this.className = '_static';
-  
+
     this.events = {
       click: 'onClick',
       change: 'onChange'
@@ -41,12 +45,16 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
     }
 
     app.docs.getInstallStatuses(statuses => {
-      if (!this.activated) { return; }
+      if (!this.activated) {
+        return;
+      }
       if (statuses === false) {
         this.html(this.tmpl('offlineError', app.db.reason, app.db.error));
       } else {
         let html = '';
-        for (let doc of Array.from(app.docs.all())) { html += this.renderDoc(doc, statuses[doc.slug]); }
+        for (let doc of Array.from(app.docs.all())) {
+          html += this.renderDoc(doc, statuses[doc.slug]);
+        }
         this.html(this.tmpl('offlinePage', html));
         this.refreshLinks();
       }
@@ -69,7 +77,9 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
 
   docByEl(el) {
     let slug;
-    while (!(slug = el.getAttribute('data-slug'))) { el = el.parentNode; }
+    while (!(slug = el.getAttribute('data-slug'))) {
+      el = el.parentNode;
+    }
     return app.docs.findBy('slug', slug);
   }
 
@@ -86,23 +96,33 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
     let el = $.eventTarget(event);
     if (action = el.getAttribute('data-action')) {
       const doc = this.docByEl(el);
-      if (action === 'update') { action = 'install'; }
+      if (action === 'update') {
+        action = 'install';
+      }
       doc[action](this.onInstallSuccess.bind(this, doc), this.onInstallError.bind(this, doc), this.onInstallProgress.bind(this, doc));
       el.parentNode.innerHTML = `${el.textContent.replace(/e$/, '')}ing…`;
     } else if (action = el.getAttribute('data-action-all')) {
       app.db.migrate();
-      for (el of Array.from(this.findAll(`[data-action='${action}']`))) { $.click(el); }
+      for (el of Array.from(this.findAll(`[data-action='${action}']`))) {
+        $.click(el);
+      }
     }
   }
 
   onInstallSuccess(doc) {
-    if (!this.activated) { return; }
+    if (!this.activated) {
+      return;
+    }
     doc.getInstallStatus(status => {
       let el;
-      if (!this.activated) { return; }
+      if (!this.activated) {
+        return;
+      }
       if (el = this.docEl(doc)) {
         el.outerHTML = this.renderDoc(doc, status);
-        $.highlight(el, {className: '_highlight'});
+        $.highlight(el, {
+          className: '_highlight'
+        });
         this.refreshLinks();
       }
     });
@@ -110,7 +130,9 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
 
   onInstallError(doc) {
     let el;
-    if (!this.activated) { return; }
+    if (!this.activated) {
+      return;
+    }
     if (el = this.docEl(doc)) {
       el.lastElementChild.textContent = 'Error';
     }
@@ -118,7 +140,9 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
 
   onInstallProgress(doc, event) {
     let el;
-    if (!this.activated || !event.lengthComputable) { return; }
+    if (!this.activated || !event.lengthComputable) {
+      return;
+    }
     if (el = this.docEl(doc)) {
       const percentage = Math.round((event.loaded * 100) / event.total);
       el.lastElementChild.textContent = el.lastElementChild.textContent.replace(/(\s.+)?$/, ` (${percentage}%)`);

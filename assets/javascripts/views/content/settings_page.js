@@ -8,15 +8,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-(function() {
+(function () {
   let LAYOUTS = undefined;
   let SIDEBAR_HIDDEN_LAYOUT = undefined;
   const Cls = (app.views.SettingsPage = class SettingsPage extends app.View {
     constructor(...args) {
       {
         // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) { super(); }
-        let thisFn = (() => { return this; }).toString();
+        if (false) {
+          super();
+        }
+        let thisFn = (() => {
+          return this;
+        }).toString();
         let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
         eval(`${thisName} = this;`);
       }
@@ -28,9 +32,9 @@
     static initClass() {
       LAYOUTS = ['_max-width', '_sidebar-hidden', '_native-scrollbars'];
       SIDEBAR_HIDDEN_LAYOUT = '_sidebar-hidden';
-  
+
       this.className = '_static';
-  
+
       this.events = {
         click: 'onClick',
         change: 'onChange'
@@ -46,7 +50,9 @@
       settings.dark = app.settings.get('dark');
       settings.smoothScroll = !app.settings.get('fastScroll');
       settings.arrowScroll = app.settings.get('arrowScroll');
-      for (let layout of Array.from(LAYOUTS)) { settings[layout] = app.settings.hasLayout(layout); }
+      for (let layout of Array.from(LAYOUTS)) {
+        settings[layout] = app.settings.hasLayout(layout);
+      }
       return settings;
     }
 
@@ -66,7 +72,9 @@
     }
 
     toggleLayout(layout, enable) {
-      if (layout !== SIDEBAR_HIDDEN_LAYOUT) { document.body.classList[enable ? 'add' : 'remove'](layout); }
+      if (layout !== SIDEBAR_HIDDEN_LAYOUT) {
+        document.body.classList[enable ? 'add' : 'remove'](layout);
+      }
       document.body.classList[$.overlayScrollbarsEnabled() ? 'add' : 'remove']('_overlay-scrollbars');
       app.settings.setLayout(layout, enable);
       if (app.appCache != null) {
@@ -82,8 +90,10 @@
       app.settings.set(name, enable);
     }
 
-    export() {
-      const data = new Blob([JSON.stringify(app.settings.export())], {type: 'application/json'});
+    export () {
+      const data = new Blob([JSON.stringify(app.settings.export())], {
+        type: 'application/json'
+      });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(data);
       link.download = 'devdocs.json';
@@ -93,17 +103,25 @@
       document.body.removeChild(link);
     }
 
-    import(file, input) {
+    import (file, input) {
       if (!file || (file.type !== 'application/json')) {
-        new app.views.Notif('ImportInvalid', {autoHide: false});
+        new app.views.Notif('ImportInvalid', {
+          autoHide: false
+        });
         return;
       }
 
       const reader = new FileReader();
-      reader.onloadend = function() {
-        const data = (() => { try { return JSON.parse(reader.result); } catch (error) {} })();
+      reader.onloadend = function () {
+        const data = (() => {
+          try {
+            return JSON.parse(reader.result);
+          } catch (error) {}
+        })();
         if (!data || (data.constructor !== Object)) {
-          new app.views.Notif('ImportInvalid', {autoHide: false});
+          new app.views.Notif('ImportInvalid', {
+            autoHide: false
+          });
           return;
         }
         app.settings.import(data);

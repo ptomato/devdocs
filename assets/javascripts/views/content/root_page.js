@@ -9,8 +9,12 @@ const Cls = (app.views.RootPage = class RootPage extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -19,12 +23,15 @@ const Cls = (app.views.RootPage = class RootPage extends app.View {
   }
 
   static initClass() {
-    this.events =
-      {click: 'onClick'};
+    this.events = {
+      click: 'onClick'
+    };
   }
 
   init() {
-    if (!this.isHidden()) { this.setHidden(false); } // reserve space in local storage
+    if (!this.isHidden()) {
+      this.setHidden(false);
+    } // reserve space in local storage
     this.render();
   }
 
@@ -32,12 +39,11 @@ const Cls = (app.views.RootPage = class RootPage extends app.View {
     this.empty();
 
     let tmpl = app.isAndroidWebview() ?
-      'androidWarning'
-    : this.isHidden() ?
-      'splash'
-    : app.isMobile() ?
-      'mobileIntro'
-    :
+      'androidWarning' :
+      this.isHidden() ?
+      'splash' :
+      app.isMobile() ?
+      'mobileIntro' :
       'intro';
 
     // temporary
