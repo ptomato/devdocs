@@ -12,8 +12,12 @@ const Cls = (app.views.JqueryPage = class JqueryPage extends app.views.BasePage 
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -42,14 +46,18 @@ const Cls = (app.views.JqueryPage = class JqueryPage extends app.views.BasePage 
 
   runExamples() {
     for (let el of Array.from(this.findAllByClass('entry-example'))) {
-      try { this.runExample(el); } catch (error) {}
+      try {
+        this.runExample(el);
+      } catch (error) {}
     }
   }
 
   runExample(el) {
     let iframe;
     const source = el.getElementsByClassName('syntaxhighlighter')[0];
-    if (!source || (source.innerHTML.indexOf('!doctype') === -1)) { return; }
+    if (!source || (source.innerHTML.indexOf('!doctype') === -1)) {
+      return;
+    }
 
     if (!(iframe = el.getElementsByClassName(this.constructor.demoClassName)[0])) {
       iframe = document.createElement('iframe');
@@ -80,8 +88,7 @@ const Cls = (app.views.JqueryPage = class JqueryPage extends app.views.BasePage 
   });
 </script>
 </head>\
-`
-    );
+`);
     return source.replace(/<script>/gi, '<script nonce="devdocs">');
   }
 });

@@ -10,8 +10,12 @@ const Cls = (app.views.SqlitePage = class SqlitePage extends app.views.BasePage 
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -20,14 +24,19 @@ const Cls = (app.views.SqlitePage = class SqlitePage extends app.views.BasePage 
   }
 
   static initClass() {
-    this.events =
-      {click: 'onClick'};
+    this.events = {
+      click: 'onClick'
+    };
   }
 
   onClick(event) {
     let el, id;
-    if (!(id = event.target.getAttribute('data-toggle'))) { return; }
-    if (!(el = this.find(`#${id}`))) { return; }
+    if (!(id = event.target.getAttribute('data-toggle'))) {
+      return;
+    }
+    if (!(el = this.find(`#${id}`))) {
+      return;
+    }
     $.stopEvent(event);
     if (el.style.display === 'none') {
       el.style.display = 'block';

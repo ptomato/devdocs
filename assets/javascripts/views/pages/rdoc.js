@@ -8,12 +8,15 @@
 
 const Cls = (app.views.RdocPage = class RdocPage extends app.views.BasePage {
   static initClass() {
-    this.events =
-      {click: 'onClick'};
+    this.events = {
+      click: 'onClick'
+    };
   }
 
   onClick(event) {
-    if (!event.target.classList.contains('method-click-advice')) { return; }
+    if (!event.target.classList.contains('method-click-advice')) {
+      return;
+    }
     $.stopEvent(event);
 
     const source = $('.method-source-code', event.target.parentNode.parentNode);

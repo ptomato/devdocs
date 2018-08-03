@@ -6,12 +6,27 @@
  */
 const Cls = (app.views.HiddenPage = class HiddenPage extends app.View {
   static initClass() {
-    this.events =
-      {click: 'onClick'};
+    this.events = {
+      click: 'onClick'
+    };
   }
 
-  constructor(el, entry) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.onClick = this.onClick.bind(this);   this.el = el; this.entry = entry; super(...arguments); }
+  constructor(el, entry) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.onClick = this.onClick.bind(this);
+    this.el = el;
+    this.entry = entry;
+    super(...arguments);
+  }
 
   init() {
     this.addSubview(this.notice = new app.views.Notice('disabledDoc'));

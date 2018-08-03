@@ -7,8 +7,22 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 app.views.BasePage = class BasePage extends app.View {
-  constructor(el, entry) { {     // Hack: trick Babel/TypeScript into allowing this before super.
-    if (false) { super(); }     let thisFn = (() => { return this; }).toString();     let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();     eval(`${thisName} = this;`);   }   this.paintCode = this.paintCode.bind(this);   this.el = el; this.entry = entry; super(...arguments); }
+  constructor(el, entry) {
+    { // Hack: trick Babel/TypeScript into allowing this before super.
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
+      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
+      eval(`${thisName} = this;`);
+    }
+    this.paintCode = this.paintCode.bind(this);
+    this.el = el;
+    this.entry = entry;
+    super(...arguments);
+  }
 
   deactivate() {
     if (super.deactivate(...arguments)) {
@@ -17,14 +31,22 @@ app.views.BasePage = class BasePage extends app.View {
   }
 
   render(content, fromCache) {
-    if (fromCache == null) { fromCache = false; }
+    if (fromCache == null) {
+      fromCache = false;
+    }
     this.highlightNodes = [];
     this.previousTiming = null;
-    if (!this.constructor.className) { this.addClass(`_${this.entry.doc.type}`); }
+    if (!this.constructor.className) {
+      this.addClass(`_${this.entry.doc.type}`);
+    }
     this.html(content);
-    if (!fromCache) { this.highlightCode(); }
+    if (!fromCache) {
+      this.highlightCode();
+    }
     this.activate();
-    if (this.afterRender) { this.delay(this.afterRender); }
+    if (this.afterRender) {
+      this.delay(this.afterRender);
+    }
     if (this.highlightNodes.length > 0) {
       $.requestAnimationFrame(() => $.requestAnimationFrame(this.paintCode));
     }
@@ -51,12 +73,18 @@ app.views.BasePage = class BasePage extends app.View {
 
     for (let el of Array.from(this.highlightNodes.splice(0, this.nodesPerFrame))) {
       var clipEl;
-      if (clipEl = el.lastElementChild) { $.remove(clipEl); }
+      if (clipEl = el.lastElementChild) {
+        $.remove(clipEl);
+      }
       Prism.highlightElement(el);
-      if (clipEl) { $.append(el, clipEl); }
+      if (clipEl) {
+        $.append(el, clipEl);
+      }
     }
 
-    if (this.highlightNodes.length > 0) { $.requestAnimationFrame(this.paintCode); }
+    if (this.highlightNodes.length > 0) {
+      $.requestAnimationFrame(this.paintCode);
+    }
     this.previousTiming = timing;
   }
 };
