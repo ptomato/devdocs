@@ -1,38 +1,22 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.RootPage = class RootPage extends app.View {
+app.views.RootPage = class RootPage extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
-    this.onClick = this.onClick.bind(this);
     super(...args);
+
+    this.onClick = this.onClick.bind(this);
+
+    if (!this.isHidden()) {
+      this.setHidden(false);
+    } // reserve space in local storage
+
+    this.render();
   }
 
   static initClass() {
     this.events = {
       click: 'onClick'
     };
-  }
 
-  init() {
-    if (!this.isHidden()) {
-      this.setHidden(false);
-    } // reserve space in local storage
-    this.render();
+    return this;
   }
 
   render() {
@@ -75,5 +59,4 @@ const Cls = (app.views.RootPage = class RootPage extends app.View {
       this.hideIntro();
     }
   }
-});
-Cls.initClass();
+}.initClass();

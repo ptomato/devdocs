@@ -1,28 +1,7 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
- * DS104: Avoid inline assignments
- * DS204: Change includes calls to have a more natural evaluation order
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Content = class Content extends app.View {
+app.views.Content = class Content extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...args);
+
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.scrollStepUp = this.scrollStepUp.bind(this);
@@ -37,7 +16,28 @@ const Cls = (app.views.Content = class Content extends app.View {
     this.afterRoute = this.afterRoute.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onAltF = this.onAltF.bind(this);
-    super(...args);
+
+    this.scrollEl = app.isMobile() ?
+      (document.scrollingElement || document.body) :
+      this.el;
+    this.scrollMap = {};
+    this.scrollStack = [];
+
+    this.rootPage = new app.views.RootPage();
+    this.staticPage = new app.views.StaticPage();
+    this.settingsPage = new app.views.SettingsPage();
+    this.offlinePage = new app.views.OfflinePage();
+    this.typePage = new app.views.TypePage();
+    this.entryPage = new app.views.EntryPage();
+
+    this.entryPage
+      .on('loading', this.onEntryLoading)
+      .on('loaded', this.onEntryLoaded);
+
+    app
+      .on('ready', this.onReady)
+      .on('bootError', this.onBootError);
+
   }
 
   static initClass() {
@@ -62,30 +62,8 @@ const Cls = (app.views.Content = class Content extends app.View {
       before: 'beforeRoute',
       after: 'afterRoute'
     };
-  }
 
-  init() {
-    this.scrollEl = app.isMobile() ?
-      (document.scrollingElement || document.body) :
-      this.el;
-    this.scrollMap = {};
-    this.scrollStack = [];
-
-    this.rootPage = new app.views.RootPage;
-    this.staticPage = new app.views.StaticPage;
-    this.settingsPage = new app.views.SettingsPage;
-    this.offlinePage = new app.views.OfflinePage;
-    this.typePage = new app.views.TypePage;
-    this.entryPage = new app.views.EntryPage;
-
-    this.entryPage
-      .on('loading', this.onEntryLoading)
-      .on('loaded', this.onEntryLoaded);
-
-    app
-      .on('ready', this.onReady)
-      .on('bootError', this.onBootError);
-
+    return this;
   }
 
   show(view) {
@@ -250,7 +228,12 @@ const Cls = (app.views.Content = class Content extends app.View {
 
   onAltF(event) {
     if (!document.activeElement || !$.hasChild(this.el, document.activeElement)) {
-      __guard__(this.find('a:not(:empty)'), x => x.focus());
+      const element = this.find('a:not(:empty)');
+
+      if (element) {
+        element.focus();
+      }
+
       return $.stopEvent(event);
     }
   }
@@ -272,12 +255,12 @@ const Cls = (app.views.Content = class Content extends app.View {
   }
 
   isExternalUrl(url) {
-    let needle;
-    return (needle = __guard__(url, x => x.slice(0, 6)), ['http:/', 'https:'].includes(needle));
-  }
-});
-Cls.initClass();
+    let needle = null;
 
-function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
-}
+    if (url) {
+      needle = url.slice(0, 6);
+    }
+
+    return needle && ['http:/', 'https:'].includes(needle);
+  }
+}.initClass();

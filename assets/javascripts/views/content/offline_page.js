@@ -1,26 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
+app.views.OfflinePage = class OfflinePage extends app.View {
   constructor(...args) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
-    this.onClick = this.onClick.bind(this);
     super(...args);
+
+    this.onClick = this.onClick.bind(this); 
   }
 
   static initClass() {
@@ -30,6 +12,8 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
       click: 'onClick',
       change: 'onChange'
     };
+
+    return this;
   }
 
   deactivate() {
@@ -52,7 +36,7 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
         this.html(this.tmpl('offlineError', app.db.reason, app.db.error));
       } else {
         let html = '';
-        for (let doc of Array.from(app.docs.all())) {
+        for (let doc of app.docs.all()) {
           html += this.renderDoc(doc, statuses[doc.slug]);
         }
         this.html(this.tmpl('offlinePage', html));
@@ -103,7 +87,7 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
       el.parentNode.innerHTML = `${el.textContent.replace(/e$/, '')}ing…`;
     } else if (action = el.getAttribute('data-action-all')) {
       app.db.migrate();
-      for (el of Array.from(this.findAll(`[data-action='${action}']`))) {
+      for (el of this.findAll(`[data-action='${action}']`)) {
         $.click(el);
       }
     }
@@ -154,5 +138,4 @@ const Cls = (app.views.OfflinePage = class OfflinePage extends app.View {
       app.settings.set('manualUpdate', !event.target.checked);
     }
   }
-});
-Cls.initClass();
+}.initClass();

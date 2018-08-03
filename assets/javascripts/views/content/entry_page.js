@@ -1,34 +1,17 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 (function () {
   let LINKS = undefined;
   const Cls = (app.views.EntryPage = class EntryPage extends app.View {
     constructor(...args) {
-      {
-        // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) {
-          super();
-        }
-        let thisFn = (() => {
-          return this;
-        }).toString();
-        let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-        eval(`${thisName} = this;`);
-      }
+      super(...args);
+
       this.beforeRoute = this.beforeRoute.bind(this);
       this.onSuccess = this.onSuccess.bind(this);
       this.onError = this.onError.bind(this);
       this.onClick = this.onClick.bind(this);
       this.onAltO = this.onAltO.bind(this);
-      super(...args);
+
+      this.cacheMap = {};
+      this.cacheStack = [];
     }
 
     static initClass() {
@@ -51,11 +34,6 @@
         home: 'Homepage',
         code: 'Source code'
       };
-    }
-
-    init() {
-      this.cacheMap = {};
-      this.cacheStack = [];
     }
 
     deactivate() {
@@ -107,7 +85,7 @@
         this.copyButton.title = 'Copy to clipboard';
         this.copyButton.setAttribute('aria-label', 'Copy to clipboard');
       }
-      for (let el of Array.from(this.findAllByTag('pre'))) {
+      for (let el of this.findAllByTag('pre')) {
         el.appendChild(this.copyButton.cloneNode(true));
       }
     }
