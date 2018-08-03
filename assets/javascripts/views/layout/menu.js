@@ -8,8 +8,12 @@ const Cls = (app.views.Menu = class Menu extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -20,9 +24,10 @@ const Cls = (app.views.Menu = class Menu extends app.View {
   static initClass() {
     this.el = '._menu';
     this.activeClass = 'active';
-  
-    this.events =
-      {click: 'onClick'};
+
+    this.events = {
+      click: 'onClick'
+    };
   }
 
   init() {
@@ -31,11 +36,15 @@ const Cls = (app.views.Menu = class Menu extends app.View {
 
   onClick(event) {
     const target = $.eventTarget(event);
-    if (target.tagName === 'A') { target.blur(); }
+    if (target.tagName === 'A') {
+      target.blur();
+    }
   }
 
   onGlobalClick(event) {
-    if (event.which !== 1) { return; }
+    if (event.which !== 1) {
+      return;
+    }
     if (typeof event.target.hasAttribute === 'function' ? event.target.hasAttribute('data-toggle-menu') : undefined) {
       this.toggleClass(this.constructor.activeClass);
     } else if (this.hasClass(this.constructor.activeClass)) {

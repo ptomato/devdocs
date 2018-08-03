@@ -9,30 +9,32 @@
 const Cls = (app.views.Mobile = class Mobile extends app.View {
   static initClass() {
     this.className = '_mobile';
-  
+
     this.elements = {
-      body:      'body',
-      content:   '._container',
-      sidebar:   '._sidebar',
+      body: 'body',
+      content: '._container',
+      sidebar: '._sidebar',
       docPicker: '._settings ._sidebar'
     };
-  
-    this.shortcuts =
-      {escape: 'onEscape'};
-  
-    this.routes =
-      {after: 'afterRoute'};
+
+    this.shortcuts = {
+      escape: 'onEscape'
+    };
+
+    this.routes = {
+      after: 'afterRoute'
+    };
   }
 
   static detect() {
     try {
       return (window.matchMedia('(max-width: 480px)').matches) ||
-      (window.matchMedia('(max-width: 767px)').matches) ||
-      (window.matchMedia('(max-height: 767px) and (max-width: 1024px)').matches) ||
-      // Need to sniff the user agent because some Android and Windows Phone devices don't take
-      // resolution (dpi) into account when reporting device width/height.
-      ((navigator.userAgent.indexOf('Android') !== -1) && (navigator.userAgent.indexOf('Mobile') !== -1)) ||
-      (navigator.userAgent.indexOf('IEMobile') !== -1);
+        (window.matchMedia('(max-width: 767px)').matches) ||
+        (window.matchMedia('(max-height: 767px) and (max-width: 1024px)').matches) ||
+        // Need to sniff the user agent because some Android and Windows Phone devices don't take
+        // resolution (dpi) into account when reporting device width/height.
+        ((navigator.userAgent.indexOf('Android') !== -1) && (navigator.userAgent.indexOf('Mobile') !== -1)) ||
+        (navigator.userAgent.indexOf('IEMobile') !== -1);
     } catch (error) {
       return false;
     }
@@ -49,8 +51,12 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
   constructor() {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -121,7 +127,9 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
   }
 
   hideSidebar() {
-    if (!this.isSidebarShown()) { return; }
+    if (!this.isSidebarShown()) {
+      return;
+    }
     this.sidebarTop = window.scrollY;
     this.sidebar.style.display = 'none';
     this.content.style.display = 'block';
@@ -141,7 +149,11 @@ const Cls = (app.views.Mobile = class Mobile extends app.View {
   }
 
   onClickToggleSidebar() {
-    if (this.isSidebarShown()) { this.hideSidebar(); } else { this.showSidebar(); }
+    if (this.isSidebarShown()) {
+      this.hideSidebar();
+    } else {
+      this.showSidebar();
+    }
   }
 
   onClickDocPickerTab(event) {

@@ -6,15 +6,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-(function() {
+(function () {
   let MIN = undefined;
   let MAX = undefined;
   const Cls = (app.views.Resizer = class Resizer extends app.View {
     constructor(...args) {
       {
         // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) { super(); }
-        let thisFn = (() => { return this; }).toString();
+        if (false) {
+          super();
+        }
+        let thisFn = (() => {
+          return this;
+        }).toString();
         let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
         eval(`${thisName} = this;`);
       }
@@ -26,12 +30,12 @@
 
     static initClass() {
       this.className = '_resizer';
-  
+
       this.events = {
         dragstart: 'onDragStart',
         dragend: 'onDragEnd'
       };
-  
+
       MIN = 260;
       MAX = 600;
     }
@@ -50,7 +54,9 @@
 
     resize(value, save) {
       value -= app.el.offsetLeft;
-      if (!(value > 0)) { return; }
+      if (!(value > 0)) {
+        return;
+      }
       value = Math.min(Math.max(Math.round(value), MIN), MAX);
       const newSize = `${value}px`;
       this.style.innerHTML = this.style.innerHTML.replace(new RegExp(this.size, 'g'), newSize);
@@ -72,9 +78,13 @@
 
     onDrag(event) {
       const value = event.pageX;
-      if (!(value > 0)) { return; }
+      if (!(value > 0)) {
+        return;
+      }
       this.lastDragValue = value;
-      if (this.lastDrag && (this.lastDrag > (Date.now() - 50))) { return; }
+      if (this.lastDrag && (this.lastDrag > (Date.now() - 50))) {
+        return;
+      }
       this.lastDrag = Date.now();
       this.resize(value, false);
     }

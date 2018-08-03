@@ -9,8 +9,12 @@ const Cls = (app.views.Path = class Path extends app.View {
   constructor(...args) {
     {
       // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) { super(); }
-      let thisFn = (() => { return this; }).toString();
+      if (false) {
+        super();
+      }
+      let thisFn = (() => {
+        return this;
+      }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
       eval(`${thisName} = this;`);
     }
@@ -21,14 +25,17 @@ const Cls = (app.views.Path = class Path extends app.View {
 
   static initClass() {
     this.className = '_path';
-    this.attributes =
-      {role: 'complementary'};
-  
-    this.events =
-      {click: 'onClick'};
-  
-    this.routes =
-      {after: 'afterRoute'};
+    this.attributes = {
+      role: 'complementary'
+    };
+
+    this.events = {
+      click: 'onClick'
+    };
+
+    this.routes = {
+      after: 'afterRoute'
+    };
   }
 
   render(...args) {
@@ -37,16 +44,22 @@ const Cls = (app.views.Path = class Path extends app.View {
   }
 
   show() {
-    if (!this.el.parentNode) { this.prependTo(app.el); }
+    if (!this.el.parentNode) {
+      this.prependTo(app.el);
+    }
   }
 
   hide() {
-    if (this.el.parentNode) { $.remove(this.el); }
+    if (this.el.parentNode) {
+      $.remove(this.el);
+    }
   }
 
   onClick(event) {
     let link;
-    if (link = $.closestLink(event.target, this.el)) { this.clicked = true; }
+    if (link = $.closestLink(event.target, this.el)) {
+      this.clicked = true;
+    }
   }
 
   afterRoute(route, context) {

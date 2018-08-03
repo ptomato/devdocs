@@ -8,14 +8,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-(function() {
+(function () {
   let SIDEBAR_HIDDEN_LAYOUT = undefined;
   const Cls = (app.views.Settings = class Settings extends app.View {
     constructor(...args) {
       {
         // Hack: trick Babel/TypeScript into allowing this before super.
-        if (false) { super(); }
-        let thisFn = (() => { return this; }).toString();
+        if (false) {
+          super();
+        }
+        let thisFn = (() => {
+          return this;
+        }).toString();
         let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
         eval(`${thisName} = this;`);
       }
@@ -30,24 +34,25 @@
 
     static initClass() {
       SIDEBAR_HIDDEN_LAYOUT = '_sidebar-hidden';
-  
+
       this.el = '._settings';
-  
+
       this.elements = {
         sidebar: '._sidebar',
         saveBtn: 'button[type="submit"]',
         backBtn: 'button[data-back]'
       };
-  
+
       this.events = {
         import: 'onImport',
         change: 'onChange',
         submit: 'onSubmit',
         click: 'onClick'
       };
-  
-      this.shortcuts =
-        {enter: 'onEnter'};
+
+      this.shortcuts = {
+        enter: 'onEnter'
+      };
     }
 
     init() {
@@ -68,7 +73,9 @@
       if (super.deactivate(...arguments)) {
         this.resetClass();
         this.docPicker.detach();
-        if (app.settings.hasLayout(SIDEBAR_HIDDEN_LAYOUT)) { document.body.classList.add(SIDEBAR_HIDDEN_LAYOUT); }
+        if (app.settings.hasLayout(SIDEBAR_HIDDEN_LAYOUT)) {
+          document.body.classList.add(SIDEBAR_HIDDEN_LAYOUT);
+        }
         if (app.appCache != null) {
           app.appCache.off('progress', this.onAppCacheProgress);
         }
@@ -82,7 +89,9 @@
     }
 
     save(options) {
-      if (options == null) { options = {}; }
+      if (options == null) {
+        options = {};
+      }
       if (!this.saving) {
         let docs;
         this.saving = true;
@@ -97,13 +106,14 @@
         this.saveBtn.textContent = app.appCache ? 'Downloading\u2026' : 'Saving\u2026';
         const disabledDocs = new app.collections.Docs((() => {
           const result = [];
-          for (let doc of Array.from(app.docs.all())) {             if (docs.indexOf(doc.slug) === -1) {
+          for (let doc of Array.from(app.docs.all())) {
+            if (docs.indexOf(doc.slug) === -1) {
               result.push(doc);
             }
           }
           return result;
         })());
-        disabledDocs.uninstall(function() {
+        disabledDocs.uninstall(function () {
           app.db.migrate();
           return app.reload();
         });
@@ -125,11 +135,15 @@
 
     onImport() {
       this.addClass('_dirty');
-      this.save({import: true});
+      this.save({
+        import: true
+      });
     }
 
     onClick(event) {
-      if (event.which !== 1) { return; }
+      if (event.which !== 1) {
+        return;
+      }
       if (event.target === this.backBtn) {
         $.stopEvent(event);
         app.router.show('/');
