@@ -1,23 +1,19 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 //= require views/misc/notif
 
-const Cls = (app.views.Updates = class Updates extends app.views.Notif {
+app.views.Updates = class Updates extends app.views.Notif {
   static initClass() {
     this.className += ' _notif-news';
 
     this.defautOptions = {
       autoHide: 30000
     };
+
+    return this;
   }
 
-  init() {
+  constructor(...args) {
+    super(...args);
+
     this.lastUpdateTime = this.getLastUpdateTime();
     this.updatedDocs = this.getUpdatedDocs();
     this.updatedDisabledDocs = this.getUpdatedDisabledDocs();
@@ -35,7 +31,7 @@ const Cls = (app.views.Updates = class Updates extends app.views.Notif {
     if (!this.lastUpdateTime) {
       return [];
     }
-    return Array.from(app.docs.all()).filter((doc) => doc.mtime > this.lastUpdateTime);
+    return app.docs.all().filter((doc) => doc.mtime > this.lastUpdateTime);
   }
 
   getUpdatedDisabledDocs() {
@@ -44,7 +40,7 @@ const Cls = (app.views.Updates = class Updates extends app.views.Notif {
     }
     return (() => {
       const result = [];
-      for (let doc of Array.from(app.disabledDocs.all())) {
+      for (let doc of app.disabledDocs.all()) {
         if ((doc.mtime > this.lastUpdateTime) && app.docs.findBy('slug_without_version', doc.slug_without_version)) {
           result.push(doc);
         }
@@ -60,5 +56,4 @@ const Cls = (app.views.Updates = class Updates extends app.views.Notif {
   markAllAsRead() {
     app.settings.set('version', app.config.env === 'production' ? app.config.version : Math.floor(Date.now() / 1000));
   }
-});
-Cls.initClass();
+}.initClass();

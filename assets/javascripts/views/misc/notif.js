@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS001: Remove Babel/TypeScript constructor workaround
- * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-const Cls = (app.views.Notif = class Notif extends app.View {
+app.views.Notif = class Notif extends app.View {
   static initClass() {
     this.className = '_notif';
     this.activeClass = '_in';
@@ -20,31 +13,23 @@ const Cls = (app.views.Notif = class Notif extends app.View {
     this.events = {
       click: 'onClick'
     };
+
+    return this;
   }
 
   constructor(type, options) {
-    {
-      // Hack: trick Babel/TypeScript into allowing this before super.
-      if (false) {
-        super();
-      }
-      let thisFn = (() => {
-        return this;
-      }).toString();
-      let thisName = thisFn.slice(thisFn.indexOf('return') + 6 + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
-    }
+    super(...arguments);
+
     this.onClick = this.onClick.bind(this);
     this.type = type;
+
     if (options == null) {
       options = {};
     }
+
     this.options = options;
     this.options = $.extend({}, this.constructor.defautOptions, this.options);
-    super(...arguments);
-  }
 
-  init() {
     this.show();
   }
 
@@ -96,5 +81,4 @@ const Cls = (app.views.Notif = class Notif extends app.View {
       this.hide();
     }
   }
-});
-Cls.initClass();
+}.initClass();
