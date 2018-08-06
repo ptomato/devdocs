@@ -13,7 +13,9 @@
  * http://mozilla.org/MPL/2.0/
  */
 
- @import 'global/variables',
+@import 'gnome/global/variables';
+
+@import 'global/variables',
  'global/mixins',
  'global/icons',
  'global/classes',
