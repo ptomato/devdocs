@@ -1,8 +1,6 @@
 app.views.TypePage = class TypePage extends app.View {
   static initClass() {
     this.className = '_page';
-
-    return this;
   }
 
   deactivate() {
@@ -24,4 +22,5 @@ app.views.TypePage = class TypePage extends app.View {
   onRoute(context) {
     this.render(context.type);
   }
-}.initClass();
+};
+app.views.TypePage.initClass();

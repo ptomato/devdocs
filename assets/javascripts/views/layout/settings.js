@@ -132,5 +132,5 @@ app.views.Settings = class Settings extends app.View {
       this.saveBtn.textContent = `Downloading\u2026 (${percentage}%)`;
     }
   }
-}
+};
 app.views.Settings.initClass();

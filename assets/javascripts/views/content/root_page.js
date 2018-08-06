@@ -15,8 +15,6 @@ app.views.RootPage = class RootPage extends app.View {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   render() {
@@ -59,4 +57,5 @@ app.views.RootPage = class RootPage extends app.View {
       this.hideIntro();
     }
   }
-}.initClass();
+};
+app.views.RootPage.initClass();

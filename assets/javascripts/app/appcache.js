@@ -1,10 +1,4 @@
 app.AppCache = class AppCache {
-  static initClass() {
-    $.extend(this.prototype, Events);
-
-    return this;
-  }
-
   static isEnabled() {
     try {
       return applicationCache && (applicationCache.status !== applicationCache.UNCACHED);
@@ -60,4 +54,5 @@ app.AppCache = class AppCache {
       this.trigger('updateready');
     }
   }
-}.initClass();
+};
+$.extend(app.AppCache.prototype, Events);

@@ -102,5 +102,5 @@ app.models.Entry = class Entry extends app.Model {
   loadFile(onSuccess, onError) {
     return app.db.load(this, onSuccess, onError);
   }
-}
+};
 app.models.Entry.initClass();

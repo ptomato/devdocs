@@ -1,10 +1,4 @@
 app.Shortcuts = class Shortcuts {
-  static initClass() {
-    $.extend(this.prototype, Events);
-
-    return this;
-  }
-
   constructor() {
     this.onKeydown = this.onKeydown.bind(this);
     this.onKeypress = this.onKeypress.bind(this);
@@ -233,4 +227,5 @@ app.Shortcuts = class Shortcuts {
       return true;
     }
   }
-}.initClass();
+}
+$.extend(app.Shortcuts.prototype, Events);

@@ -16,8 +16,6 @@ app.views.DocPicker = class DocPicker extends app.View {
       mousedown: 'onMouseDown',
       mouseup: 'onMouseUp'
     };
-
-    return this;
   }
 
   activate() {
@@ -134,4 +132,5 @@ app.views.DocPicker = class DocPicker extends app.View {
     }
     this.focusEl = target;
   }
-}.initClass();
+};
+app.views.DocPicker.initClass();

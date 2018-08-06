@@ -141,5 +141,5 @@ app.views.SettingsPage = class SettingsPage extends app.View {
   onRoute(context) {
     this.render();
   }
-}
+};
 app.views.SettingsPage.initClass();

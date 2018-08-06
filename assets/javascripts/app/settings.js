@@ -146,5 +146,5 @@ app.Settings = class Settings {
     this.store.reset();
     this.cache = {};
   }
-}
+};
 app.Settings.initClass();

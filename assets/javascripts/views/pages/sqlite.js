@@ -11,8 +11,6 @@ app.views.SqlitePage = class SqlitePage extends app.views.BasePage {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   onClick(event) {
@@ -32,4 +30,5 @@ app.views.SqlitePage = class SqlitePage extends app.views.BasePage {
       event.target.textContent = 'show';
     }
   }
-}.initClass();
+};
+app.views.SqlitePage.initClass();

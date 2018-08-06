@@ -223,5 +223,5 @@ app.views.Search = class Search extends app.View {
 
     return null;
   }
-}
+};
 app.views.Search.initClass();

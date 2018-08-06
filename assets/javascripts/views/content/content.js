@@ -61,9 +61,7 @@ app.views.Content = class Content extends app.View {
     this.routes = {
       before: 'beforeRoute',
       after: 'afterRoute'
-    };
-
-    return this;
+    }; 
   }
 
   show(view) {
@@ -263,4 +261,5 @@ app.views.Content = class Content extends app.View {
 
     return needle && ['http:/', 'https:'].includes(needle);
   }
-}.initClass();
+};
+app.views.Content.initClass();

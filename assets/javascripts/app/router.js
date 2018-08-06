@@ -15,8 +15,6 @@ app.Router = class Router {
       ['/:doc/:path(*)', 'entry'],
       ['*', 'notFound']
     ];
-
-    return this;
   }
 
   constructor() {
@@ -204,4 +202,5 @@ app.Router = class Router {
   replaceHash(hash) {
     page.replace(location.pathname + location.search + (hash || ''), null, true);
   }
-}.initClass();
+};
+app.Router.initClass();

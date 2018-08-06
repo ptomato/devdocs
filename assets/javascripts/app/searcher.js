@@ -335,7 +335,7 @@
       }
       return new RegExp(chars.join('.*?'));
     }
-  }
+  };
   app.Searcher.initClass();
 
   app.SynchronousSearcher = class SynchronousSearcher extends app.Searcher {

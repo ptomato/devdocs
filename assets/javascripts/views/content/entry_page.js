@@ -220,5 +220,5 @@ app.views.EntryPage = class EntryPage extends app.View {
     }
     this.delay(() => $.popup(link.href + location.hash));
   }
-}
+};
 app.views.EntryPage.initClass();

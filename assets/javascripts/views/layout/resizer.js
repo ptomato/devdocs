@@ -74,5 +74,5 @@ app.views.Resizer = class Resizer extends app.View {
     }
     this.resize(value, true);
   }
-}
+};
 app.views.Resizer.initClass();

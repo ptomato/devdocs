@@ -4,8 +4,6 @@ app.views.EntryList = class EntryList extends app.views.PaginatedList {
   static initClass() {
     this.tagName = 'div';
     this.className = '_list _list-sub';
-
-    return this;
   }
 
   constructor(entries) {
@@ -19,4 +17,5 @@ app.views.EntryList = class EntryList extends app.views.PaginatedList {
   render(entries) {
     return this.tmpl('sidebarEntry', entries);
   }
-}.initClass();
+};
+app.views.EntryList.initClass();

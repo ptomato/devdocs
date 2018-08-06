@@ -22,7 +22,7 @@ this.CookieStore = class CookieStore {
     if (value === true) {
       value = 1;
     }
-    if (value && (typeof INT.test === 'function' ? CookieStore.INT.test(value) : undefined)) {
+    if (value && (typeof CookieStore.INT.test === 'function' ? CookieStore.INT.test(value) : undefined)) {
       value = parseInt(value, 10);
     }
     Cookies.set(key, `${value}`, {

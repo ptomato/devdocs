@@ -5,8 +5,6 @@ app.views.SupportTablesPage = class SupportTablesPage extends app.views.BasePage
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   onClick(event) {
@@ -21,4 +19,5 @@ app.views.SupportTablesPage = class SupportTablesPage extends app.views.BasePage
     }
     el.classList.add('show-all');
   }
-}.initClass();
+};
+app.views.SupportTablesPage.initClass();

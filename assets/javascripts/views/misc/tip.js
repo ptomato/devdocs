@@ -7,11 +7,10 @@ app.views.Tip = class Tip extends app.views.Notif {
     this.defautOptions = {
       autoHide: false
     };
-
-    return this;
   }
 
   render() {
     this.html(this.tmpl(`tip${this.type}`));
   }
-}.initClass();
+};
+app.views.Tip.initClass();

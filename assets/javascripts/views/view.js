@@ -1,10 +1,4 @@
 app.View = class View {
-  static initClass() {
-    $.extend(this.prototype, Events);
-
-    return this;
-  }
-
   constructor() {
     this.setupElement();
     if (this.el.className) {
@@ -244,4 +238,5 @@ app.View = class View {
     this.deactivate();
     $.remove(this.el);
   }
-}.initClass();
+}
+$.extend(app.View.prototype, Events);

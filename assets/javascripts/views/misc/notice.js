@@ -4,8 +4,6 @@ app.views.Notice = class Notice extends app.View {
     this.attributes = {
       role: 'alert'
     };
-
-    return this;
   }
 
   constructor(type, ...rest) {
@@ -37,4 +35,5 @@ app.views.Notice = class Notice extends app.View {
   hide() {
     $.remove(this.el);
   }
-}.initClass();
+};
+app.views.Notice.initClass();

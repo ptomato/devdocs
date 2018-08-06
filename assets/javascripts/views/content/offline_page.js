@@ -12,8 +12,6 @@ app.views.OfflinePage = class OfflinePage extends app.View {
       click: 'onClick',
       change: 'onChange'
     };
-
-    return this;
   }
 
   deactivate() {
@@ -138,4 +136,5 @@ app.views.OfflinePage = class OfflinePage extends app.View {
       app.settings.set('manualUpdate', !event.target.checked);
     }
   }
-}.initClass();
+};
+app.views.OfflinePage.initClass();

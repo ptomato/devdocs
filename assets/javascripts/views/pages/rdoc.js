@@ -5,8 +5,6 @@ app.views.RdocPage = class RdocPage extends app.views.BasePage {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   onClick(event) {
@@ -21,4 +19,5 @@ app.views.RdocPage = class RdocPage extends app.views.BasePage {
     source.style.display = isShown ? 'none' : 'block';
     return event.target.textContent = isShown ? 'Show source' : 'Hide source';
   }
-}.initClass();
+};
+app.views.RdocPage.initClass();

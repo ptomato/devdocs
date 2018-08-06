@@ -13,8 +13,6 @@ app.views.Notif = class Notif extends app.View {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   constructor(type, options) {
@@ -79,4 +77,5 @@ app.views.Notif = class Notif extends app.View {
       this.hide();
     }
   }
-}.initClass();
+};
+app.views.Notif.initClass();

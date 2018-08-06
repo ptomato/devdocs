@@ -24,5 +24,5 @@ app.collections.Types = class Types extends app.Collection {
       return 1;
     }
   }
-}
+};
 app.collections.Types.initClass();

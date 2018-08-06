@@ -14,8 +14,6 @@ app.views.SidebarHover = class SidebarHover extends app.View {
     this.routes = {
       after: 'onRoute'
     };
-
-    return this;
   }
 
   constructor(el) {
@@ -134,4 +132,5 @@ app.views.SidebarHover = class SidebarHover extends app.View {
   onRoute() {
     this.hide();
   }
-}.initClass();
+};
+app.views.SidebarHover.initClass();

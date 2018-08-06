@@ -115,5 +115,5 @@ app.collections.Docs = class Docs extends app.Collection {
       }
     });
   }
-}
+};
 app.collections.Docs.initClass();

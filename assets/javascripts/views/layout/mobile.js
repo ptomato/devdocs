@@ -16,8 +16,6 @@ app.views.Mobile = class Mobile extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
-
-    return this;
   }
 
   static detect() {
@@ -193,4 +191,5 @@ app.views.Mobile = class Mobile extends app.View {
       this.forward.setAttribute('disabled', 'disabled');
     }
   }
-}.initClass();
+};
+app.views.Mobile.initClass();

@@ -7,8 +7,6 @@ app.views.News = class News extends app.views.Notif {
     this.defautOptions = {
       autoHide: 30000
     };
-
-    return this;
   }
 
   constructor(...args) {
@@ -56,4 +54,5 @@ app.views.News = class News extends app.views.Notif {
   markAllAsRead() {
     app.settings.set('news', this.getLastNewsTime());
   }
-}.initClass();
+};
+app.views.News.initClass();

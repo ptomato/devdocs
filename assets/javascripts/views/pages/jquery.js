@@ -9,8 +9,6 @@ app.views.JqueryPage = class JqueryPage extends app.views.BasePage {
 
   static initClass() {
     this.demoClassName = '_jquery-demo';
-
-    return this;
   }
 
   afterRender() {
@@ -75,4 +73,5 @@ app.views.JqueryPage = class JqueryPage extends app.views.BasePage {
 `);
     return source.replace(/<script>/gi, '<script nonce="devdocs">');
   }
-}.initClass();
+};
+app.views.JqueryPage.initClass();

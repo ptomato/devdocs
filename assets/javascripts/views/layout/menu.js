@@ -13,8 +13,6 @@ app.views.Menu = class Menu extends app.View {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   onClick(event) {
@@ -34,4 +32,5 @@ app.views.Menu = class Menu extends app.View {
       this.removeClass(this.constructor.activeClass);
     }
   }
-}.initClass();
+};
+app.views.Menu.initClass();

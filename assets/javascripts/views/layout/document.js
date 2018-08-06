@@ -41,8 +41,6 @@ app.views.Document = class Document extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
-
-    return this;
   }
 
   setTitle(title) {
@@ -122,4 +120,5 @@ app.views.Document = class Document extends app.View {
         break;
     }
   }
-}.initClass();
+};
+app.views.Document.initClass();

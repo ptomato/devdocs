@@ -38,8 +38,6 @@ app.views.DocList = class DocList extends app.View {
       disabledTitle: '._list-title',
       disabledList: '._disabled-list'
     };
-
-    return this;
   }
 
   activate() {
@@ -260,4 +258,5 @@ app.views.DocList = class DocList extends app.View {
       this.select(context.type || context.entry);
     }
   }
-}.initClass();
+};
+app.views.DocList.initClass();

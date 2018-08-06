@@ -5,8 +5,6 @@ app.views.ListSelect = class ListSelect extends app.View {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   constructor(el) {
@@ -63,4 +61,5 @@ app.views.ListSelect = class ListSelect extends app.View {
       this.select(target);
     }
   }
-}.initClass();
+};
+app.views.ListSelect.initClass();

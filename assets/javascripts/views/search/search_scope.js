@@ -170,5 +170,5 @@ app.views.SearchScope = class SearchScope extends app.View {
       this.selectDoc(context.doc);
     }
   }
-}
+};
 app.views.SearchScope.initClass();

@@ -9,8 +9,6 @@ app.views.Results = class Results extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
-
-    return this;
   }
 
   constructor(sidebar, search) {
@@ -107,4 +105,5 @@ app.views.Results = class Results extends app.View {
       }
     }
   }
-}.initClass();
+};
+app.views.Results.initClass();

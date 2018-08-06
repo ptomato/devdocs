@@ -124,5 +124,5 @@ app.views.PaginatedList = class PaginatedList extends app.View {
       this.paginate(target);
     }
   }
-}
+};
 app.views.PaginatedList.initClass();

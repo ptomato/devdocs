@@ -8,8 +8,6 @@ app.views.StaticPage = class StaticPage extends app.View {
       help: 'User Guide',
       notFound: '404'
     };
-
-    return this;
   }
 
   deactivate() {
@@ -31,4 +29,5 @@ app.views.StaticPage = class StaticPage extends app.View {
   onRoute(context) {
     this.render(context.page || 'notFound');
   }
-}.initClass();
+};
+app.views.StaticPage.initClass();

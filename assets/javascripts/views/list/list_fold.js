@@ -12,8 +12,6 @@ app.views.ListFold = class ListFold extends app.View {
       left: 'onLeft',
       right: 'onRight'
     };
-
-    return this;
   }
 
   constructor(el) {
@@ -101,4 +99,5 @@ app.views.ListFold = class ListFold extends app.View {
       }
     }
   }
-}.initClass();
+};
+app.views.ListFold.initClass();

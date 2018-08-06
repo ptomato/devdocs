@@ -19,8 +19,6 @@ app.views.Path = class Path extends app.View {
     this.routes = {
       after: 'afterRoute'
     };
-
-    return this;
   }
 
   render(...args) {
@@ -65,4 +63,5 @@ app.views.Path = class Path extends app.View {
       app.document.sidebar.reset();
     }
   }
-}.initClass();
+};
+app.views.Path.initClass();

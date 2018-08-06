@@ -59,8 +59,6 @@ app.views.Sidebar = class Sidebar extends app.View {
       altR: 'onAltR',
       escape: 'onEscape'
     };
-
-    return this;
   }
 
   display() {
@@ -232,4 +230,5 @@ app.views.Sidebar = class Sidebar extends app.View {
     }
     this.resetDisplay();
   }
-}.initClass();
+};
+app.views.Sidebar.initClass();

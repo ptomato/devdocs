@@ -7,8 +7,6 @@ app.views.Updates = class Updates extends app.views.Notif {
     this.defautOptions = {
       autoHide: 30000
     };
-
-    return this;
   }
 
   constructor(...args) {
@@ -56,4 +54,5 @@ app.views.Updates = class Updates extends app.views.Notif {
   markAllAsRead() {
     app.settings.set('version', app.config.env === 'production' ? app.config.version : Math.floor(Date.now() / 1000));
   }
-}.initClass();
+};
+app.views.Updates.initClass();

@@ -3,8 +3,6 @@ app.views.HiddenPage = class HiddenPage extends app.View {
     this.events = {
       click: 'onClick'
     };
-
-    return this;
   }
 
   constructor(el, entry) {
@@ -25,4 +23,5 @@ app.views.HiddenPage = class HiddenPage extends app.View {
       $.popup(link);
     }
   }
-}.initClass();
+};
+app.views.HiddenPage.initClass();

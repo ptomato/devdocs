@@ -563,5 +563,5 @@ app.DB = class DB {
   userVersion() {
     return app.settings.get('schema');
   }
-}
+};
 app.DB.initClass();

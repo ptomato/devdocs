@@ -7,8 +7,6 @@ app.views.TypeList = class TypeList extends app.View {
       open: 'onOpen',
       close: 'onClose'
     };
-
-    return this;
   }
 
   constructor(doc) {
@@ -78,4 +76,5 @@ app.views.TypeList = class TypeList extends app.View {
       }
     }
   }
-}.initClass();
+};
+app.views.TypeList.initClass();

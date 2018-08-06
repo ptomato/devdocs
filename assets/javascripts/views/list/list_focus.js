@@ -14,8 +14,6 @@ app.views.ListFocus = class ListFocus extends app.View {
       superEnter: 'onSuperEnter',
       escape: 'blur'
     };
-
-    return this;
   }
 
   constructor(el) {
@@ -184,4 +182,5 @@ app.views.ListFocus = class ListFocus extends app.View {
       });
     }
   }
-}.initClass();
+};
+app.views.ListFocus.initClass();
