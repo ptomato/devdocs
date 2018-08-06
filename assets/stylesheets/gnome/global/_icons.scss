@@ -1,0 +1,871 @@
+%svg-icon {
+  display: inline-block;
+  vertical-align: top;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  fill: currentColor;
+}
+
+%doc-icon {
+  content: '';
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  background-image: image-url('docs-1.png');
+  background-size: 10rem 10rem;
+}
+
+%doc-icon-2 {
+  background-image: image-url('docs-2.png') !important;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 144dpi) {
+  %doc-icon {
+    background-image: image-url('docs-1@2x.png');
+  }
+  %doc-icon-2 {
+    background-image: image-url('docs-2@2x.png') !important;
+  }
+}
+
+%darkIconFix {
+  @if $style=='dark' {
+    filter: invert(100%) grayscale(100%);
+    -webkit-filter: invert(100%) grayscale(100%);
+  }
+}
+
+/* GNOME-specific icons; put in a separate sprite to avoid merge conflicts. */
+
+/* Create the sprites with
+  convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,generic,gnome,goa,gstreamer,gtk,ubuntu,webkit,x}/16.png +append assets/images/gnome-icons.png
+  convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,generic,gnome,goa,gstreamer,gtk,ubuntu,webkit,x}/16@2x.png +append assets/images/gnome-icons@2x.png
+  */
+
+%gnome-icons {
+  background-image: image-url('gnome-icons.png');
+  background-size: 14rem 1rem;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 144dpi) {
+  %gnome-icons {
+    background-image: image-url('gnome-icons@2x.png');
+  }
+}
+
+._icon-appstreamglib10:before {
+  @extend %gnome-icons;
+  background-position: 0 0;
+}
+
+._icon-cairo10:before {
+  @extend %gnome-icons;
+  background-position: -1rem 0;
+}
+
+._icon-gtkchamplain012:before,
+._icon-champlain012:before {
+  @extend %gnome-icons;
+  background-position: -2rem 0;
+}
+
+._icon-cheese30:before {
+  @extend %gnome-icons;
+  background-position: -3rem 0;
+}
+
+._icon-cally10:before,
+._icon-clutter10:before,
+._icon-cluttergdk10:before,
+._icon-cluttergst20:before,
+._icon-clutterx1110:before,
+._icon-cogl10:before,
+._icon-cogl20:before,
+._icon-coglpango10:before,
+._icon-coglpango20:before,
+._icon-gtkclutter10:before {
+  @extend %gnome-icons;
+  background-position: -4rem 0;
+}
+
+._icon-evincedocument30:before,
+._icon-evinceview30:before {
+  @extend %gnome-icons;
+  background-position: -5rem 0;
+}
+
+._icon-dbus10:before,
+._icon-fontconfig20:before,
+._icon-freetype220:before,
+._icon-gl10:before,
+._icon-networkmanager10:before,
+._icon-nmclient10:before,
+._icon-polkit10:before,
+._icon-polkitagent10:before,
+._icon-telepathyglib012:before,
+._icon-win3210:before {
+  @extend %gnome-icons;
+  background-position: -6rem 0;
+}
+
+._icon-atk10:before,
+._icon-atspi20:before,
+._icon-dbusglib10:before,
+._icon-gcab10:before,
+._icon-gck1:before,
+._icon-gcr3:before,
+._icon-gcrui3:before,
+._icon-gdata00:before,
+._icon-gdkpixbuf20:before,
+._icon-gee08:before,
+._icon-geocodeglib10:before,
+._icon-gio20:before,
+._icon-girepository20:before,
+._icon-glib20:before,
+._icon-gmodule20:before,
+._icon-gnomekeyring10:before,
+._icon-gobject20:before,
+._icon-gom10:before,
+._icon-grl02:before,
+._icon-grl03:before,
+._icon-grlnet02:before,
+._icon-grlnet03:before,
+._icon-grlpls02:before,
+._icon-grlpls03:before,
+._icon-gsound10:before,
+._icon-gspell1:before,
+._icon-gssdp10:before,
+._icon-gtkosxapplication10:before,
+._icon-gtksource30:before,
+._icon-gudev10:before,
+._icon-gupnp10:before,
+._icon-gupnpdlna20:before,
+._icon-gupnpdlnagst20:before,
+._icon-gweather30:before,
+._icon-gxps01:before,
+._icon-ibus10:before,
+._icon-json10:before,
+._icon-keybinder30:before,
+._icon-libxml220:before,
+._icon-notify07:before,
+._icon-pango10:before,
+._icon-pangocairo10:before,
+._icon-pangoft210:before,
+._icon-pangoxft10:before,
+._icon-peas10:before,
+._icon-peasgtk10:before,
+._icon-poppler018:before,
+._icon-rest07:before,
+._icon-restextras07:before,
+._icon-rsvg20:before,
+._icon-secret1:before,
+._icon-soup24:before,
+._icon-soupgnome24:before,
+._icon-tracker10:before,
+._icon-trackercontrol10:before,
+._icon-trackerminer10:before,
+._icon-upowerglib10:before,
+._icon-vte00:before,
+._icon-vte290:before,
+._icon-vte291:before,
+._icon-zpj00:before {
+  @extend %gnome-icons;
+  background-position: -7rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-goa10:before {
+  @extend %gnome-icons;
+  background-position: -8rem 0;
+}
+
+._icon-gst10:before,
+._icon-gstallocators10:before,
+._icon-gstapp10:before,
+._icon-gstaudio10:before,
+._icon-gstbase10:before,
+._icon-gstcheck10:before,
+._icon-gstcontroller10:before,
+._icon-gstfft10:before,
+._icon-gstnet10:before,
+._icon-gstpbutils10:before,
+._icon-gstriff10:before,
+._icon-gstrtp10:before,
+._icon-gstrtsp10:before,
+._icon-gstsdp10:before,
+._icon-gsttag10:before,
+._icon-gstvideo10:before {
+  @extend %gnome-icons;
+  background-position: -9rem 0;
+}
+
+._icon-gdk20:before,
+._icon-gdk30:before,
+._icon-gdkx1130:before,
+._icon-gtk20:before,
+._icon-gtk30:before {
+  @extend %gnome-icons;
+  background-position: -10rem 0;
+}
+
+._icon-appindicator301:before,
+._icon-dbusmenu04:before {
+  @extend %gnome-icons;
+  background-position: -11rem 0;
+}
+
+._icon-javascriptcore30:before,
+._icon-javascriptcore40:before,
+._icon-webkit2webextension30:before,
+._icon-webkit2webextension40:before,
+._icon-webkit10:before,
+._icon-webkit230:before,
+._icon-webkit240:before,
+._icon-webkit30:before {
+  @extend %gnome-icons;
+  background-position: -12rem 0;
+}
+
+._icon-xfixes40:before,
+._icon-xft20:before,
+._icon-xlib20:before,
+._icon-xrandr13:before {
+  @extend %gnome-icons;
+  background-position: -13rem 0;
+  @extend %darkIconFix !optional;
+}
+
+%icon-dir {
+  background-position: 0 0;
+}
+
+%icon-search {
+  background-position: -1rem 0;
+}
+
+%icon-link {
+  background-position: -2.25rem -.25rem;
+}
+
+%icon-clear {
+  background-position: -3rem 0;
+}
+
+%icon-path {
+  background-position: 0 -1rem;
+}
+
+%icon-search-white {
+  background-position: -1rem -1rem;
+}
+
+%icon-dir-white {
+  background-position: -2rem -1rem;
+}
+
+%icon-link-white {
+  background-position: -3.25rem -1.25rem;
+}
+
+%icon-clipboard {
+  background-position: 0 -2rem;
+}
+
+%icon-clipboard-white {
+  background-position: -1rem -2rem;
+}
+
+%icon-close-white {
+  background-position: -2rem -2rem;
+}
+
+._icon-openjdk:before {
+  background-position: -2rem 0;
+}
+
+._icon-codeceptjs:before {
+  background-position: -3rem 0;
+}
+
+._icon-codeception:before {
+  background-position: -4rem 0;
+}
+
+._icon-sqlite:before {
+  background-position: -5rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-async:before {
+  background-position: -6rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-http:before {
+  background-position: -7rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-jquery:before {
+  background-position: -8rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-underscore:before {
+  background-position: -9rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-html:before {
+  background-position: 0 -1rem;
+}
+
+._icon-css:before {
+  background-position: -1rem -1rem;
+}
+
+._icon-dom:before {
+  background-position: -2rem -1rem;
+}
+
+._icon-dom_events:before {
+  background-position: -3rem -1rem;
+}
+
+._icon-javascript:before {
+  background-position: -4rem -1rem;
+}
+
+._icon-backbone:before {
+  background-position: -5rem -1rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-node:before,
+._icon-node_lts:before {
+  background-position: -6rem -1rem;
+}
+
+._icon-sass:before {
+  background-position: -7rem -1rem;
+}
+
+._icon-less:before {
+  background-position: -8rem -1rem;
+}
+
+._icon-angularjs:before {
+  background-position: -9rem -1rem;
+}
+
+._icon-coffeescript:before {
+  background-position: 0 -2rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-ember:before {
+  background-position: -1rem -2rem;
+}
+
+._icon-yarn:before {
+  background-position: -2rem -2rem;
+}
+
+._icon-immutable:before {
+  background-position: -3rem -2rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-jqueryui:before {
+  background-position: -4rem -2rem;
+}
+
+._icon-jquerymobile:before {
+  background-position: -5rem -2rem;
+}
+
+._icon-lodash:before {
+  background-position: -6rem -2rem;
+}
+
+._icon-php:before {
+  background-position: -7rem -2rem;
+}
+
+._icon-ruby:before,
+._icon-minitest:before {
+  background-position: -8rem -2rem;
+}
+
+._icon-rails:before {
+  background-position: -9rem -2rem;
+}
+
+._icon-python:before,
+._icon-python2:before {
+  background-position: 0 -3rem;
+}
+
+._icon-git:before {
+  background-position: -1rem -3rem;
+}
+
+._icon-redis:before {
+  background-position: -2rem -3rem;
+}
+
+._icon-postgresql:before {
+  background-position: -3rem -3rem;
+}
+
+._icon-d3:before {
+  background-position: -4rem -3rem;
+}
+
+._icon-knockout:before {
+  background-position: -5rem -3rem;
+}
+
+._icon-moment:before {
+  background-position: -6rem -3rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-c:before {
+  background-position: -7rem -3rem;
+}
+
+._icon-statsmodels:before {
+  background-position: -8rem -3rem;
+}
+
+._icon-yii:before,
+._icon-yii1:before {
+  background-position: -9rem -3rem;
+}
+
+._icon-cpp:before {
+  background-position: 0 -4rem;
+}
+
+._icon-go:before {
+  background-position: -1rem -4rem;
+}
+
+._icon-express:before {
+  background-position: -2rem -4rem;
+}
+
+._icon-grunt:before {
+  background-position: -3rem -4rem;
+}
+
+._icon-rust:before {
+  background-position: -4rem -4rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-laravel:before {
+  background-position: -5rem -4rem;
+}
+
+._icon-haskell:before {
+  background-position: -6rem -4rem;
+}
+
+._icon-requirejs:before {
+  background-position: -7rem -4rem;
+}
+
+._icon-chai:before {
+  background-position: -8rem -4rem;
+}
+
+._icon-sinon:before {
+  background-position: -9rem -4rem;
+}
+
+._icon-cordova:before {
+  background-position: 0 -5rem;
+}
+
+._icon-markdown:before {
+  background-position: -1rem -5rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-django:before {
+  background-position: -2rem -5rem;
+}
+
+._icon-xslt_xpath:before {
+  background-position: -3rem -5rem;
+}
+
+._icon-nginx:before,
+._icon-nginx_lua_module:before {
+  background-position: -4rem -5rem;
+}
+
+._icon-svg:before {
+  background-position: -5rem -5rem;
+}
+
+._icon-marionette:before {
+  background-position: -6rem -5rem;
+}
+
+._icon-jsdoc:before,
+._icon-mongoose:before {
+  background-position: -7rem -5rem;
+}
+
+._icon-phpunit:before {
+  background-position: -8rem -5rem;
+}
+
+._icon-nokogiri:before {
+  background-position: -9rem -5rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-rethinkdb:before {
+  background-position: 0 -6rem;
+}
+
+._icon-react:before {
+  background-position: -1rem -6rem;
+}
+
+._icon-socketio:before {
+  background-position: -2rem -6rem;
+}
+
+._icon-modernizr:before {
+  background-position: -3rem -6rem;
+}
+
+._icon-bower:before {
+  background-position: -4rem -6rem;
+}
+
+._icon-fish:before {
+  background-position: -5rem -6rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-scikit_image:before {
+  background-position: -6rem -6rem;
+}
+
+._icon-twig:before {
+  background-position: -7rem -6rem;
+}
+
+._icon-pandas:before {
+  background-position: -8rem -6rem;
+}
+
+._icon-scikit_learn:before {
+  background-position: -9rem -6rem;
+}
+
+._icon-bottle:before {
+  background-position: 0 -7rem;
+}
+
+._icon-docker:before {
+  background-position: -1rem -7rem;
+}
+
+._icon-cakephp:before {
+  background-position: -2rem -7rem;
+}
+
+._icon-lua:before {
+  background-position: -3rem -7rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-clojure:before {
+  background-position: -4rem -7rem;
+}
+
+._icon-symfony:before {
+  background-position: -5rem -7rem;
+}
+
+._icon-mocha:before {
+  background-position: -6rem -7rem;
+}
+
+._icon-meteor:before {
+  background-position: -7rem -7rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-npm:before {
+  background-position: -8rem -7rem;
+}
+
+._icon-apache_http_server:before {
+  background-position: -9rem -7rem;
+}
+
+._icon-drupal:before {
+  background-position: 0 -8rem;
+}
+
+._icon-webpack:before {
+  background-position: -1rem -8rem;
+}
+
+._icon-phaser:before {
+  background-position: -2rem -8rem;
+}
+
+._icon-vue:before {
+  background-position: -3rem -8rem;
+}
+
+._icon-opentsdb:before {
+  background-position: -4rem -8rem;
+}
+
+._icon-q:before {
+  background-position: -5rem -8rem;
+}
+
+._icon-crystal:before {
+  background-position: -6rem -8rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-julia:before {
+  background-position: -7rem -8rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-redux:before {
+  background-position: -8rem -8rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-bootstrap:before {
+  background-position: -9rem -8rem;
+}
+
+._icon-react_native:before {
+  background-position: 0 -9rem;
+}
+
+._icon-phalcon:before {
+  background-position: -1rem -9rem;
+}
+
+._icon-matplotlib:before {
+  background-position: -2rem -9rem;
+}
+
+._icon-cmake:before {
+  background-position: -3rem -9rem;
+}
+
+._icon-elixir:before {
+  background-position: -4rem -9rem;
+  @extend %darkIconFix !optional;
+}
+
+._icon-vagrant:before {
+  background-position: -5rem -9rem;
+}
+
+._icon-dojo:before {
+  background-position: -6rem -9rem;
+}
+
+._icon-flow:before {
+  background-position: -7rem -9rem;
+}
+
+._icon-relay:before {
+  background-position: -8rem -9rem;
+}
+
+._icon-phoenix:before {
+  background-position: -9rem -9rem;
+}
+
+._icon-tcl_tk:before {
+  background-position: 0 0;
+  @extend %doc-icon-2;
+}
+
+._icon-erlang:before {
+  background-position: -1rem 0;
+  @extend %doc-icon-2;
+}
+
+._icon-chef:before {
+  background-position: -2rem 0;
+  @extend %doc-icon-2;
+}
+
+._icon-ramda:before {
+  background-position: -3rem 0;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-codeigniter:before {
+  background-position: -4rem 0;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-influxdata:before {
+  background-position: -5rem 0;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-tensorflow:before {
+  background-position: -6rem 0;
+  @extend %doc-icon-2;
+}
+
+._icon-haxe:before {
+  background-position: -7rem 0;
+  @extend %doc-icon-2;
+}
+
+._icon-ansible:before {
+  background-position: -8rem 0;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-typescript:before {
+  background-position: -9rem 0;
+  @extend %doc-icon-2;
+}
+
+._icon-browser_support_tables:before {
+  background-position: 0rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-gnu_fortran:before {
+  background-position: -1rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-gcc:before {
+  background-position: -2rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-perl:before {
+  background-position: -3rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-apache_pig:before {
+  background-position: -4rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-numpy:before {
+  background-position: -5rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-kotlin:before {
+  background-position: -6rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-padrino:before {
+  background-position: -7rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-angular:before {
+  background-position: -8rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-love:before {
+  background-position: -9rem -1rem;
+  @extend %doc-icon-2;
+}
+
+._icon-jasmine:before {
+  background-position: 0 -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-pug:before {
+  background-position: -1rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-electron:before {
+  background-position: -2rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-falcon:before {
+  background-position: -3rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-godot:before {
+  background-position: -4rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-nim:before {
+  background-position: -5rem -2rem;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-vulkan:before {
+  background-position: -6rem -2rem;
+  @extend %doc-icon-2;
+  @extend %darkIconFix !optional;
+}
+
+._icon-d:before {
+  background-position: -7rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-bluebird:before {
+  background-position: -8rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-eslint:before {
+  background-position: -9rem -2rem;
+  @extend %doc-icon-2;
+}
+
+._icon-homebrew:before {
+  background-position: 0 -3rem;
+  @extend %doc-icon-2;
+}
+
+._icon-jekyll:before {
+  background-position: -1rem -3rem;
+  @extend %doc-icon-2;
+}
+
+._icon-babel:before {
+  background-position: -2rem -3rem;
+  @extend %doc-icon-2;
+}
