@@ -1,3 +1,7 @@
+# Created By:
+# Philip Chimento // ptomato
+# Evan Welsh // rockon999
+
 module Docs
   class Gir
     # EntriesFilter for g-ir-doc-tool generated documentation. This figures out

@@ -1,3 +1,7 @@
+# Created By:
+# Philip Chimento // ptomato
+# Evan Welsh // rockon999
+
 module Docs
   # Gir: Instead of being given a path to HTML documentation, this gets a
   # path to a GIR file, which it runs through g-ir-doc-tool to generate the HTML
