@@ -1,4 +1,9 @@
+# Created By:
+# Philip Chimento // ptomato
+# Evan Welsh // rockon999
+
 require 'rexml/document'
+require 'fileutils'
 require 'xdg'
 
 # Command-line tools for creating scrapers from GIR files
@@ -108,8 +113,12 @@ class GirCLI < Thor
     end
 
     def write_scraper(gir_path, info)
-      scraper_name = File.join 'lib', 'docs', 'scrapers', 'gnome', 'generated',
-                               info[:slug] + '.rb'
+      scaper_dir = File.join 'lib', 'docs', 'scrapers', 'gnome', 'generated'
+      scraper_name = File.join scaper_dir, info[:slug] + '.rb'
+
+      # Ensure the 'generated' directory exists.
+      FileUtils.mkdir_p scaper_dir
+
       out_file = File.new scraper_name, 'w'
       out_file.write scraper_code(gir_path, info)
     end
