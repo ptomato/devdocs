@@ -1,4 +1,4 @@
-//= require views/pages/base
+//= require ../../../views/pages/base
 
 app.views.GirPage = class GirPage extends app.views.BasePage {
   afterRender() {
