@@ -3,7 +3,7 @@ require 'app'
 class GnomeApp < App
     configure do
         set :news_path, File.join(root, assets_prefix, 'javascripts', 'gnome', 'gnome_news.json')
-        set :assets_compile, ['*.png', 'docs.js', 'docs.json', 'gnome_application.js', 'application-gnome.css', 'application-gnome-dark.css']
+        set :assets_compile, ['*.png', 'docs.js', 'docs.json', 'application.js', 'application-gnome.css', 'application-gnome-dark.css']
     end
 
     configure :development, :test do
@@ -16,7 +16,7 @@ class GnomeApp < App
 
     def manifest_asset_urls
         @@manifest_asset_urls ||= [
-        javascript_path('gnome_application', asset_host: false),
+        javascript_path('application', asset_host: false),
         stylesheet_path('application-gnome'),
         stylesheet_path('application-gnome-dark'),
         image_path('docs-1.png'),
@@ -34,7 +34,7 @@ class GnomeApp < App
         }
     end
 
-    ['gnome_application.js', 'application-gnome.css'].each do |asset|
+    ['application-gnome.css'].each do |asset|
         class_eval <<-CODE, __FILE__, __LINE__ + 1
           get '/#{asset}' do
             redirect asset_path('#{asset}', protocol: 'http')

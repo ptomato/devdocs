@@ -31,5 +31,8 @@
  'components/mobile';
 
 @import 'pages/simple',
- 'pages/mdn',
- 'gnome/pages/gir';
+ 'pages/mdn';
+
+@import 'gnome/components/content';
+
+@import 'gnome/pages/gir';
