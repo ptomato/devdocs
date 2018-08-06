@@ -2,7 +2,7 @@
 # Philip Chimento // ptomato
 # Evan Welsh // rockon999
 
-require 'rexml/document'
+require 'nokogiri'
 require 'fileutils'
 require 'xdg'
 
@@ -26,11 +26,8 @@ class GirCLI < Thor
     end
     glob.each do |path|
       puts 'Generating scraper for ' + File.basename(path) + '...'
-      begin
-        generate path
-      rescue REXML::ParseException
-        puts 'Failed to generate scraper for... ' + File.basename(path) + '...'
-      end
+
+      generate path
     end
   end
 
@@ -38,7 +35,7 @@ class GirCLI < Thor
   def generate(gir_path)
     gir = read_gir gir_path
 
-    namespace = gir.root.elements['namespace']
+    namespace = gir.root.css('namespace').first
     scraper_info = process_namespace namespace
     scraper_info[:slug] = generate_slug scraper_info
     scraper_info[:version] = compute_version gir, scraper_info
@@ -47,17 +44,16 @@ class GirCLI < Thor
 
   no_commands do
     def read_gir(path)
-      gir_file = File.new path
-      gir = REXML::Document.new gir_file
-      gir_file.close
+      gir = File.open(path) { |f| Nokogiri::XML(f) }
       gir
     end
 
     def process_namespace(namespace)
+      # TODO Don't hardcode c namespace
       {
-        name: namespace.attributes['name'],
-        api_version: namespace.attributes['version'],
-        c_prefix: namespace.attributes['c:symbol-prefixes']
+        name: namespace.attribute('name').to_s,
+        api_version:  namespace.attribute('version').to_s,
+        c_prefix:  namespace.attribute_with_ns('symbol-prefixes', 'http://www.gtk.org/introspection/c/1.0').to_s
       }
     end
 
@@ -69,10 +65,10 @@ class GirCLI < Thor
     def determine_version(gir)
       %w(MAJOR MINOR MICRO).map do |name|
         selector = "string(//constant[@name='#{name}_VERSION']/@value)"
-        component = REXML::XPath.first gir, selector
+        component = gir.xpath(selector).first
         # Try a more lenient search - would match e.g. GDK_PIXBUF_MAJOR
         selector = "string(//constant[contains(@name, '#{name}')]/@value)"
-        component = REXML::XPath.first gir, selector if component == ''
+        component = gir.xpath(selector).first if component == ''
         fail 'No version found' if component == ''
         component
       end.join '.'
@@ -82,7 +78,7 @@ class GirCLI < Thor
 
     def guess_version(gir)
       selector = '//namespace/*[@version]/@version'
-      versions = REXML::XPath.match(gir, selector).map do |ver|
+      versions = gir.xpath(selector).map do |ver|
         Gem::Version.new(ver.to_s.chomp '.')  # they can have stray periods
       end
       return nil if versions == []
