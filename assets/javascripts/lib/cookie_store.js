@@ -1,65 +1,61 @@
-(function () {
-  let INT = undefined;
-  const Cls = (this.CookieStore = class CookieStore {
-    static initClass() {
-      INT = /^\d+$/;
+this.CookieStore = class CookieStore {
+  static initClass() {
+    this.INT = /^\d+$/;
+  }
+
+  static onBlocked() {}
+
+  get(key) {
+    let value = Cookies.get(key);
+    if ((value != null) && CookieStore.INT.test(value)) {
+      value = parseInt(value, 10);
+    }
+    return value;
+  }
+
+  set(key, value) {
+    if (value === false) {
+      this.del(key);
+      return;
     }
 
-    static onBlocked() {}
-
-    get(key) {
-      let value = Cookies.get(key);
-      if ((value != null) && INT.test(value)) {
-        value = parseInt(value, 10);
-      }
-      return value;
+    if (value === true) {
+      value = 1;
     }
-
-    set(key, value) {
-      if (value === false) {
-        this.del(key);
-        return;
-      }
-
-      if (value === true) {
-        value = 1;
-      }
-      if (value && (typeof INT.test === 'function' ? INT.test(value) : undefined)) {
-        value = parseInt(value, 10);
-      }
-      Cookies.set(key, `${value}`, {
-        path: '/',
-        expires: 1e8
-      });
-      if (this.get(key) !== value) {
-        this.constructor.onBlocked(key, value, this.get(key));
-      }
+    if (value && (typeof INT.test === 'function' ? CookieStore.INT.test(value) : undefined)) {
+      value = parseInt(value, 10);
     }
-
-    del(key) {
-      Cookies.expire(key);
+    Cookies.set(key, `${value}`, {
+      path: '/',
+      expires: 1e8
+    });
+    if (this.get(key) !== value) {
+      this.constructor.onBlocked(key, value, this.get(key));
     }
+  }
 
-    reset() {
-      try {
-        for (let cookie of document.cookie.split(/;\s?/)) {
-          Cookies.expire(cookie.split('=')[0]);
-        }
-        return;
-      } catch (error) {}
-    }
+  del(key) {
+    Cookies.expire(key);
+  }
 
-    dump() {
-      const result = {};
+  reset() {
+    try {
       for (let cookie of document.cookie.split(/;\s?/)) {
-        if (cookie[0] !== '_') {
-          cookie = cookie.split('=');
-          result[cookie[0]] = cookie[1];
-        }
+        Cookies.expire(cookie.split('=')[0]);
       }
-      return result;
+      return;
+    } catch (error) {}
+  }
+
+  dump() {
+    const result = {};
+    for (let cookie of document.cookie.split(/;\s?/)) {
+      if (cookie[0] !== '_') {
+        cookie = cookie.split('=');
+        result[cookie[0]] = cookie[1];
+      }
     }
-  });
-  Cls.initClass();
-  return Cls;
-})();
+    return result;
+  }
+}
+this.CookieStore.initClass();
