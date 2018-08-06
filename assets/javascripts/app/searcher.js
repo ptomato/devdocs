@@ -2,23 +2,22 @@
 // Match functions
 //
 {
-  let fuzzyRegexp, i, index, lastIndex, match, matcher, matchIndex, matchLength, queryLength, score, separators, value, valueLength;
   const SEPARATOR = '.';
 
-  let query =
-    (queryLength =
-      (value =
-        (valueLength =
-          (matcher = // current match function
-            (fuzzyRegexp = // query fuzzy regexp
-              (index = // position of the query in the string being matched
-                (lastIndex = // last position of the query in the string being matched
-                  (match = // regexp match data
-                    (matchIndex =
-                      (matchLength =
-                        (score = // score for the current match
-                          (separators = // counter
-                            (i = null))))))))))))); // cursor
+  let query = null;
+  let queryLength = null;
+  let value = null;
+  let valueLength = null;
+  let matcher = null; // current match function
+  let fuzzyRegexp = null; // query fuzzy regexp
+  let index = null; // position of the query in the string being matched
+  let lastIndex = null; // last position of the query in the string being matched
+  let match = null; // regexp match data
+  let matchIndex = null;
+  let matchLength = null;
+  let score = null; // score for the current match
+  let separators = null; // counter
+  let i = null; // cursor
 
   function exactMatch() {
     index = value.indexOf(query);
@@ -123,236 +122,221 @@
   // Searchers
   //
 
-  (function () {
-    let CHUNK_SIZE = undefined;
-    let DEFAULTS = undefined;
-    let SEPARATORS_REGEXP = undefined;
-    let EOS_SEPARATORS_REGEXP = undefined;
-    let INFO_PARANTHESES_REGEXP = undefined;
-    let EMPTY_PARANTHESES_REGEXP = undefined;
-    let EVENT_REGEXP = undefined;
-    let DOT_REGEXP = undefined;
-    let WHITESPACE_REGEXP = undefined;
-    let EMPTY_STRING = undefined;
-    let ELLIPSIS = undefined;
-    let STRING = undefined;
-    const Cls = (app.Searcher = class Searcher {
-      static initClass() {
-        $.extend(this.prototype, Events);
+  app.Searcher = class Searcher {
+    static initClass() {
+      $.extend(this.prototype, Events);
 
-        CHUNK_SIZE = 20000;
+      this.CHUNK_SIZE = 20000;
 
-        DEFAULTS = {
-          max_results: app.config.max_results,
-          fuzzy_min_length: 3
-        };
+      this.DEFAULTS = {
+        max_results: app.config.max_results,
+        fuzzy_min_length: 3
+      };
 
-        SEPARATORS_REGEXP = /#|::|:-|->|\$(?=\w)|\-(?=\w)|\:(?=\w)|\ [\/\-&]\ |:\ |\ /g;
-        EOS_SEPARATORS_REGEXP = /(\w)[\-:]$/;
-        INFO_PARANTHESES_REGEXP = /\ \(\w+?\)$/;
-        EMPTY_PARANTHESES_REGEXP = /\(\)/;
-        EVENT_REGEXP = /\ event$/;
-        DOT_REGEXP = /\.+/g;
-        WHITESPACE_REGEXP = /\s/g;
+      this.SEPARATORS_REGEXP = /#|::|:-|->|\$(?=\w)|\-(?=\w)|\:(?=\w)|\ [\/\-&]\ |:\ |\ /g;
+      this.EOS_SEPARATORS_REGEXP = /(\w)[\-:]$/;
+      this.INFO_PARANTHESES_REGEXP = /\ \(\w+?\)$/;
+      this.EMPTY_PARANTHESES_REGEXP = /\(\)/;
+      this.EVENT_REGEXP = /\ event$/;
+      this.DOT_REGEXP = /\.+/g;
+      this.WHITESPACE_REGEXP = /\s/g;
 
-        EMPTY_STRING = '';
-        ELLIPSIS = '...';
-        STRING = 'string';
+      this.EMPTY_STRING = '';
+      this.ELLIPSIS = '...';
+      this.STRING = 'string';
+    }
+
+    static normalizeString(string) {
+      return string
+        .toLowerCase()
+        .replace(Searcher.ELLIPSIS, Searcher.EMPTY_STRING)
+        .replace(Searcher.EVENT_REGEXP, Searcher.EMPTY_STRING)
+        .replace(Searcher.INFO_PARANTHESES_REGEXP, Searcher.EMPTY_STRING)
+        .replace(Searcher.SEPARATORS_REGEXP, Searcher.SEPARATOR)
+        .replace(Searcher.DOT_REGEXP, Searcher.SEPARATOR)
+        .replace(Searcher.EMPTY_PARANTHESES_REGEXP, Searcher.EMPTY_STRING)
+        .replace(Searcher.WHITESPACE_REGEXP, Searcher.EMPTY_STRING);
+    }
+
+    static normalizeQuery(string) {
+      string = this.normalizeString(string);
+      return string.replace(Searcher.EOS_SEPARATORS_REGEXP, '$1.');
+    }
+
+    constructor(options) {
+      this.match = this.match.bind(this);
+      this.matchChunks = this.matchChunks.bind(this);
+      if (options == null) {
+        options = {};
       }
+      this.options = $.extend({}, Searcher.DEFAULTS, options);
+    }
 
-      static normalizeString(string) {
-        return string
-          .toLowerCase()
-          .replace(ELLIPSIS, EMPTY_STRING)
-          .replace(EVENT_REGEXP, EMPTY_STRING)
-          .replace(INFO_PARANTHESES_REGEXP, EMPTY_STRING)
-          .replace(SEPARATORS_REGEXP, SEPARATOR)
-          .replace(DOT_REGEXP, SEPARATOR)
-          .replace(EMPTY_PARANTHESES_REGEXP, EMPTY_STRING)
-          .replace(WHITESPACE_REGEXP, EMPTY_STRING);
+    find(data, attr, q) {
+      this.kill();
+
+      this.data = data;
+      this.attr = attr;
+      this.query = q;
+      this.setup();
+
+      if (this.isValid()) {
+        this.match();
+      } else {
+        this.end();
       }
+    }
 
-      static normalizeQuery(string) {
-        string = this.normalizeString(string);
-        return string.replace(EOS_SEPARATORS_REGEXP, '$1.');
+    setup() {
+      query = (this.query = this.constructor.normalizeQuery(this.query));
+      queryLength = query.length;
+      this.dataLength = this.data.length;
+      this.matchers = [exactMatch];
+      this.totalResults = 0;
+      this.setupFuzzy();
+    }
+
+    setupFuzzy() {
+      if (queryLength >= this.options.fuzzy_min_length) {
+        fuzzyRegexp = this.queryToFuzzyRegexp(query);
+        this.matchers.push(fuzzyMatch);
+      } else {
+        fuzzyRegexp = null;
       }
+    }
 
-      constructor(options) {
-        this.match = this.match.bind(this);
-        this.matchChunks = this.matchChunks.bind(this);
-        if (options == null) {
-          options = {};
-        }
-        this.options = $.extend({}, DEFAULTS, options);
+    isValid() {
+      return (queryLength > 0) && (query !== Searcher.SEPARATOR);
+    }
+
+    end() {
+      if (!this.totalResults) {
+        this.triggerResults([]);
       }
+      this.trigger('end');
+      this.free();
+    }
 
-      find(data, attr, q) {
-        this.kill();
-
-        this.data = data;
-        this.attr = attr;
-        this.query = q;
-        this.setup();
-
-        if (this.isValid()) {
-          this.match();
-        } else {
-          this.end();
-        }
-      }
-
-      setup() {
-        query = (this.query = this.constructor.normalizeQuery(this.query));
-        queryLength = query.length;
-        this.dataLength = this.data.length;
-        this.matchers = [exactMatch];
-        this.totalResults = 0;
-        this.setupFuzzy();
-      }
-
-      setupFuzzy() {
-        if (queryLength >= this.options.fuzzy_min_length) {
-          fuzzyRegexp = this.queryToFuzzyRegexp(query);
-          this.matchers.push(fuzzyMatch);
-        } else {
-          fuzzyRegexp = null;
-        }
-      }
-
-      isValid() {
-        return (queryLength > 0) && (query !== SEPARATOR);
-      }
-
-      end() {
-        if (!this.totalResults) {
-          this.triggerResults([]);
-        }
-        this.trigger('end');
+    kill() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
         this.free();
       }
+    }
 
-      kill() {
-        if (this.timeout) {
-          clearTimeout(this.timeout);
-          this.free();
-        }
+    free() {
+      this.data = (this.attr = (this.dataLength = (this.matchers = (this.matcher = (this.query =
+        (this.totalResults = (this.scoreMap = (this.cursor = (this.timeout = null)))))))));
+    }
+
+    match() {
+      if (!this.foundEnough() && (this.matcher = this.matchers.shift())) {
+        this.setupMatcher();
+        this.matchChunks();
+      } else {
+        this.end();
       }
+    }
 
-      free() {
-        this.data = (this.attr = (this.dataLength = (this.matchers = (this.matcher = (this.query =
-          (this.totalResults = (this.scoreMap = (this.cursor = (this.timeout = null)))))))));
+    setupMatcher() {
+      this.cursor = 0;
+      this.scoreMap = new Array(101);
+    }
+
+    matchChunks() {
+      this.matchChunk();
+
+      if ((this.cursor === this.dataLength) || this.scoredEnough()) {
+        this.delay(this.match);
+        this.sendResults();
+      } else {
+        this.delay(this.matchChunks);
       }
+    }
 
-      match() {
-        if (!this.foundEnough() && (this.matcher = this.matchers.shift())) {
-          this.setupMatcher();
-          this.matchChunks();
-        } else {
-          this.end();
-        }
-      }
-
-      setupMatcher() {
-        this.cursor = 0;
-        this.scoreMap = new Array(101);
-      }
-
-      matchChunks() {
-        this.matchChunk();
-
-        if ((this.cursor === this.dataLength) || this.scoredEnough()) {
-          this.delay(this.match);
-          this.sendResults();
-        } else {
-          this.delay(this.matchChunks);
-        }
-      }
-
-      matchChunk() {
-        ({
-          matcher
-        } = this);
-        for (let j = 0, end = this.chunkSize(), asc = 0 <= end; asc ? j < end : j > end; asc ? j++ : j--) {
-          value = this.data[this.cursor][this.attr];
-          if (value.split) { // string
+    matchChunk() {
+      ({
+        matcher
+      } = this);
+      for (let j = 0, end = this.chunkSize(), asc = 0 <= end; asc ? j < end : j > end; asc ? j++ : j--) {
+        value = this.data[this.cursor][this.attr];
+        if (value.split) { // string
+          valueLength = value.length;
+          if (score = matcher()) {
+            this.addResult(this.data[this.cursor], score);
+          }
+        } else { // array
+          score = 0;
+          for (value of this.data[this.cursor][this.attr]) {
             valueLength = value.length;
-            if (score = matcher()) {
-              this.addResult(this.data[this.cursor], score);
-            }
-          } else { // array
-            score = 0;
-            for (value of this.data[this.cursor][this.attr]) {
-              valueLength = value.length;
-              score = Math.max(score, matcher() || 0);
-            }
-            if (score > 0) {
-              this.addResult(this.data[this.cursor], score);
-            }
+            score = Math.max(score, matcher() || 0);
           }
-          this.cursor++;
-        }
-      }
-
-      chunkSize() {
-        if ((this.cursor + CHUNK_SIZE) > this.dataLength) {
-          return this.dataLength % CHUNK_SIZE;
-        } else {
-          return CHUNK_SIZE;
-        }
-      }
-
-      scoredEnough() {
-        return (this.scoreMap[100] != null ? this.scoreMap[100].length : undefined) >= this.options.max_results;
-      }
-
-      foundEnough() {
-        return this.totalResults >= this.options.max_results;
-      }
-
-      addResult(object, score) {
-        let name;
-        (this.scoreMap[name = Math.round(score)] || (this.scoreMap[name] = [])).push(object);
-        this.totalResults++;
-      }
-
-      getResults() {
-        const results = [];
-        for (let j = this.scoreMap.length - 1; j >= 0; j--) {
-          const objects = this.scoreMap[j];
-          if (objects) {
-            results.push.apply(results, objects);
+          if (score > 0) {
+            this.addResult(this.data[this.cursor], score);
           }
         }
-        return results.slice(0, this.options.max_results);
+        this.cursor++;
       }
+    }
 
-      sendResults() {
-        const results = this.getResults();
-        if (results.length) {
-          this.triggerResults(results);
+    chunkSize() {
+      if ((this.cursor + Searcher.CHUNK_SIZE) > this.dataLength) {
+        return this.dataLength % Searcher.CHUNK_SIZE;
+      } else {
+        return Searcher.CHUNK_SIZE;
+      }
+    }
+
+    scoredEnough() {
+      return (this.scoreMap[100] != null ? this.scoreMap[100].length : undefined) >= this.options.max_results;
+    }
+
+    foundEnough() {
+      return this.totalResults >= this.options.max_results;
+    }
+
+    addResult(object, score) {
+      let name;
+      (this.scoreMap[name = Math.round(score)] || (this.scoreMap[name] = [])).push(object);
+      this.totalResults++;
+    }
+
+    getResults() {
+      const results = [];
+      for (let j = this.scoreMap.length - 1; j >= 0; j--) {
+        const objects = this.scoreMap[j];
+        if (objects) {
+          results.push.apply(results, objects);
         }
       }
+      return results.slice(0, this.options.max_results);
+    }
 
-      triggerResults(results) {
-        this.trigger('results', results);
+    sendResults() {
+      const results = this.getResults();
+      if (results.length) {
+        this.triggerResults(results);
       }
+    }
 
-      delay(fn) {
-        return this.timeout = setTimeout(fn, 1);
-      }
+    triggerResults(results) {
+      this.trigger('results', results);
+    }
 
-      queryToFuzzyRegexp(string) {
-        const chars = string.split('');
-        for (i = 0; i < chars.length; i++) {
-          const char = chars[i];
-          chars[i] = $.escapeRegexp(char);
-        }
-        return new RegExp(chars.join('.*?'));
+    delay(fn) {
+      return this.timeout = setTimeout(fn, 1);
+    }
+
+    queryToFuzzyRegexp(string) {
+      const chars = string.split('');
+      for (i = 0; i < chars.length; i++) {
+        const char = chars[i];
+        chars[i] = $.escapeRegexp(char);
       }
-    });
-    Cls.initClass();
-    return Cls; // abc -> /a.*?b.*?c.*?/
-  })();
+      return new RegExp(chars.join('.*?'));
+    }
+  }
+  app.Searcher.initClass();
 
   app.SynchronousSearcher = class SynchronousSearcher extends app.Searcher {
     constructor(...args) {
