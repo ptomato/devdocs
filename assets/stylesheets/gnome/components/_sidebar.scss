@@ -13,13 +13,13 @@
       background-image: image-url('function.png');
     }
     &._prog-property-icon:before {
-      background-image: image-url('property.png');
+      background-image: image-url('variable.png');
     }
     &._prog-signal-icon:before {
       background-image: image-url('signal.png');
     }
-    &._prog-variable-icon:before {
-      background-image: image-url('variable.png');
+    &._prog-data-icon:before {
+      background-image: image-url('property.png');
     }
   }
 }
