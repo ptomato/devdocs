@@ -8,12 +8,23 @@ $.extendTemplate('sidebarEntry', function (parent, entry) {
 
     let iconClass = "_prog-icon";
 
-    if (entry.name.endsWith("()") || entry.name.startsWith("vfunc")) {
-      iconClass += " _prog-function-icon"
-    } else if (entry.name.startsWith("::")) {
-      iconClass += " _prog-signal-icon"
+    let pathParts = entry.path.split('#');
+    let type = pathParts.length > 1 ? pathParts[1] : pathParts[0];
+    let isFunction = [
+      'constructor-',
+      'function-',
+      'method-',
+      'vfunc-'
+    ].some(value => type.startsWith(value));
+
+    if (isFunction) {
+      iconClass += ` _prog-function-icon`;
+    } else if (type.startsWith('signal-')) {
+      iconClass += ` _prog-signal-icon`;
+    } else if (type.startsWith('property-')) {
+      iconClass += ` _prog-property-icon`;
     } else {
-      iconClass += " _prog-property-icon"
+      iconClass += ` _prog-data-icon`;
     }
 
     return `<a href="${entry.fullPath()}" class="_list-item _list-item-no-children _list-hover ${iconClass}" tabindex="-1">${$.escape(entry.name)}</a>`;
