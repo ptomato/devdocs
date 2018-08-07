@@ -21,6 +21,11 @@ class GnomeApp < App
         stylesheet_path('application-gnome-dark'),
         image_path('gnome-icons.png'),
         image_path('gnome-icons@2x.png'),
+        # TODO Include @1x and @2x, convert to icon sheet.
+        image_path('variable.png'),
+        image_path('function.png'),
+        image_path('signal.png'),
+        image_path('property.png'),
         image_path('docs-1.png'),
         image_path('docs-1@2x.png'),
         image_path('docs-2.png'),

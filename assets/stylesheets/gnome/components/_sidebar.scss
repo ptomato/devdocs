@@ -1,0 +1,25 @@
+._sidebar {
+  ._list-item._prog-icon {
+    &:before {
+      content: '';
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      // TODO: Make dependant on upstream sidebar styling.
+      margin: 0.25rem 0.25rem 0.25rem 1rem;
+    }
+
+    &._prog-function-icon:before {
+      background-image: image-url('function.png');
+    }
+    &._prog-property-icon:before {
+      background-image: image-url('property.png');
+    }
+    &._prog-signal-icon:before {
+      background-image: image-url('signal.png');
+    }
+    &._prog-variable-icon:before {
+      background-image: image-url('variable.png');
+    }
+  }
+}
