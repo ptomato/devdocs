@@ -3,6 +3,12 @@
 # Evan Welsh // rockon999
 
 module Docs
+  class EntryIndex
+    def entries_as_json
+      @entries.sort! { |a, b| sort_fn(a.path, b.path) }.map(&:as_json)
+    end
+  end
+
   # GirScraper: Instead of being given a path to HTML documentation, this gets a
   # path to a GIR file, which it runs through g-ir-doc-tool to generate the HTML
   # documentation.
