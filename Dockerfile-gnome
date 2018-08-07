@@ -1,3 +1,5 @@
+FROM ruby:2.5.1
+
 FROM fedora
 
 ENV LANG en_US.UTF-8
@@ -20,7 +22,7 @@ RUN dnf update -y && \
         libnotify-devel libpeas-devel librsvg2-devel libsecret-devel \
         libzapojit-devel pango-devel polkit-devel poppler-glib-devel \
         rest-devel telepathy-glib-devel tracker-devel udisks-devel \
-        upower-devel vte{,291,3}-devel
+        upower-devel vte{,291,3}-devel webkit2gtk3-devel
 
 # Get rvm in order to use the particular version of Ruby that Devdocs needs
 # bash -l starts a login shell which gets us into the rvm environment
@@ -56,7 +58,7 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
         pango10 pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
         polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 soup24 \
         soupgnome24 telepathyglib012 tracker10 trackercontrol10 trackerminer10 \
-        upowerglib10 vte00 vte290 vte291 webkit10 webkit30 webkit240 \
+        upowerglib10 vte00 vte290 vte291 webkit2 \
         webkit2webextension40 zpj00; \
       do echo \$docset; thor docs:generate \$docset --force; done"
 
