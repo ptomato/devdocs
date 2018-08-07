@@ -1,5 +1,14 @@
 [
   [
+    "2018-08-08",
+    "Fixes and feature updates:",
+    "C methods that don't exist in GJS no longer appear in the documentation",
+    "Sidebar entries now have icons!",
+    "Index pages are now sorted into classes, functions, etc.",
+    "Duplicate entries for classes have been fixed",
+    "Sidebar entries are now sorted into categories before being sorted alphabetically."
+  ],
+  [
     "2018-08-13",
     "Update to upstream DevDocs:\nPreferences can now be exported and imported.\nAdded print & PDF stylesheets."
   ],
