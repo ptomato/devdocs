@@ -1,0 +1,200 @@
+/* GNOME-specific icons; put in a separate sprite to avoid merge conflicts. */
+
+/* Create the sprites with
+  convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,generic,gnome,goa,gstreamer,gtk,ubuntu,webkit,x}/16.png +append assets/images/gnome-icons.png
+  convert public/icons/docs/{appstream,cairo,champlain,cheese,clutter,evince,generic,gnome,goa,gstreamer,gtk,ubuntu,webkit,x}/16@2x.png +append assets/images/gnome-icons@2x.png
+  */
+
+%gnome-icons {
+  background-image: image-url('gnome-icons.png');
+  background-size: 14rem 1rem;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 144dpi) {
+  %gnome-icons {
+    background-image: image-url('gnome-icons@2x.png');
+  }
+}
+
+._icon-appstreamglib10:before {
+  @extend %gnome-icons;
+  background-position: 0 0;
+}
+
+._icon-cairo10:before {
+  @extend %gnome-icons;
+  background-position: -1rem 0;
+}
+
+._icon-gtkchamplain012:before,
+._icon-champlain012:before {
+  @extend %gnome-icons;
+  background-position: -2rem 0;
+}
+
+._icon-cheese30:before {
+  @extend %gnome-icons;
+  background-position: -3rem 0;
+}
+
+._icon-cally10:before,
+._icon-clutter10:before,
+._icon-cluttergdk10:before,
+._icon-cluttergst20:before,
+._icon-clutterx1110:before,
+._icon-cogl10:before,
+._icon-cogl20:before,
+._icon-coglpango10:before,
+._icon-coglpango20:before,
+._icon-gtkclutter10:before {
+  @extend %gnome-icons;
+  background-position: -4rem 0;
+}
+
+._icon-evincedocument30:before,
+._icon-evinceview30:before {
+  @extend %gnome-icons;
+  background-position: -5rem 0;
+}
+
+._icon-dbus10:before,
+._icon-fontconfig20:before,
+._icon-freetype220:before,
+._icon-gl10:before,
+._icon-networkmanager10:before,
+._icon-nmclient10:before,
+._icon-polkit10:before,
+._icon-polkitagent10:before,
+._icon-telepathyglib012:before,
+._icon-win3210:before {
+  @extend %gnome-icons;
+  background-position: -6rem 0;
+}
+
+._icon-atk10:before,
+._icon-atspi20:before,
+._icon-dbusglib10:before,
+._icon-gcab10:before,
+._icon-gck1:before,
+._icon-gcr3:before,
+._icon-gcrui3:before,
+._icon-gdata00:before,
+._icon-gdkpixbuf20:before,
+._icon-gee08:before,
+._icon-geocodeglib10:before,
+._icon-gio20:before,
+._icon-girepository20:before,
+._icon-glib20:before,
+._icon-gmodule20:before,
+._icon-gnomekeyring10:before,
+._icon-gobject20:before,
+._icon-gom10:before,
+._icon-grl02:before,
+._icon-grl03:before,
+._icon-grlnet02:before,
+._icon-grlnet03:before,
+._icon-grlpls02:before,
+._icon-grlpls03:before,
+._icon-gsound10:before,
+._icon-gspell1:before,
+._icon-gssdp10:before,
+._icon-gtkosxapplication10:before,
+._icon-gtksource30:before,
+._icon-gudev10:before,
+._icon-gupnp10:before,
+._icon-gupnpdlna20:before,
+._icon-gupnpdlnagst20:before,
+._icon-gweather30:before,
+._icon-gxps01:before,
+._icon-ibus10:before,
+._icon-json10:before,
+._icon-keybinder30:before,
+._icon-libxml220:before,
+._icon-notify07:before,
+._icon-pango10:before,
+._icon-pangocairo10:before,
+._icon-pangoft210:before,
+._icon-pangoxft10:before,
+._icon-peas10:before,
+._icon-peasgtk10:before,
+._icon-poppler018:before,
+._icon-rest07:before,
+._icon-restextras07:before,
+._icon-rsvg20:before,
+._icon-secret1:before,
+._icon-soup24:before,
+._icon-soupgnome24:before,
+._icon-tracker10:before,
+._icon-trackercontrol10:before,
+._icon-trackerminer10:before,
+._icon-upowerglib10:before,
+._icon-vte00:before,
+._icon-vte290:before,
+._icon-vte291:before,
+._icon-zpj00:before {
+  @extend %gnome-icons;
+  background-position: -7rem 0;
+  @extend %darkIconFix !optional;
+}
+
+._icon-goa10:before {
+  @extend %gnome-icons;
+  background-position: -8rem 0;
+}
+
+._icon-gst10:before,
+._icon-gstallocators10:before,
+._icon-gstapp10:before,
+._icon-gstaudio10:before,
+._icon-gstbase10:before,
+._icon-gstcheck10:before,
+._icon-gstcontroller10:before,
+._icon-gstfft10:before,
+._icon-gstnet10:before,
+._icon-gstpbutils10:before,
+._icon-gstriff10:before,
+._icon-gstrtp10:before,
+._icon-gstrtsp10:before,
+._icon-gstsdp10:before,
+._icon-gsttag10:before,
+._icon-gstvideo10:before {
+  @extend %gnome-icons;
+  background-position: -9rem 0;
+}
+
+._icon-gdk20:before,
+._icon-gdk30:before,
+._icon-gdkx1130:before,
+._icon-gtk20:before,
+._icon-gtk30:before {
+  @extend %gnome-icons;
+  background-position: -10rem 0;
+}
+
+._icon-appindicator301:before,
+._icon-dbusmenu04:before {
+  @extend %gnome-icons;
+  background-position: -11rem 0;
+}
+
+._icon-javascriptcore30:before,
+._icon-javascriptcore40:before,
+._icon-webkit2webextension30:before,
+._icon-webkit2webextension40:before,
+._icon-webkit10:before,
+._icon-webkit230:before,
+._icon-webkit240:before,
+._icon-webkit30:before {
+  @extend %gnome-icons;
+  background-position: -12rem 0;
+}
+
+._icon-xfixes40:before,
+._icon-xft20:before,
+._icon-xlib20:before,
+._icon-xrandr13:before {
+  @extend %gnome-icons;
+  background-position: -13rem 0;
+  @extend %darkIconFix !optional;
+}

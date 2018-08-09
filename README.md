@@ -4,6 +4,8 @@ DevDocs combines multiple API documentations in a fast, organized, and searchabl
 
 * Created by [Thibaut Courouble](https://thibaut.me)
 
+Some icons currently by icons8 (link to be added to webpage)
+
 Keep track of development news:
 
 * Join the contributor chat room on [Gitter](https://gitter.im/FreeCodeCamp/DevDocs)

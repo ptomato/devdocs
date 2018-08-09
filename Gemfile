@@ -38,6 +38,7 @@ group :docs do
   gem 'progress_bar', require: false
   gem 'unix_utils', require: false
   gem 'tty-pager', require: false
+  gem 'xdg', require: false
 end
 
 group :test do
