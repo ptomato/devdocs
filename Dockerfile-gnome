@@ -23,6 +23,9 @@ RUN dnf update -y && \
         libzapojit-devel pango-devel polkit-devel poppler-glib-devel \
         rest-devel telepathy-glib-devel tracker-devel udisks-devel \
         upower-devel vte{,291,3}-devel webkit2gtk3-devel
+    
+    # Install dependencies not caught correctly by fedora
+    dnf install -y autoconf-archive
 
 # Get rvm in order to use the particular version of Ruby that Devdocs needs
 # bash -l starts a login shell which gets us into the rvm environment
@@ -52,7 +55,7 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
         grlpls03 gsound10 gspell1 gssdp10 gst10 gstallocators10 gstapp10 \
         gstaudio10 gstbase10 gstcheck10 gstcontroller10 gstfft10 gstnet10 \
         gstpbutils10 gstrtp10 gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 \
-        gtk30 gtkchamplain012 gtkclutter10 gtksource30 gtkosxapplication10 \
+        gtk30 gtkchamplain012 gtkclutter10 gtksource30 gtkosxapplication10 \ 
         gudev10 gupnp10 gupnpdlna20 gupnpdlnagst20 gweather30 gxps01 ibus10 \
         javascript json10 keybinder30 networkmanager10 nmclient10 notify07 \
         pango10 pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
