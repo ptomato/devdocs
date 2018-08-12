@@ -20,6 +20,8 @@
 
 //= require tracking
 
+//= require_tree ./gnome
+
 var init = function () {
   document.removeEventListener('DOMContentLoaded', init, false);
 
