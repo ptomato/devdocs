@@ -7,7 +7,7 @@ ENV LC_ALL en_US.UTF-8
 # Build dependencies and GIR packages
 RUN dnf update -y && \
     dnf install -y 'dnf-command(builddep)' git redhat-rpm-config gcc{,-c++} \
-        libxml2-devel nodejs python2-markdown python2-mako && \
+        libxml2-devel nodejs python2-markdown && \
     dnf builddep -y gobject-introspection && \
     dnf install -y NetworkManager-glib-devel cairo-devel cheese-libs-devel \
         clutter-{gst,gst2,gst3,gtk}-devel evince-devel geocode-glib-devel \
