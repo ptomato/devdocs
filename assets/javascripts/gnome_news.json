@@ -2,7 +2,7 @@
   [
     "2019-04-06",
     "Update to upstream DevDocs:\nAdded print & PDF stylesheet.\n<a href=\"/settings\">Preferences</a> can now be exported and imported.",
-    "New documentations: <a href='/camel12'>Camel</a>, <a href='/ebook12'>EBook</a>, <a href='/ebookcontacts12'>EBookContacts</a>, <a href='/edataserver12'>EDataServer</a>, <a href='/edataserverui12'>EDataServerUI</a>, <a href='/gee08'>Gee</a>, <a href='/gstgl10'>GstGL</a>, <a href='/javascriptcore40'>JavaScriptCore</a> (including JSC-GLib), <a href='/nm10'>NM 1.0</a>, <a href='/tracker20'>Tracker 2.0</a>, <a href='/trackercontrol20'>TrackerControl 2.0</a>, <a href='/trackerminer20'>TrackerMiner 2.0</a>\n",
+    "New documentations: <a href='/camel12'>Camel</a>, <a href='/ebook12'>EBook</a>, <a href='/ebookcontacts12'>EBookContacts</a>, <a href='/edataserver12'>EDataServer</a>, <a href='/edataserverui12'>EDataServerUI</a>, <a href='/folks06'>Folks</a>, <a href='/folksdummy06'>FolksDummy</a>, <a href='/folkseds06'>FolksEds</a>, <a href='/folkstelepathy06'>FolksTelepathy</a>, <a href='/gee08'>Gee</a>, <a href='/gstgl10'>GstGL</a>, <a href='/javascriptcore40'>JavaScriptCore</a> (including JSC-GLib), <a href='/nm10'>NM 1.0</a>, <a href='/tracker20'>Tracker 2.0</a>, <a href='/trackercontrol20'>TrackerControl 2.0</a>, <a href='/trackerminer20'>TrackerMiner 2.0</a>\n",
     "Removed some documentations that are no longer available:\nClutterGst 1.0, ClutterGst 2.0, GstFFT 1.0, NetworkManager 1.0, NMClient 1.0, Tracker 1.0, TrackerControl 1.0, TrackerMiner 1.0, Vte 2.90, WebKit 1.0, WebKit 3.0"
   ],
   [

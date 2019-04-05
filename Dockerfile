@@ -9,17 +9,17 @@ RUN dnf install -y 'dnf-command(builddep)' @development-tools bzip2 gcc-c++ \
         meson nodejs && \
     dnf builddep -y gobject-introspection ruby && \
     dnf install -y NetworkManager-libnm-devel cairo-devel cheese-libs-devel \
-        clutter-{gst3,gtk}-devel evince-devel geocode-glib-devel glib2-devel \
-        gnome-online-accounts-devel gobject-introspection-devel gom-devel \
-        grilo-devel gsound-devel gspell-devel gstreamer1-{,plugins-base-}devel \
-        gtk{2,3}-devel gtksourceview3-devel gupnp-devel gupnp-dlna-devel \
-        harfbuzz-devel ibus-devel keybinder3-devel libappindicator-gtk3-devel \
-        libappstream-glib-devel libchamplain-devel libgcab1-devel \
-        libgudev-devel libgweather-devel libgxps-devel libnotify-devel \
-        libpeas-devel librsvg2-devel libsecret-devel libzapojit-devel \
-        pango-devel polkit-devel poppler-glib-devel rest-devel \
-        telepathy-glib-devel tracker-devel udisks-devel upower-devel \
-        vte{,291}-devel
+        clutter-{gst3,gtk}-devel evince-devel folks-devel geocode-glib-devel \
+        glib2-devel gnome-online-accounts-devel gobject-introspection-devel \
+        gom-devel grilo-devel gsound-devel gspell-devel \
+        gstreamer1-{,plugins-base-}devel gtk{2,3}-devel gtksourceview3-devel \
+        gupnp-devel gupnp-dlna-devel harfbuzz-devel ibus-devel \
+        keybinder3-devel libappindicator-gtk3-devel libappstream-glib-devel \
+        libchamplain-devel libgcab1-devel libgudev-devel libgweather-devel \
+        libgxps-devel libnotify-devel libpeas-devel librsvg2-devel \
+        libsecret-devel libzapojit-devel pango-devel polkit-devel \
+        poppler-glib-devel rest-devel telepathy-glib-devel tracker-devel \
+        udisks-devel upower-devel vte{,291}-devel
 
 # Get rbenv and ruby-build in order to install the particular version of Ruby
 # that Devdocs needs
@@ -45,7 +45,8 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         cally10 camel12 champlain012 cheese30 clutter10 cluttergdk10 \
         cluttergst30 clutterx1110 cogl10 cogl20 coglpango10 coglpango20 css \
         dbusmenu04 ebook12 ebookcontacts12 edataserver12 edataserverui12 \
-        evincedocument30 evinceview30 gcab10 gck1 gcr3 gcrui3 gdk20 gdk30 \
+        evincedocument30 evinceview30 folks06 folksdummy06 folkseds06 \
+        folkstelepathy06 gcab10 gck1 gcr3 gcrui3 gdk20 gdk30 \
         gdkpixbuf20 gdkx1120 gdkx1130 gee08 geocodeglib10 gio20 girepository20 \
         glib20 gmodule20 goa10 gobject20 gom10 grl03 grlnet03 grlpls03 \
         gsound10 gspell1 gssdp10 gst10 gstallocators10 gstapp10 gstaudio10 \
