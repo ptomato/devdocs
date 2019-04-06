@@ -25,7 +25,7 @@ module Docs
 
     def initialize
       super
-      self.class.dir = run_doctool self.class.gir_path
+      run_doctool self.class.gir_path
     end
 
     def doctool
@@ -33,15 +33,12 @@ module Docs
     end
 
     def run_doctool(gir_path)
-      puts 'Generating HTML documentation...'
-      dir = Dir.mktmpdir 
-
-      puts "Running: #{doctool} #{gir_path} -o #{dir} -l gjs -f devdocs"
-      unless system "#{doctool} #{gir_path} -o #{dir} -l gjs -f devdocs"
-        FileUtils.remove_entry dir
+      command = "#{doctool} #{gir_path} -o #{source_directory} -l gjs -f devdocs"
+      puts "Generating HTML documentation: #{command}"
+      unless system command
+        FileUtils.remove_entry source_directory
         fail 'g-ir-doc-tool failed'
       end
-      dir
     end
   end
 end
