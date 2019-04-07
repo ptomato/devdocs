@@ -40,7 +40,7 @@ WORKDIR /opt/devdocs
 RUN rbenv install
 RUN gem install bundler
 RUN bundle install
-RUN bundle exec thor gir:generate_all /usr/share
+RUN bundle exec thor gir:generate_all /usr/share/gir-1.0
 RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         cally10 camel12 champlain012 cheese30 clutter10 cluttergdk10 \
         cluttergst30 clutterx1110 cogl10 cogl20 coglpango10 coglpango20 css \

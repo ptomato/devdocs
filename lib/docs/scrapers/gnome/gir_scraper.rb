@@ -7,6 +7,7 @@ module Docs
       attr_accessor :c_prefix
       attr_accessor :api_version
       attr_accessor :gir_path
+      attr_accessor :extra_include
     end
 
     self.type = 'gir'
@@ -33,7 +34,11 @@ module Docs
     end
 
     def run_doctool(gir_path)
-      command = "#{doctool} #{gir_path} -o #{source_directory} -l gjs -f devdocs"
+      include_path = File.dirname(gir_path)
+      command = "#{doctool} #{gir_path} -o #{source_directory} -l gjs -f devdocs -I #{include_path}"
+      if !self.class.extra_include.empty?
+        command += " -I #{self.class.extra_include}"
+      end
       puts "Generating HTML documentation: #{command}"
       unless system command
         FileUtils.remove_entry source_directory

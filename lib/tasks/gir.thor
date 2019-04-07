@@ -15,7 +15,7 @@ class GirCLI < Thor
   desc 'generate_all', 'Generate scrapers from all installed GIR files'
   def generate_all(gir_dir = nil)
     if gir_dir
-      glob = Dir.glob(gir_dir + '/gir-1.0/*.gir')
+      glob = Dir.glob(gir_dir + '/*.gir')
     else
       glob = XDG['DATA_DIRS'].glob('gir-1.0/*.gir')
     end
@@ -29,7 +29,8 @@ class GirCLI < Thor
     end
   end
 
-  desc 'generate', 'Generate a scraper from a GIR file'
+  desc 'generate <path> [--include <path>]', 'Generate a scraper from a GIR file'
+  option :include, type: :string
   def generate(gir_path)
     gir = read_gir gir_path
 
@@ -37,6 +38,9 @@ class GirCLI < Thor
     scraper_info = process_namespace namespace
     scraper_info[:slug] = generate_slug scraper_info
     scraper_info[:version] = compute_version gir, scraper_info
+    if options[:include]
+      scraper_info[:extra_include] = options[:include]
+    end
     write_scraper gir_path, scraper_info
   end
 
@@ -100,6 +104,7 @@ class GirCLI < Thor
       class #{info[:slug].capitalize} < GirScraper
 #{info.keys.map { |k| "        self.#{k} = '#{info[k]}'" }.join "\n"}
         self.gir_path = '#{gir_path}'
+        self.extra_include = '#{info[:extra_include]}'
         options[:attribution].sub! '{GIR_NAME}', '#{gir_name}'
       end
     end
