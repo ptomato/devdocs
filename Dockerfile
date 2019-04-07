@@ -60,5 +60,9 @@ RUN /bin/bash -l -c "thor gir:generate_all /usr/share && \
         webkit2webextension40 zpj00; \
       do echo \$docset; thor docs:generate \$docset --force; done"
 
+# Intentionally omitted:
+# dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, win3210,
+#   xfixes40, xft20, xlib20, xrandr13
+
 EXPOSE 9292
 CMD /bin/bash -l -c "rackup -o 0.0.0.0"
