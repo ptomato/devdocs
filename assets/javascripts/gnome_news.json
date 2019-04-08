@@ -1,5 +1,11 @@
 [
   [
+    "2019-04-06",
+    "Update to upstream DevDocs:\nAdded print & PDF stylesheet.\n<a href=\"/settings\">Preferences</a> can now be exported and imported.",
+    "New documentations: <a href='/nm10'>NM 1.0</a>, <a href='/tracker20'>Tracker 2.0</a>, <a href='/trackercontrol20'>TrackerControl 2.0</a>, <a href='/trackerminer20'>TrackerMiner 2.0</a>\n",
+    "Removed some documentations that are no longer available:\nClutterGst 1.0, ClutterGst 2.0, GstFFT 1.0, NetworkManager 1.0, NMClient 1.0, Tracker 1.0, TrackerControl 1.0, TrackerMiner 1.0, Vte 2.90, WebKit 1.0, WebKit 3.0"
+  ],
+  [
     "2017-05-09",
     "New documentations: <a href='/appindicator301'>AppIndicator</a>, <a href='/atspi20'>Atspi</a>, <a href='cluttergdk10'>ClutterGdk</a>, <a href='cluttergst10'>ClutterGst 1.0</a>, <a href='cluttergst30'>ClutterGst 3.0</a>, <a href='clutterx1110'>ClutterX11</a>, <a href='dbusmenu04'>DBusMenu</a>, <a href='gcab10'>Gcab</a>, <a href='gdkx1120'>Gdk-X11 2.0</a>, <a href='gdkx1130'>Gdk-X11 3.0</a>, <a href='gsound10'>GSound</a>, <a href='gspell1'>GSpell</a>, <a href='gtkchamplain012'>GtkChamplain</a>, <a href='gudev10'>GUdev</a>, <a href='gupnpdlna20'>GUPNP-DLNA</a>, <a href='gupnpdlnagst20'>GUPNP-DLNA-Gst</a>, <a href='ibus10'>IBus</a>, <a href='keybinder30'>Keybinder</a>, <a href='networkmanager10'>NetworkManager</a>, <a href='nmclient10'>NMClient</a>, <a href='pangocairo10'>PangoCairo</a>, <a href='pangoft210'>Pango-FT2</a>, <a href='pangoxft10'>Pango-Xft</a>, <a href='polkit10'>PolKit</a>, <a href='polkitagent10'>PolKit Agent</a>, <a href='telepathyglib012'>Telepathy GLib</a>, <a href='tracker10'>Tracker</a>, <a href='trackercontrol10'>Tracker Control</a>, <a href='trackerminer10'>TrackerMiner</a>, <a href='upowerglib10'>UPower GLib</a>, <a href='vte00'>VTE 0.0</a>, <a href='webkit10'>WebKit 1.0</a>"
   ], [
