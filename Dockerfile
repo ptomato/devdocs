@@ -30,7 +30,7 @@ RUN git clone git://github.com/sstephenson/rbenv.git /root/.rbenv
 RUN git clone git://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
 ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.rbenv/plugins/ruby-build/bin:$PATH
 
-RUN git clone https://gitlab.gnome.org/ptomato/gobject-introspection.git -b devdocs-fixes --depth=1 /opt/gi
+RUN git clone https://gitlab.gnome.org/GNOME/gobject-introspection.git --depth=1 /opt/gi
 WORKDIR /opt/gi
 RUN meson _build -Ddoctool=true
 RUN ninja -C _build
