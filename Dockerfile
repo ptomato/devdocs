@@ -49,7 +49,6 @@ RUN bundle exec thor gir:generate_all /usr/lib64/mutter
 # Some of the gnome-shell GIRs need extra include paths
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/Gvc-1.0.gir
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/Shell-0.1.gir --include /usr/lib64/mutter
-RUN bundle exec thor gir:generate /usr/share/gnome-shell/ShellMenu-0.1.gir --include /usr/lib64/mutter
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/St-1.0.gir --include /usr/lib64/mutter
 
 RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
@@ -69,8 +68,8 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         javascriptcore40 json10 keybinder30 meta3 nm10 notify07 pango10 \
         pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
         polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 shell01 \
-        shellmenu01 soup24 soupgnome24 st10 telepathyglib012 tracker20 \
-        trackercontrol20 trackerminer20 upowerglib10 vte00 vte291 webkit240 \
+        soup24 soupgnome24 st10 telepathyglib012 tracker20 trackercontrol20 \
+        trackerminer20 upowerglib10 vte00 vte291 webkit240 \
         webkit2webextension40 zpj00; \
       do echo $docset; bundle exec thor docs:generate $docset --force; done
 
