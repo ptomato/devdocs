@@ -131,8 +131,8 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     libcanberra{,-devel,-gtk2,-gtk3} libchamplain{,-devel,-gtk} \
     libcom_err-devel libcroco libcue libcurl-devel libdatrie \
     libdbusmenu{,-devel,-gtk3} libdrm{,-devel} libdwarf libedit \
-    libepoxy{,-devel} libevdev libexif libffi-devel libfontenc \
-    libgcab1{,-devel} libgdata{,-devel} libgee{,-devel} libgexiv2 \
+    libepoxy{,-devel} libevdev libexif libfontenc libgcab1{,-devel} \
+    libgdata{,-devel} libgee{,-devel} libgexiv2 \
     libglvnd{,-core-devel,-devel,-egl,-gles,-glx,-opengl} libgnomekbd \
     libgomp libgrss libgs libgsf libgtop2 libgudev-devel libgusb \
     libgweather{,-devel} libgxps{,-devel} libical{,-devel} libicu-devel libidn \
@@ -140,18 +140,17 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     libkadm5 libldb libmcpp libmediaart libmodman libmpc libndp libnl3 libnma \
     libnotify{,-devel} liboauth{,-devel} libogg libosinfo libpaper \
     libpciaccess libpeas{,-devel,-gtk} libpng{,-devel} libproxy \
-    libquvi{,-scripts} librsvg2{,-devel} libsecret{,-devel} libselinux-devel \
-    libsepol-devel libserf libsmbclient libsndfile libsoup{,-devel} libspectre \
-    libss libstdc++-devel libstemmer libtalloc libtasn1-{devel,tools} libtdb \
-    libtevent libthai libtheora libtiff{,-devel} libtomcrypt libtommath \
-    libtool{,-ltdl} libunwind libverto-devel libvisual libvncserver libvorbis \
-    libwacom{,-data} libwayland-{client,cursor,egl,server} libwbclient libwebp \
-    libxcb{,-devel} libxcrypt-devel libxkbcommon{,-devel,-x11} libxkbfile \
-    libxklavier libxml2-devel libxshmfence libxslt libyaml-devel \
-    libzapojit{,-devel} llvm-libs lmdb-libs lua{,-expat,-json,-lpeg,-socket} \
-    lzo-minilzo m4 make mcpp mdadm \
-    mesa-{dri-drivers,filesystem,khr-devel,libglapi} mesa-libEGL{,-devel} \
-    mesa-libGL{,-devel} mesa-libgbm{,-devel} meson \
+    libquvi{,-scripts} librsvg2{,-devel} libsecret{,-devel} libserf \
+    libsmbclient libsndfile libsoup{,-devel} libspectre libss libstdc++-devel \
+    libstemmer libtalloc libtasn1-{devel,tools} libtdb libtevent libthai \
+    libtheora libtiff{,-devel} libtomcrypt libtommath libtool{,-ltdl} \
+    libunwind libverto-devel libvisual libvncserver libvorbis libwacom{,-data} \
+    libwayland-{client,cursor,egl,server} libwbclient libwebp libxcb{,-devel} \
+    libxcrypt-devel libxkbcommon{,-devel,-x11} libxkbfile libxklavier \
+    libxml2-devel libxshmfence libxslt libyaml-devel libzapojit{,-devel} \
+    llvm-libs lmdb-libs lua{,-expat,-json,-lpeg,-socket} lzo-minilzo m4 make \
+    mcpp mdadm mesa-{dri-drivers,filesystem,khr-devel,libglapi} \
+    mesa-libEGL{,-devel} mesa-libGL{,-devel} mesa-libgbm{,-devel} meson \
     mobile-broadband-provider-info mokutil mozilla-filesystem mozjs{52,60} \
     mtdev mtools multilib-rpm-config mutter ncurses-{c++-libs,devel} \
     nettle-devel nim-srpm-macros ninja-build nm-connection-editor npm \
@@ -161,7 +160,6 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     openblas-srpm-macros openjade openjpeg2 opensp openssh{,-clients} opus \
     orc{,-compiler,-devel} osinfo-db{,-tools} ostree-libs \
     p11-kit-{devel,server} pango{,-devel} parted patch patchutils \
-    pcre2-{devel,utf16,utf32} \
     perl-{Carp,Data-Dumper,Digest,Digest-MD5,Encode,Errno,Error,Exporter} \
     perl-File-{Path,Temp} \
     perl-{Getopt-Long,Git,HTTP-Tiny,IO,MIME-Base64,Mozilla-CA,Net-SSLeay,PathTools} \
@@ -197,8 +195,7 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     wpa_supplicant xapian-core-libs xcb-util xdg-dbus-proxy \
     xdg-desktop-portal{,-gtk} xfsprogs xkeyboard-config xml-common \
     xorg-x11-{drv-libinput,font-utils,proto-devel,xauth,xinit,xkb-utils} \
-    xorg-x11-server-{Xorg,Xwayland,common,utils} xz-devel zenity zip \
-    zlib-devel && \
+    xorg-x11-server-{Xorg,Xwayland,common,utils} xz-devel zenity zip && \
     dnf clean all && \
     rm -rf /var/cache/yum
 
