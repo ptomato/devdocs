@@ -75,8 +75,8 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
       do echo $docset; bundle exec thor docs:generate $docset --force; done
 
 # Intentionally omitted:
-# dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, win3210,
-#   xfixes40, xft20, xlib20, xrandr13
+# dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, libxml220,
+#   win3210, xfixes40, xft20, xlib20, xrandr13
 
 # Clean up Docker image to make it smaller
 RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
