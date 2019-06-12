@@ -100,10 +100,10 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     fipscheck{,-lib} flac-libs flatpak flex folks{,-devel,-tools} \
     fontconfig{,-devel} fontpackages-filesystem fpc-srpm-macros \
     freetype{,-devel} fribidi{,-devel} fuse{,-common,-libs} gc gcc{,-c++} \
-    gcr{,-devel} gdbm{,-devel} gdk-pixbuf2{,-devel,-modules} gdm \
-    geoclue2{,-libs} geocode-glib{,-devel} gettext{,-libs} ghc-srpm-macros \
-    giflib git git-core{,-doc} gjs glib-networking glibc-{devel,headers} \
-    glx-utils gmp-{c++,devel} gnat-srpm-macros gnome-bluetooth{,-libs} \
+    gcr{,-devel} gdbm{,-devel} gdk-pixbuf2{,-devel,-modules} geoclue2{,-libs} \
+    geocode-glib{,-devel} gettext{,-libs} ghc-srpm-macros giflib git \
+    git-core{,-doc} gjs glib-networking glibc-{devel,headers} glx-utils \
+    gmp-{c++,devel} gnat-srpm-macros gnome-bluetooth{,-libs} \
     gnome-control-center{,-filesystem} gnome-desktop3 gnome-keyring{,-pam} \
     gnome-online-accounts{,-devel} gnome-remote-desktop \
     gnome-session{,-wayland-session,-xsession} gnome-settings-daemon \
