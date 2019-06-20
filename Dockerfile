@@ -44,18 +44,17 @@ RUN rbenv install
 RUN gem install bundler
 RUN bundle install
 RUN bundle exec thor gir:generate_all /usr/share/gir-1.0
-RUN bundle exec thor gir:generate_all /usr/lib64/mutter
+RUN bundle exec thor gir:generate_all /usr/lib64/mutter-4
 
 # Some of the gnome-shell GIRs need extra include paths
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/Gvc-1.0.gir
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/Shell-0.1.gir --include /usr/lib64/mutter
-RUN bundle exec thor gir:generate /usr/share/gnome-shell/ShellMenu-0.1.gir --include /usr/lib64/mutter
 RUN bundle exec thor gir:generate /usr/share/gnome-shell/St-1.0.gir --include /usr/lib64/mutter
 
 RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
-        cally10 cally3 camel12 champlain012 cheese30 clutter10 clutter3 \
-        cluttergdk10 cluttergst30 clutterx1110 clutterx113 cogl10 cogl20 cogl3 \
-        coglpango10 coglpango20 coglpango3 css dbusmenu04 ebook12 \
+        cally10 cally4 camel12 champlain012 cheese30 clutter10 clutter4 \
+        cluttergdk10 cluttergst30 clutterx1110 clutterx114 cogl10 cogl20 cogl4 \
+        coglpango10 coglpango20 coglpango4 css dbusmenu04 ebook12 \
         ebookcontacts12 edataserver12 edataserverui12 evincedocument30 \
         evinceview30 folks06 folksdummy06 folkseds06 folkstelepathy06 gcab10 \
         gck1 gcr3 gcrui3 gdata00 gdesktopenums30 gdk20 gdk30 gdkpixbuf20 \
@@ -66,17 +65,17 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 gtk30 gtkchamplain012 \
         gtkclutter10 gtkosxapplication10 gtksource30 gudev10 gupnp10 \
         gupnpdlna20 gupnpdlnagst20 gvc10 gweather30 gxps01 ibus10 javascript \
-        javascriptcore40 json10 keybinder30 meta3 nm10 notify07 pango10 \
+        javascriptcore40 json10 keybinder30 meta4 nm10 notify07 pango10 \
         pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
         polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 shell01 \
-        shellmenu01 soup24 soupgnome24 st10 telepathyglib012 tracker20 \
-        trackercontrol20 trackerminer20 upowerglib10 vte00 vte291 webkit240 \
+        soup24 soupgnome24 st10 telepathyglib012 tracker20 trackercontrol20 \
+        trackerminer20 upowerglib10 vte00 vte291 webkit240 \
         webkit2webextension40 zpj00; \
       do echo $docset; bundle exec thor docs:generate $docset --force; done
 
 # Intentionally omitted:
-# dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, win3210,
-#   xfixes40, xft20, xlib20, xrandr13
+# dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, libxml220,
+#   win3210, xfixes40, xft20, xlib20, xrandr13
 
 # Clean up Docker image to make it smaller
 RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
@@ -101,10 +100,10 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     fipscheck{,-lib} flac-libs flatpak flex folks{,-devel,-tools} \
     fontconfig{,-devel} fontpackages-filesystem fpc-srpm-macros \
     freetype{,-devel} fribidi{,-devel} fuse{,-common,-libs} gc gcc{,-c++} \
-    gcr{,-devel} gdbm{,-devel} gdk-pixbuf2{,-devel,-modules} gdm \
-    geoclue2{,-libs} geocode-glib{,-devel} gettext{,-libs} ghc-srpm-macros \
-    giflib git git-core{,-doc} gjs glib-networking glibc-{devel,headers} \
-    glx-utils gmp-{c++,devel} gnat-srpm-macros gnome-bluetooth{,-libs} \
+    gcr{,-devel} gdbm{,-devel} gdk-pixbuf2{,-devel,-modules} geoclue2{,-libs} \
+    geocode-glib{,-devel} gettext{,-libs} ghc-srpm-macros giflib git \
+    git-core{,-doc} gjs glib-networking glibc-{devel,headers} glx-utils \
+    gmp-{c++,devel} gnat-srpm-macros gnome-bluetooth{,-libs} \
     gnome-control-center{,-filesystem} gnome-desktop3 gnome-keyring{,-pam} \
     gnome-online-accounts{,-devel} gnome-remote-desktop \
     gnome-session{,-wayland-session,-xsession} gnome-settings-daemon \
@@ -131,8 +130,8 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     libcanberra{,-devel,-gtk2,-gtk3} libchamplain{,-devel,-gtk} \
     libcom_err-devel libcroco libcue libcurl-devel libdatrie \
     libdbusmenu{,-devel,-gtk3} libdrm{,-devel} libdwarf libedit \
-    libepoxy{,-devel} libevdev libexif libffi-devel libfontenc \
-    libgcab1{,-devel} libgdata{,-devel} libgee{,-devel} libgexiv2 \
+    libepoxy{,-devel} libevdev libexif libfontenc libgcab1{,-devel} \
+    libgdata{,-devel} libgee{,-devel} libgexiv2 \
     libglvnd{,-core-devel,-devel,-egl,-gles,-glx,-opengl} libgnomekbd \
     libgomp libgrss libgs libgsf libgtop2 libgudev-devel libgusb \
     libgweather{,-devel} libgxps{,-devel} libical{,-devel} libicu-devel libidn \
@@ -140,18 +139,17 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     libkadm5 libldb libmcpp libmediaart libmodman libmpc libndp libnl3 libnma \
     libnotify{,-devel} liboauth{,-devel} libogg libosinfo libpaper \
     libpciaccess libpeas{,-devel,-gtk} libpng{,-devel} libproxy \
-    libquvi{,-scripts} librsvg2{,-devel} libsecret{,-devel} libselinux-devel \
-    libsepol-devel libserf libsmbclient libsndfile libsoup{,-devel} libspectre \
-    libss libstdc++-devel libstemmer libtalloc libtasn1-{devel,tools} libtdb \
-    libtevent libthai libtheora libtiff{,-devel} libtomcrypt libtommath \
-    libtool{,-ltdl} libunwind libverto-devel libvisual libvncserver libvorbis \
-    libwacom{,-data} libwayland-{client,cursor,egl,server} libwbclient libwebp \
-    libxcb{,-devel} libxcrypt-devel libxkbcommon{,-devel,-x11} libxkbfile \
-    libxklavier libxml2-devel libxshmfence libxslt libyaml-devel \
-    libzapojit{,-devel} llvm-libs lmdb-libs lua{,-expat,-json,-lpeg,-socket} \
-    lzo-minilzo m4 make mcpp mdadm \
-    mesa-{dri-drivers,filesystem,khr-devel,libglapi} mesa-libEGL{,-devel} \
-    mesa-libGL{,-devel} mesa-libgbm{,-devel} meson \
+    libquvi{,-scripts} librsvg2{,-devel} libsecret{,-devel} libserf \
+    libsmbclient libsndfile libsoup{,-devel} libspectre libss libstdc++-devel \
+    libstemmer libtalloc libtasn1-{devel,tools} libtdb libtevent libthai \
+    libtheora libtiff{,-devel} libtomcrypt libtommath libtool{,-ltdl} \
+    libunwind libverto-devel libvisual libvncserver libvorbis libwacom{,-data} \
+    libwayland-{client,cursor,egl,server} libwbclient libwebp libxcb{,-devel} \
+    libxcrypt-devel libxkbcommon{,-devel,-x11} libxkbfile libxklavier \
+    libxml2-devel libxshmfence libxslt libyaml-devel libzapojit{,-devel} \
+    llvm-libs lmdb-libs lua{,-expat,-json,-lpeg,-socket} lzo-minilzo m4 make \
+    mcpp mdadm mesa-{dri-drivers,filesystem,khr-devel,libglapi} \
+    mesa-libEGL{,-devel} mesa-libGL{,-devel} mesa-libgbm{,-devel} meson \
     mobile-broadband-provider-info mokutil mozilla-filesystem mozjs{52,60} \
     mtdev mtools multilib-rpm-config mutter ncurses-{c++-libs,devel} \
     nettle-devel nim-srpm-macros ninja-build nm-connection-editor npm \
@@ -161,7 +159,6 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     openblas-srpm-macros openjade openjpeg2 opensp openssh{,-clients} opus \
     orc{,-compiler,-devel} osinfo-db{,-tools} ostree-libs \
     p11-kit-{devel,server} pango{,-devel} parted patch patchutils \
-    pcre2-{devel,utf16,utf32} \
     perl-{Carp,Data-Dumper,Digest,Digest-MD5,Encode,Errno,Error,Exporter} \
     perl-File-{Path,Temp} \
     perl-{Getopt-Long,Git,HTTP-Tiny,IO,MIME-Base64,Mozilla-CA,Net-SSLeay,PathTools} \
@@ -197,8 +194,7 @@ RUN dnf remove -y ModemManager-glib NetworkManager{,-wifi} \
     wpa_supplicant xapian-core-libs xcb-util xdg-dbus-proxy \
     xdg-desktop-portal{,-gtk} xfsprogs xkeyboard-config xml-common \
     xorg-x11-{drv-libinput,font-utils,proto-devel,xauth,xinit,xkb-utils} \
-    xorg-x11-server-{Xorg,Xwayland,common,utils} xz-devel zenity zip \
-    zlib-devel && \
+    xorg-x11-server-{Xorg,Xwayland,common,utils} xz-devel zenity zip && \
     dnf clean all && \
     rm -rf /var/cache/yum
 
