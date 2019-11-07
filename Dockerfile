@@ -32,7 +32,7 @@ ENV PATH /root/.rbenv/shims:/root/.rbenv/bin:/root/.rbenv/plugins/ruby-build/bin
 
 RUN git clone https://gitlab.gnome.org/GNOME/gobject-introspection.git --depth=1 /opt/gi
 WORKDIR /opt/gi
-RUN meson _build -Ddoctool=true
+RUN meson _build -Ddoctool=enabled
 RUN ninja -C _build
 RUN ninja -C _build install
 ENV G_IR_DOC_TOOL /usr/local/bin/g-ir-doc-tool
