@@ -62,13 +62,28 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
 # dbus10, dbusglib10, fontconfig20, freetype220, gdkpixdata20, gl10, libxml220,
 #   win3210, xfixes40, xft20, xlib20, xrandr13
 
-FROM fedora-minimal:31
-COPY --from=build /opt/devdocs /opt/devdocs
-RUN microdnf install -y ruby rubygem-bundler nodejs && \
-    microdnf clean all && \
-    rm -rf /var/cache/yum
+# Keep this part in sync with Dockerfile-alpine
+# Changes:
+# - Ruby 2.6.0 -> 2.6.5
+# - Copy from the build-stage image instead of the current dir
+# - Download only the css and javascript docsets instead of everything
 
-WORKDIR /opt/devdocs
+FROM ruby:2.6.5-alpine
+
+ENV LANG=C.UTF-8
+
+WORKDIR /devdocs
+
+COPY --from=build /opt/devdocs /devdocs
+
+RUN apk --update add nodejs build-base libstdc++ gzip git zlib-dev && \
+    gem install bundler && \
+    bundle install --system --without test && \
+    thor docs:download css javascript && \
+    thor assets:compile && \
+    apk del gzip build-base git zlib-dev && \
+    rm -rf /var/cache/apk/* /tmp ~/.gem /root/.bundle/cache \
+    /usr/local/bundle/cache /usr/lib/node_modules
 
 EXPOSE 9292
-CMD bundle exec rackup -o 0.0.0.0
+CMD rackup -o 0.0.0.0
