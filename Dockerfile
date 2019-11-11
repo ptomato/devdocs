@@ -40,23 +40,22 @@ RUN bundle exec thor gir:generate /usr/share/gnome-shell/St-1.0.gir --include /u
 RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         cally10 cally5 camel12 champlain012 cheese30 clutter10 clutter5 \
         cluttergdk10 cluttergst30 clutterx1110 clutterx115 cogl10 cogl20 cogl5 \
-        coglpango10 coglpango20 coglpango5 css dbusmenu04 ebook12 \
-        ebookcontacts12 edataserver12 edataserverui12 evincedocument30 \
-        evinceview30 folks06 folksdummy06 folkseds06 folkstelepathy06 gcab10 \
-        gck1 gcr3 gcrui3 gdata00 gdesktopenums30 gdk20 gdk30 gdkpixbuf20 \
-        gdkx1120 gdkx1130 gee08 geocodeglib10 gio20 girepository20 glib20 \
-        gmodule20 goa10 gobject20 gom10 grl03 grlnet03 grlpls03 gsound10 \
-        gspell1 gssdp10 gst10 gstallocators10 gstapp10 gstaudio10 gstbase10 \
-        gstcheck10 gstcontroller10 gstgl10 gstnet10 gstpbutils10 gstrtp10 \
-        gstrtsp10 gstsdp10 gsttag10 gstvideo10 gtk20 gtk30 gtkchamplain012 \
-        gtkclutter10 gtkosxapplication10 gtksource30 gudev10 gupnp10 \
-        gupnpdlna20 gupnpdlnagst20 gvc10 gweather30 gxps01 ibus10 javascript \
-        javascriptcore40 json10 keybinder30 meta5 nm10 notify07 pango10 \
-        pangocairo10 pangoft210 pangoxft10 peas10 peasgtk10 polkit10 \
-        polkitagent10 poppler018 rest07 restextras07 rsvg20 secret1 shell01 \
-        soup24 soupgnome24 st10 telepathyglib012 tracker20 trackercontrol20 \
-        trackerminer20 upowerglib10 vte00 vte291 webkit240 \
-        webkit2webextension40 zpj00; \
+        coglpango10 coglpango20 coglpango5 dbusmenu04 ebook12 ebookcontacts12 \
+        edataserver12 edataserverui12 evincedocument30 evinceview30 folks06 \
+        folksdummy06 folkseds06 folkstelepathy06 gcab10 gck1 gcr3 gcrui3 \
+        gdata00 gdesktopenums30 gdk20 gdk30 gdkpixbuf20 gdkx1120 gdkx1130 \
+        gee08 geocodeglib10 gio20 girepository20 glib20 gmodule20 goa10 \
+        gobject20 gom10 grl03 grlnet03 grlpls03 gsound10 gspell1 gssdp10 gst10 \
+        gstallocators10 gstapp10 gstaudio10 gstbase10 gstcheck10 \
+        gstcontroller10 gstgl10 gstnet10 gstpbutils10 gstrtp10 gstrtsp10 \
+        gstsdp10 gsttag10 gstvideo10 gtk20 gtk30 gtkchamplain012 gtkclutter10 \
+        gtkosxapplication10 gtksource30 gudev10 gupnp10 gupnpdlna20 \
+        gupnpdlnagst20 gvc10 gweather30 gxps01 ibus10 javascriptcore40 json10 \
+        keybinder30 meta5 nm10 notify07 pango10 pangocairo10 pangoft210 \
+        pangoxft10 peas10 peasgtk10 polkit10 polkitagent10 poppler018 rest07 \
+        restextras07 rsvg20 secret1 shell01 soup24 soupgnome24 st10 \
+        telepathyglib012 tracker20 trackercontrol20 trackerminer20 \
+        upowerglib10 vte00 vte291 webkit240 webkit2webextension40 zpj00; \
       do echo $docset; bundle exec thor docs:generate $docset --force; done
 
 # Intentionally omitted:
