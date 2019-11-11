@@ -24,12 +24,18 @@ RUN dnf install -y 'dnf-command(builddep)' @development-tools bzip2 gcc-c++ && \
     dnf clean all && \
     rm -rf /var/cache/yum
 
+# These are extra GIRs we can't install with dnf
 COPY lib/docs/scrapers/gnome/girs/GtkosxApplication-1.0.gir /usr/share/gir-1.0/
+COPY lib/docs/scrapers/gnome/girs/mutter-3 /usr/lib64/mutter-3
+COPY lib/docs/scrapers/gnome/girs/mutter-4 /usr/lib64/mutter-4
+
 COPY . /opt/devdocs/
 WORKDIR /opt/devdocs
 RUN bundle install --deployment
 
 RUN bundle exec thor gir:generate_all /usr/share/gir-1.0
+RUN bundle exec thor gir:generate_all /usr/lib64/mutter-3
+RUN bundle exec thor gir:generate_all /usr/lib64/mutter-4
 RUN bundle exec thor gir:generate_all /usr/lib64/mutter-5
 
 # Some of the gnome-shell GIRs need extra include paths
@@ -55,7 +61,9 @@ RUN for docset in appindicator301 appstreamglib10 atk10 atspi20 cairo10 \
         pangoxft10 peas10 peasgtk10 polkit10 polkitagent10 poppler018 rest07 \
         restextras07 rsvg20 secret1 shell01 soup24 soupgnome24 st10 \
         telepathyglib012 tracker20 trackercontrol20 trackerminer20 \
-        upowerglib10 vte00 vte291 webkit240 webkit2webextension40 zpj00; \
+        upowerglib10 vte00 vte291 webkit240 webkit2webextension40 zpj00 \
+        cally3 clutter3 clutterx113 cogl3 coglpango3 meta3 \
+        cally4 clutter4 clutterx114 cogl4 coglpango4 meta4; \
       do echo $docset; bundle exec thor docs:generate $docset --force; done
 
 # Intentionally omitted:
