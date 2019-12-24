@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+  <name>devdocsgjs</name>
+  <shortname>devdocsgjs</shortname>
+  <category rdf:resource="http://api.gnome.org/doap-extensions#core"/>
+
+  <shortdesc xml:lang="en">GNOME DevDocs</shortdesc>
+
+  <description xml:lang="en">GNOME DevDocs</description>
+
+  <homepage rdf:resource="https://gjs-docs.gnome.org/"/>
+  <license rdf:resource="https://spdx.org/licenses/MPL-2.0.html"/>
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/devdocsgjs/issues"/>
+
+  <programming-language>Ruby</programming-language>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Andy Holmes</foaf:name>
+      <foaf:mbox rdf:resource="mailto:andrew.g.r.holmes@gmail.com"/>
+      <gnome:userid>andyholmes</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Meg Ford</foaf:name>
+      <foaf:mbox rdf:resource="mailto:megford@gnome.org"/>
+      <gnome:userid>megford</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Philip Chimento</foaf:name>
+      <foaf:mbox rdf:resource="mailto:philip.chimento@gmail.com"/>
+      <foaf:nick>ptomato</foaf:nick>
+      <gnome:userid>pchimento</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+</Project>
